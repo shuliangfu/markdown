@@ -1,0 +1,52 @@
+{
+  "name": "@dreamer/markdown",
+  "version": "1.0.0-beta.1",
+  "exports": {
+    ".": "./src/mod.ts",
+    "./types": "./src/types.ts",
+    "./parser": "./src/parser.ts",
+    "./front-matter": "./src/front-matter.ts",
+    "./toc": "./src/toc.ts",
+    "./table": "./src/table.ts",
+    "./list": "./src/list.ts",
+    "./container": "./src/container.ts",
+    "./emoji": "./src/emoji.ts",
+    "./template": "./src/template.ts",
+    "./utils": "./src/utils.ts",
+    "./chart": "./src/chart.ts",
+    "./code": "./src/code.ts",
+    "./media": "./src/media.ts",
+    "./components": "./src/components.ts",
+    "./text": "./src/text.ts",
+    "./interactive": "./src/interactive.ts",
+    "./document": "./src/document.ts",
+    "./meta": "./src/meta.ts",
+    "./theme": "./src/theme.ts"
+  },
+  "imports": {
+    "@dreamer/test": "jsr:@dreamer/test@^1.0.0-beta.40"
+  },
+  "tasks": {
+    "test": "deno test -A tests/",
+    "check": "deno check src/mod.ts",
+    "lint": "deno lint src/ tests/",
+    "fmt": "deno fmt src/ tests/"
+  },
+  "publish": {
+    "include": [
+      "src/**/*.ts",
+      "deno.json",
+      "README.md",
+      "LICENSE.md"
+    ],
+    "exclude": [
+      "tests/**",
+      "**/*.test.ts"
+    ]
+  },
+	"nodeModulesDir": "auto",
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["esnext", "dom", "dom.iterable", "dom.asynciterable", "deno.ns", "deno.window"]
+  }
+}

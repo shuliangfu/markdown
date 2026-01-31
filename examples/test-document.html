@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown 完整语法测试文档</title>
+  
+  <style>
+    
+    /* 页面布局 - 覆盖主题的 max-width 限制 */
+    body {
+      margin: 0;
+      padding: 0;
+      max-width: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #24292e;
+      background: #fff;
+    }
+    
+    /* 侧边栏目录 */
+    .sidebar {
+      display: block;
+      width: 280px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
+      padding: 20px;
+      background: #f6f8fa;
+      border-right: 1px solid #e1e4e8;
+      z-index: 100;
+    }
+    
+    .sidebar h2 { margin: 0 0 16px 0; font-size: 18px; color: #24292e; }
+    .sidebar ul { list-style: none; padding: 0; margin: 0; }
+    .sidebar li { margin: 4px 0; }
+    .sidebar a { display: block; padding: 4px 8px; color: #0366d6; text-decoration: none; font-size: 14px; border-radius: 4px; }
+    .sidebar a:hover { background: #e1e4e8; }
+    .sidebar ul ul { padding-left: 16px; }
+    .sidebar ul ul a { font-size: 13px; color: #586069; }
+    
+    /* 主内容 */
+    .main {
+      margin-left: 300px;
+      padding: 40px 60px;
+      max-width: 900px;
+      min-height: 100vh;
+    }
+    
+    /* Front Matter 信息 */
+    .meta { padding: 16px 20px; background: #f6f8fa; border-radius: 6px; margin-bottom: 32px; font-size: 14px; color: #586069; }
+    .meta-item { margin: 4px 0; }
+    .meta-label { font-weight: 600; color: #24292e; }
+    .meta-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .meta-tag { display: inline-block; padding: 2px 8px; background: #0366d6; color: #fff; border-radius: 12px; font-size: 12px; }
+    
+    /* Markdown 内容增强 */
+    .markdown-body h1 { padding-bottom: 0.3em; border-bottom: 1px solid #eaecef; }
+    .markdown-body h2 { padding-bottom: 0.3em; border-bottom: 1px solid #eaecef; margin-top: 48px; }
+    .markdown-body h3 { margin-top: 32px; }
+    .markdown-body hr { height: 0.25em; padding: 0; margin: 24px 0; background-color: #e1e4e8; border: 0; }
+    .markdown-body blockquote { padding: 0 1em; color: #6a737d; border-left: 0.25em solid #dfe2e5; margin: 16px 0; }
+    .markdown-body pre { padding: 16px; overflow: auto; font-size: 85%; line-height: 1.45; background-color: #f6f8fa; border-radius: 6px; }
+    .markdown-body img { max-width: 100%; border-radius: 4px; }
+    
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .sidebar { display: none !important; }
+      .main { margin-left: 0 !important; padding: 20px !important; max-width: 100% !important; }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .sidebar { width: 220px; }
+      .main { margin-left: 240px; padding: 30px 40px; }
+    }
+    
+    @media print {
+      .sidebar { display: none !important; }
+      .main { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+    }
+  
+  </style>
+<style>
+
+/* CSS 变量定义 */
+:root {
+  --color-primary: #2196f3;
+  --color-secondary: #607d8b;
+  --color-success: #4caf50;
+  --color-warning: #ff9800;
+  --color-danger: #f44336;
+  --color-info: #00bcd4;
+  --color-text: #333;
+  --color-text-muted: #666;
+  --color-text-light: #999;
+  --color-bg: #fff;
+  --color-bg-secondary: #f8f9fa;
+  --color-bg-code: #f4f4f4;
+  --color-border: #ddd;
+  --color-border-light: #eee;
+  --color-link: #0066cc;
+  --color-link-hover: #004499;
+  --color-code-text: #333;
+  --color-code-bg: #f4f4f4;
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  --font-size: 16px;
+  --line-height: 1.6;
+  --spacing: 16px;
+  --border-radius: 4px;
+  --max-width: 800px;
+}
+
+/* 暗色模式 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-primary: #64b5f6;
+  --color-secondary: #90a4ae;
+  --color-success: #81c784;
+  --color-warning: #ffb74d;
+  --color-danger: #e57373;
+  --color-info: #4dd0e1;
+  --color-text: #e0e0e0;
+  --color-text-muted: #9e9e9e;
+  --color-text-light: #757575;
+  --color-bg: #1e1e1e;
+  --color-bg-secondary: #2d2d2d;
+  --color-bg-code: #2d2d2d;
+  --color-border: #444;
+  --color-border-light: #333;
+  --color-link: #64b5f6;
+  --color-link-hover: #90caf9;
+  --color-code-text: #e0e0e0;
+  --color-code-bg: #2d2d2d;
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  --font-size: 16px;
+  --line-height: 1.6;
+  --spacing: 16px;
+  --border-radius: 4px;
+  --max-width: 800px;
+  }
+}
+
+[data-theme="dark"] {
+  --color-primary: #64b5f6;
+  --color-secondary: #90a4ae;
+  --color-success: #81c784;
+  --color-warning: #ffb74d;
+  --color-danger: #e57373;
+  --color-info: #4dd0e1;
+  --color-text: #e0e0e0;
+  --color-text-muted: #9e9e9e;
+  --color-text-light: #757575;
+  --color-bg: #1e1e1e;
+  --color-bg-secondary: #2d2d2d;
+  --color-bg-code: #2d2d2d;
+  --color-border: #444;
+  --color-border-light: #333;
+  --color-link: #64b5f6;
+  --color-link-hover: #90caf9;
+  --color-code-text: #e0e0e0;
+  --color-code-bg: #2d2d2d;
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  --font-size: 16px;
+  --line-height: 1.6;
+  --spacing: 16px;
+  --border-radius: 4px;
+  --max-width: 800px;
+}
+
+/* 基础样式 */
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background: var(--color-bg);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing);
+}
+
+a { color: var(--color-link); }
+a:hover { color: var(--color-link-hover); }
+
+code {
+  font-family: var(--font-family-mono);
+  background: var(--color-bg-code);
+  color: var(--color-code-text);
+  padding: 2px 4px;
+  border-radius: var(--border-radius);
+}
+
+pre {
+  background: var(--color-bg-code);
+  padding: var(--spacing);
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+blockquote {
+  border-left: 4px solid var(--color-border);
+  margin: 0;
+  padding-left: var(--spacing);
+  color: var(--color-text-muted);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: var(--spacing) 0;
+}
+
+th, td {
+  border: 1px solid var(--color-border);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+th {
+  background: var(--color-bg-secondary);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: calc(var(--spacing) * 2) 0;
+}
+
+@media print {
+  /* 基础打印样式 */
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* 隐藏不需要打印的元素 */
+  .no-print,
+  .theme-toggle,
+  .back-to-top,
+  .reading-progress,
+  .toc-nav,
+  nav,
+  .code-copy-btn {
+    display: none !important;
+  }
+
+  /* 链接处理 */
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  a[href^="#"]::after {
+    content: "";
+  }
+
+  /* 代码块 */
+  pre {
+    background: #f4f4f4 !important;
+    border: 1px solid #ddd;
+    page-break-inside: avoid;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  code {
+    background: #f4f4f4 !important;
+  }
+
+  /* 图片 */
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+  /* 表格 */
+  table {
+    page-break-inside: avoid;
+  }
+
+  th {
+    background: #f4f4f4 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* 标题 */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* 段落 */
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* 分页 */
+  .page-break {
+    page-break-after: always;
+  }
+
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  /* 页眉页脚 */
+  @page {
+    margin: 2cm;
+  }
+
+  @page :first {
+    margin-top: 3cm;
+  }
+}
+
+
+/* 响应式表格容器 */
+.md-table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* 移动端滚动提示 */
+@media (max-width: 768px) {
+  .md-table-responsive {
+    position: relative;
+  }
+  .md-table-responsive::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 30px;
+    background: linear-gradient(to right, transparent, rgba(0,0,0,0.05));
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .md-table-responsive.has-scroll::after {
+    opacity: 1;
+  }
+}
+
+/* 基础表格样式 */
+.md-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.md-table th,
+.md-table td {
+  padding: 12px 16px;
+  border: 1px solid #e1e4e8;
+  text-align: left;
+}
+
+.md-table th {
+  background: #f6f8fa;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* 斑马条纹 */
+.md-table-striped tbody tr:nth-child(2n) {
+  background: #f6f8fa;
+}
+
+/* 悬停高亮 */
+.md-table-hover tbody tr:hover {
+  background: #f0f4f8;
+}
+
+/* 可排序表格 */
+.md-table-sortable th {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 24px;
+}
+
+.md-table-sortable th:hover {
+  background: #e8ecf0;
+}
+
+.md-table-sortable .sort-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  opacity: 0.3;
+}
+
+.md-table-sortable th[data-sort-dir="none"] .sort-icon {
+  border-top-color: #666;
+  border-bottom-color: #666;
+  border-top-width: 4px;
+  border-bottom-width: 4px;
+  margin-top: -4px;
+}
+
+.md-table-sortable th[data-sort-dir="asc"] .sort-icon {
+  border-bottom-color: #333;
+  opacity: 1;
+}
+
+.md-table-sortable th[data-sort-dir="desc"] .sort-icon {
+  border-top-color: #333;
+  opacity: 1;
+  margin-top: 4px;
+}
+
+/* 搜索框 */
+.md-table-search {
+  margin-bottom: 12px;
+}
+
+.md-table-search-input {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.md-table-search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.md-table-search-input::placeholder {
+  color: #9ca3af;
+}
+
+/* 无匹配结果 */
+.md-table tbody tr.no-match {
+  display: none;
+}
+
+/* 空状态 */
+.md-table-empty {
+  text-align: center;
+  padding: 32px 16px;
+  color: #6b7280;
+}
+
+/* 表格标题 */
+.md-table caption {
+  padding: 8px 16px;
+  font-weight: 600;
+  text-align: left;
+  caption-side: top;
+  color: #374151;
+}
+
+/* 暗色主题 */
+@media (prefers-color-scheme: dark) {
+  .md-table th,
+  .md-table td {
+    border-color: #30363d;
+  }
+  
+  .md-table th {
+    background: #21262d;
+  }
+  
+  .md-table-striped tbody tr:nth-child(2n) {
+    background: #161b22;
+  }
+  
+  .md-table-hover tbody tr:hover {
+    background: #1f242b;
+  }
+  
+  .md-table-sortable th:hover {
+    background: #292e36;
+  }
+  
+  .md-table-search-input {
+    background: #0d1117;
+    border-color: #30363d;
+    color: #c9d1d9;
+  }
+  
+  .md-table-search-input:focus {
+    border-color: #58a6ff;
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  
+  .md-table caption {
+    color: #c9d1d9;
+  }
+}
+
+
+/* Mermaid 图表样式 */
+.mermaid-container {
+  margin: 16px 0;
+  text-align: center;
+  overflow-x: auto;
+}
+.mermaid {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 4px;
+}
+
+/* PlantUML 图表样式 */
+.plantuml-container {
+  margin: 16px 0;
+  text-align: center;
+}
+.plantuml-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 思维导图样式 */
+.mindmap-container {
+  margin: 16px 0;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+.mindmap {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mindmap-node {
+  position: relative;
+  padding: 8px 16px;
+  margin: 4px 0;
+}
+.mindmap-text {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: #fff;
+  border: 2px solid #ddd;
+}
+.mindmap-level-1 .mindmap-text {
+  background: #2196f3;
+  color: white;
+  border-color: #1976d2;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.mindmap-level-2 .mindmap-text {
+  background: #4caf50;
+  color: white;
+  border-color: #388e3c;
+}
+.mindmap-level-3 .mindmap-text {
+  background: #ff9800;
+  color: white;
+  border-color: #f57c00;
+}
+.mindmap-children {
+  list-style: none;
+  padding-left: 24px;
+  margin: 0;
+  border-left: 2px solid #ddd;
+}
+
+
+/* Chart.js 图表样式 */
+.chartjs-container {
+  margin: 16px 0;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  max-width: 100%;
+}
+.chartjs-container canvas {
+  max-width: 100%;
+  height: auto !important;
+}
+.chartjs-error {
+  margin: 16px 0;
+  padding: 16px;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  color: #856404;
+}
+
+
+/* Prism.js 样式覆盖 */
+pre[class*="language-"] {
+  margin: 16px 0;
+  padding: 16px;
+  overflow: auto;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+code[class*="language-"] {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 14px;
+}
+
+/* 行内代码保持原样式 */
+:not(pre) > code {
+  background: var(--color-bg-code, #f4f4f4);
+  color: var(--color-code-text, #333);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* 代码块容器 */
+.code-block-wrapper {
+  position: relative;
+  margin: 16px 0;
+}
+
+/* 语言标签 */
+.code-lang-label {
+  position: absolute;
+  top: 0;
+  right: 12px;
+  padding: 2px 8px;
+  font-size: 12px;
+  color: #8b949e;
+  background: rgba(45, 45, 45, 0.8);
+  border-radius: 0 0 4px 4px;
+  text-transform: uppercase;
+}
+
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <h2>目录</h2>
+  <nav class="toc"><ul><li><a href="#markdown-完整语法演示">Markdown 完整语法演示</a></li><li><a href="#基础语法">基础语法</a></li><li><a href="#标题层级">标题层级</a></li><li><a href="#四级标题示例">四级标题示例</a></li><li><a href="#五级标题示例">五级标题示例</a></li><li><a href="#六级标题示例">六级标题示例</a></li><li><a href="#文本格式化">文本格式化</a></li><li><a href="#基础格式">基础格式</a></li><li><a href="#组合使用">组合使用</a></li><li><a href="#链接与图片">链接与图片</a></li><li><a href="#链接类型">链接类型</a></li><li><a href="#图片展示">图片展示</a></li><li><a href="#风景摄影">风景摄影</a></li><li><a href="#多图排列">多图排列</a></li><li><a href="#图片画廊">图片画廊</a></li><li><a href="#列表详解">列表详解</a></li><li><a href="#无序列表">无序列表</a></li><li><a href="#有序列表">有序列表</a></li><li><a href="#任务列表">任务列表</a></li><li><a href="#引用块">引用块</a></li><li><a href="#名人名言">名人名言</a></li><li><a href="#嵌套引用">嵌套引用</a></li><li><a href="#引用中的格式">引用中的格式</a></li><li><a href="#代码展示">代码展示</a></li><li><a href="#typescript-示例">TypeScript 示例</a></li><li><a href="#python-数据处理">Python 数据处理</a></li><li><a href="#sql-查询示例">SQL 查询示例</a></li><li><a href="#shell-脚本">Shell 脚本</a></li><li><a href="#表格功能">表格功能</a></li><li><a href="#基础数据表">基础数据表</a></li><li><a href="#性能对比">性能对比</a></li><li><a href="#可排序表格">可排序表格</a></li><li><a href="#可搜索表格">可搜索表格</a></li><li><a href="#单元格合并">单元格合并</a></li><li><a href="#组合功能表格">组合功能表格</a></li><li><a href="#高级语法特性">高级语法特性</a></li><li><a href="#上标与下标">上标与下标</a></li><li><a href="#高亮与标记">高亮与标记</a></li><li><a href="#插入与删除">插入与删除</a></li><li><a href="#键盘按键">键盘按键</a></li><li><a href="#emoji-表情">Emoji 表情</a></li><li><a href="#表情符号">表情符号</a></li><li><a href="#手势符号">手势符号</a></li><li><a href="#物品符号">物品符号</a></li><li><a href="#状态标记">状态标记</a></li><li><a href="#脚注说明">脚注说明</a></li><li><a href="#数学公式">数学公式</a></li><li><a href="#行内公式">行内公式</a></li><li><a href="#块级公式">块级公式</a></li><li><a href="#定义列表">定义列表</a></li><li><a href="#缩写定义">缩写定义</a></li><li><a href="#自定义容器">自定义容器</a></li><li><a href="#图表展示">图表展示</a></li><li><a href="#流程图">流程图</a></li><li><a href="#时序图">时序图</a></li><li><a href="#甘特图">甘特图</a></li><li><a href="#饼图">饼图</a></li><li><a href="#柱状图">柱状图</a></li><li><a href="#折线图">折线图</a></li><li><a href="#混合图表">混合图表</a></li><li><a href="#chartjs-图表">Chart.js 图表</a></li><li><a href="#折线图-line">折线图 (Line)</a></li><li><a href="#柱状图-bar">柱状图 (Bar)</a></li><li><a href="#饼图-pie">饼图 (Pie)</a></li><li><a href="#圆环图-doughnut">圆环图 (Doughnut)</a></li><li><a href="#雷达图-radar">雷达图 (Radar)</a></li><li><a href="#极坐标图-polar-area">极坐标图 (Polar Area)</a></li><li><a href="#散点图-scatter">散点图 (Scatter)</a></li><li><a href="#气泡图-bubble">气泡图 (Bubble)</a></li><li><a href="#特殊字符">特殊字符</a></li><li><a href="#转义字符">转义字符</a></li><li><a href="#特殊符号">特殊符号</a></li><li><a href="#总结">总结</a></li><li><a href="#基础功能">基础功能</a></li><li><a href="#高级功能">高级功能</a></li><li><a href="#文本增强">文本增强</a></li><li><a href="#图表与可视化">图表与可视化</a></li></ul></nav>
+</aside>
+<main class="main">
+  
+<div class="meta">
+  <div class="meta-item"><span class="meta-label">标题：</span>Markdown 完整语法测试文档</div>
+  <div class="meta-item"><span class="meta-label">作者：</span>Dreamer Team</div>
+  <div class="meta-item"><span class="meta-label">日期：</span>2026-01-31</div>
+  <div class="meta-item"><span class="meta-label">分类：</span>技术文档</div>
+  
+</div>
+  <article class="markdown-body">
+<h1 id="markdown-完整语法演示">Markdown 完整语法演示</h1>
+<p>欢迎阅读本文档！这是一份全面展示 <code>@dreamer/markdown</code> 库解析能力的测试文档。无论你是 Markdown 新手还是资深用户，这份文档都将帮助你了解我们支持的所有语法特性。</p>
+<p>本库采用纯 TypeScript 实现，零依赖，支持 <strong>Deno</strong>、<strong>Bun</strong> 和浏览器环境，是构建文档系统、博客平台、知识库的理想选择。</p>
+<hr></p>
+<h2 id="基础语法">基础语法</h2>
+<p>Markdown 的设计哲学是让写作者专注于内容本身，而非格式。下面让我们从最基础的语法开始。</p>
+<h3 id="标题层级">标题层级</h3>
+<p>在 Markdown 中，使用 <code>#</code> 符号来表示标题。一个 <code>#</code> 表示一级标题，两个 <code>##</code> 表示二级标题，以此类推，最多支持六级标题。</p>
+<h4 id="四级标题示例">四级标题示例</h4>
+<p>这是四级标题下的内容。四级标题通常用于较为细分的章节。</p>
+<h5 id="五级标题示例">五级标题示例</h5>
+<p>五级标题在文档中使用较少，但在需要精细划分内容时非常有用。</p>
+<h6 id="六级标题示例">六级标题示例</h6>
+<p>六级标题是最小的标题级别，适用于非常细节的分类。</p>
+<hr></p>
+<h2 id="文本格式化">文本格式化</h2>
+<p>文本格式化是 Markdown 的核心功能之一。通过简单的符号，你可以为文本添加各种样式。</p>
+<h3 id="基础格式">基础格式</h3>
+<p>在日常写作中，我们经常需要强调某些内容。Markdown 提供了多种方式：</p>
+<ul>
+<li>这是 <strong>粗体文本</strong>，用于强调重要内容</li>
+<li>这是 <em>斜体文本</em>，用于表示术语或引用</li>
+<li>这是 <em><strong>粗斜体</strong></em>，需要特别强调时使用</li>
+<li>这是 <del>删除线文本</del>，表示已过时或需要删除的内容</li>
+<li>这是 <code>行内代码</code>，用于表示代码片段、命令或技术术语</li>
+</ul>
+<h3 id="组合使用">组合使用</h3>
+<p>你可以在同一段落中组合使用多种格式。例如：</p>
+<blockquote>在软件开发中，<strong>代码质量</strong>和 <em>可维护性</em> 是至关重要的。我们应该避免 <del>临时解决方案</del>，而是采用 <code>最佳实践</code> 来构建健壮的系统。</blockquote>
+<hr></p>
+<h2 id="链接与图片">链接与图片</h2>
+<p>链接和图片是文档中不可或缺的元素，它们让内容更加丰富和互联。</p>
+<h3 id="链接类型">链接类型</h3>
+<p>Markdown 支持多种链接方式：</p>
+<ol>
+<li><strong>内联链接</strong>：<a href="https://github.com">访问 GitHub</a> 是最常用的方式</li>
+<li><strong>带标题的链接</strong>：<a href="https://deno.land &quot;一个安全的 JavaScript/TypeScript 运行时&quot;">Deno 官网</a> 鼠标悬停可见标题</li>
+<li><strong>自动链接</strong>：直接输入 <abbr title="Uniform Resource Locator - 统一资源定位符">URL</abbr> 会自动识别 <a href="https://jsr.io">https://jsr.io</a></li>
+<li><strong>邮箱链接</strong>：联系我们 <a href="mailto:contact@example.com">contact@example.com</a></li>
+</ol>
+<h3 id="图片展示">图片展示</h3>
+<p>图片让文档更加生动。下面展示本地图片的使用方式：</p>
+<h4 id="风景摄影">风景摄影</h4>
+<p><img src="./images/4.jpeg" alt="美丽的风景" title="晨曦中的山峦"></p>
+<p>上图展示了清晨时分的山间景色，晨雾缭绕，宛如仙境。摄影作品往往能够捕捉到大自然最美的瞬间。</p>
+<h4 id="多图排列">多图排列</h4>
+<p>有时候我们需要并排展示多张图片，可以使用表格布局：</p>
+<p><div class="md-table-responsive"><table id="table-v3lgp9" class="md-table md-table-striped md-table-hover"><thead><tr><th style="text-align: center">图片一</th><th style="text-align: center">图片二</th><th style="text-align: center">图片三</th></tr></thead><tbody><tr><td style="text-align: center"><img src="./images/2.jpg" alt="风景2"></td><td style="text-align: center"><img src="./images/3.jpg" alt="风景3"></td><td style="text-align: center"><img src="./images/5.jpeg" alt="风景4"></td></tr><tr><td style="text-align: center"><em>山间小路</em></td><td style="text-align: center"><em>林间溪流</em></td><td style="text-align: center"><em>夕阳余晖</em></td></tr></tbody></table></div>
+<h4 id="图片画廊">图片画廊</h4>
+<p><img src="./images/4.jpeg" alt="画廊图1"></p>
+<p><img src="./images/6.jpeg" alt="画廊图2"></p>
+<p>这些图片展示了大自然的多样之美，从壮阔的山川到细腻的花草，每一处都值得我们驻足欣赏。</p>
+<hr></p>
+<h2 id="列表详解">列表详解</h2>
+<p>列表是组织信息的有效方式，Markdown 支持多种列表类型。</p>
+<h3 id="无序列表">无序列表</h3>
+<p>无序列表用于表示没有特定顺序的项目集合：</p>
+<ul>
+<li><strong>前端技术栈</strong></li>
+<ul>
+<li>React - 用户界面库</li>
+<li>Vue - 渐进式框架</li>
+<li>Svelte - 编译型框架</li>
+</ul>
+<li><strong>后端技术栈</strong></li>
+<ul>
+<li>Node.js - JavaScript 运行时</li>
+<li>Deno - 安全的 TypeScript 运行时</li>
+<li>Bun - 高性能 JavaScript 运行时</li>
+</ul>
+<li><strong>数据库</strong></li>
+<ul>
+<li>PostgreSQL - 关系型数据库</li>
+<li>MongoDB - 文档数据库</li>
+<li>Redis - 键值存储</li>
+</ul>
+</ul>
+<h3 id="有序列表">有序列表</h3>
+<p>有序列表适用于有步骤或优先级的内容：</p>
+<ol>
+<li><strong>项目规划阶段</strong></li>
+<ol>
+<li>需求分析与调研</li>
+<li>技术方案设计</li>
+<li>资源评估与分配</li>
+</ol>
+<li><strong>开发阶段</strong></li>
+<ol>
+<li>环境搭建</li>
+<li>核心功能开发</li>
+<li>单元测试编写</li>
+</ol>
+<li><strong>发布阶段</strong></li>
+<ol>
+<li>集成测试</li>
+<li>文档编写</li>
+<li>版本发布</li>
+</ol>
+</ol>
+<h3 id="任务列表">任务列表</h3>
+<p>任务列表非常适合追踪项目进度：</p>
+<p><li class="task-item done"><input type="checkbox" checked disabled> 完成项目初始化</li>
+<li class="task-item done"><input type="checkbox" checked disabled> 实现核心解析器</li>
+<li class="task-item done"><input type="checkbox" checked disabled> 添加 GFM 表格支持</li>
+<li class="task-item done"><input type="checkbox" checked disabled> 实现表格增强功能（排序、搜索、合并）</li>
+<li class="task-item done"><input type="checkbox" checked disabled> 编写单元测试（538 个测试通过）</li>
+<li class="task-item done"><input type="checkbox" checked disabled> 完善 <abbr title="Application Programming Interface - 应用程序接口">API</abbr> 文档</li>
+<li class="task-item"><input type="checkbox" disabled> 添加更多语法高亮主题</li>
+<li class="task-item"><input type="checkbox" disabled> 实现实时预览编辑器</li>
+<li class="task-item"><input type="checkbox" disabled> 发布 1.0 正式版</li></p>
+<hr></p>
+<h2 id="引用块">引用块</h2>
+<p>引用块用于引述他人的话语或强调重要信息。</p>
+<h3 id="名人名言">名人名言</h3>
+<blockquote>代码是写给人看的，顺便能在机器上运行。
+&gt; — <strong>Donald Knuth</strong>，计算机科学家</blockquote>
+<blockquote>简单是可靠的先决条件。
+&gt; — <strong>Edsger W. Dijkstra</strong></blockquote>
+<h3 id="嵌套引用">嵌套引用</h3>
+<p>引用可以嵌套使用，表示对话或多层引述：</p>
+<blockquote>关于软件开发的讨论：
+&gt; &gt; 我们应该优先考虑代码的可读性还是性能？
+&gt;
+&gt; &gt; 在大多数情况下，可读性更重要。过早优化是万恶之源。
+&gt; &gt;
+&gt; &gt; — Donald Knuth</blockquote>
+<h3 id="引用中的格式">引用中的格式</h3>
+<p>引用块内可以包含其他 Markdown 元素：</p>
+<blockquote><strong>关于 Markdown 的优势：</strong>
+&gt; 1. 语法简洁，学习曲线平缓
+2. 纯文本格式，版本控制友好
+3. 可转换为多种输出格式
+&gt; <pre><code class="language-javascript">&gt; // 示例：使用 @dreamer/markdown
+&gt; import { render } from &quot;@dreamer/markdown&quot;;
+&gt; const result = render(&quot;# Hello World&quot;);
+&gt;</code></pre></blockquote>
+<hr></p>
+<h2 id="代码展示">代码展示</h2>
+<p>代码块是技术文档的核心组成部分。我们的库支持多种编程语言的语法展示。</p>
+<h3 id="typescript-示例">TypeScript 示例</h3>
+<p><pre><code class="language-typescript">/**
+ * Markdown 渲染器配置接口
+ */
+interface MarkdownOptions {
+  /** 是否启用 GFM 扩展 */
+  gfm?: boolean;
+  /** 是否解析数学公式 */
+  math?: boolean;
+  /** 是否启用表格增强 */
+  tableEnhance?: boolean;
+  /** 自定义代码高亮函数 */
+  highlight?: (code: string, lang: string) =&gt; string;
+}
+
+/**
+ * 渲染 Markdown 文档
+ * @param content - Markdown 内容
+ * @param options - 渲染选项
+ * @returns 渲染结果
+ */
+function render(content: string, options?: MarkdownOptions): MarkdownResult {
+  const opts = { gfm: true, math: true, ...options };
+  // 解析逻辑...
+  return { html: &quot;&quot;, frontMatter: {}, toc: [] };
+}</code></pre></p>
+<h3 id="python-数据处理">Python 数据处理</h3>
+<p><pre><code class="language-python">import pandas as pd
+import matplotlib.pyplot as plt
+
+def analyze_data(filepath: str) -&gt; dict:
+    &quot;&quot;&quot;
+    分析数据文件并生成统计报告
+
+    Args:
+        filepath: 数据文件路径
+
+    Returns:
+        包含统计信息的字典
+    &quot;&quot;&quot;
+    # 读取数据
+    df = pd.read_csv(filepath)
+
+    # 基础统计
+    stats = {
+        &#39;total_rows&#39;: len(df),
+        &#39;columns&#39;: list(df.columns),
+        &#39;missing_values&#39;: df.isnull().sum().to_dict(),
+        &#39;summary&#39;: df.describe().to_dict()
+    }
+
+    # 生成可视化
+    plt.figure(figsize=(10, 6))
+    df.plot(kind=&#39;bar&#39;)
+    plt.title(&#39;数据分析结果&#39;)
+    plt.savefig(&#39;analysis.png&#39;)
+
+    return stats</code></pre></p>
+<h3 id="sql-查询示例">SQL 查询示例</h3>
+<p><pre><code class="language-sql">-- 查询活跃用户及其订单统计
+SELECT
+    u.id,
+    u.username,
+    u.email,
+    COUNT(o.id) as order_count,
+    SUM(o.amount) as total_amount,
+    AVG(o.amount) as avg_amount
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+WHERE u.status = &#39;active&#39;
+    AND o.created_at &gt;= DATE_SUB(NOW(), INTERVAL 30 DAY)
+GROUP BY u.id, u.username, u.email
+HAVING order_count &gt; 5
+ORDER BY total_amount DESC
+LIMIT 100;</code></pre></p>
+<h3 id="shell-脚本">Shell 脚本</h3>
+<p><pre><code class="language-bash">#!/bin/bash
+
+# 项目部署脚本
+set -e
+
+echo &quot;🚀 开始部署...&quot;
+
+# 拉取最新代码
+git pull origin main
+
+# 安装依赖
+echo &quot;📦 安装依赖...&quot;
+deno cache --reload src/mod.ts
+
+# 运行测试
+echo &quot;🧪 运行测试...&quot;
+deno test --allow-all
+
+# 构建项目
+echo &quot;🔨 构建项目...&quot;
+deno task build
+
+# 重启服务
+echo &quot;🔄 重启服务...&quot;
+systemctl restart my-app
+
+echo &quot;✅ 部署完成！&quot;</code></pre></p>
+<h3 id="json-配置"><abbr title="JavaScript Object Notation - JavaScript 对象表示法">JSON</abbr> 配置</h3>
+<p><pre><code class="language-json">{
+  &quot;name&quot;: &quot;@dreamer/markdown&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;功能丰富的 Markdown 解析库&quot;,
+  &quot;exports&quot;: {
+    &quot;.&quot;: &quot;./src/mod.ts&quot;,
+    &quot;./table&quot;: &quot;./src/table.ts&quot;,
+    &quot;./theme&quot;: &quot;./src/theme.ts&quot;
+  },
+  &quot;tasks&quot;: {
+    &quot;test&quot;: &quot;deno test --allow-all&quot;,
+    &quot;check&quot;: &quot;deno check src/mod.ts&quot;,
+    &quot;lint&quot;: &quot;deno lint&quot;
+  },
+  &quot;compilerOptions&quot;: {
+    &quot;strict&quot;: true,
+    &quot;noImplicitAny&quot;: true
+  }
+}</code></pre></p>
+<hr></p>
+<h2 id="表格功能">表格功能</h2>
+<p>表格是展示结构化数据的最佳方式。我们的库提供了强大的表格增强功能。</p>
+<h3 id="基础数据表">基础数据表</h3>
+<p><div class="md-table-responsive"><table id="table-gg8aaf" class="md-table md-table-striped md-table-hover"><thead><tr><th style="text-align: left">功能模块</th><th style="text-align: center">状态</th><th style="text-align: center">测试覆盖</th><th style="text-align: left">说明</th></tr></thead><tbody><tr><td style="text-align: left">基础语法解析</td><td style="text-align: center">✅</td><td style="text-align: center">100%</td><td style="text-align: left">标题、段落、列表、链接等</td></tr><tr><td style="text-align: left">GFM 扩展</td><td style="text-align: center">✅</td><td style="text-align: center">100%</td><td style="text-align: left">表格、任务列表、自动链接</td></tr><tr><td style="text-align: left">数学公式</td><td style="text-align: center">✅</td><td style="text-align: center">100%</td><td style="text-align: left">LaTeX 行内和块级公式</td></tr><tr><td style="text-align: left">代码高亮</td><td style="text-align: center">✅</td><td style="text-align: center">100%</td><td style="text-align: left">支持自定义高亮函数</td></tr><tr><td style="text-align: left">表格增强</td><td style="text-align: center">✅</td><td style="text-align: center">100%</td><td style="text-align: left">排序、搜索、单元格合并</td></tr><tr><td style="text-align: left">自定义容器</td><td style="text-align: center">✅</td><td style="text-align: center">100%</td><td style="text-align: left">tip/warning/danger 等</td></tr><tr><td style="text-align: left">主题系统</td><td style="text-align: center">✅</td><td style="text-align: center">100%</td><td style="text-align: left">亮色/暗色主题切换</td></tr></tbody></table></div>
+<h3 id="性能对比">性能对比</h3>
+<p><div class="md-table-responsive"><table id="table-fpiqhb" class="md-table md-table-striped md-table-hover"><thead><tr><th style="text-align: center">运行时</th><th style="text-align: center">解析速度</th><th style="text-align: center">内存占用</th><th style="text-align: center">启动时间</th><th style="text-align: center">综合评分</th></tr></thead><tbody><tr><td style="text-align: center">Deno</td><td style="text-align: center">95ms</td><td style="text-align: center">12MB</td><td style="text-align: center">150ms</td><td style="text-align: center">⭐⭐⭐⭐⭐</td></tr><tr><td style="text-align: center">Bun</td><td style="text-align: center">82ms</td><td style="text-align: center">10MB</td><td style="text-align: center">80ms</td><td style="text-align: center">⭐⭐⭐⭐⭐</td></tr><tr><td style="text-align: center">Node</td><td style="text-align: center">120ms</td><td style="text-align: center">18MB</td><td style="text-align: center">200ms</td><td style="text-align: center">⭐⭐⭐⭐</td></tr></tbody></table></div>
+<h3 id="api-参考表"><abbr title="Application Programming Interface - 应用程序接口">API</abbr> 参考表</h3>
+<p><div class="md-table-responsive"><table id="table-ui5v8q" class="md-table md-table-striped md-table-hover"><thead><tr><th style="text-align: left">函数</th><th style="text-align: left">参数</th><th style="text-align: left">返回值</th><th style="text-align: left">描述</th></tr></thead><tbody><tr><td style="text-align: left"><code>render()</code></td><td style="text-align: left"><code>content: string, options?: Options</code></td><td style="text-align: left"><code>MarkdownResult</code></td><td style="text-align: left">完整渲染，包含 <abbr title="HyperText Markup Language - 超文本标记语言">HTML</abbr>、Front Matter、TOC</td></tr><tr><td style="text-align: left"><code>parse()</code></td><td style="text-align: left"><code>content: string, options?: Options</code></td><td style="text-align: left"><code>string</code></td><td style="text-align: left">仅解析为 <abbr title="HyperText Markup Language - 超文本标记语言">HTML</abbr></td></tr><tr><td style="text-align: left"><code>parseFrontMatter()</code></td><td style="text-align: left"><code>content: string</code></td><td style="text-align: left"><code>{ frontMatter, body }</code></td><td style="text-align: left">解析 YAML 头部</td></tr><tr><td style="text-align: left"><code>extractToc()</code></td><td style="text-align: left"><code>html: string</code></td><td style="text-align: left"><code>TocItem[]</code></td><td style="text-align: left">从 <abbr title="HyperText Markup Language - 超文本标记语言">HTML</abbr> 提取目录</td></tr><tr><td style="text-align: left"><code>createTable()</code></td><td style="text-align: left"><code>headers, rows, options</code></td><td style="text-align: left"><code>string</code></td><td style="text-align: left">从数组创建表格</td></tr></tbody></table></div>
+<h3 id="可排序表格">可排序表格</h3>
+<p>使用 <code>&lt;!-- table: sortable --&gt;</code> 注释启用列排序功能，点击表头可以升序/降序排列：</p>
+<p><div class="md-table-responsive"><table id="table-nftjn9" class="md-table md-table-striped md-table-hover md-table-sortable"><caption>员工信息表（点击表头排序）</caption><thead><tr><th style="text-align: left" data-sort-col="0" data-sort-dir="none">姓名<span class="sort-icon"></span></th><th style="text-align: center" data-sort-col="1" data-sort-dir="none">部门<span class="sort-icon"></span></th><th style="text-align: center" data-sort-col="2" data-sort-dir="none">工龄<span class="sort-icon"></span></th><th style="text-align: center" data-sort-col="3" data-sort-dir="none">绩效评分<span class="sort-icon"></span></th></tr></thead><tbody><tr><td style="text-align: left">张三</td><td style="text-align: center">技术部</td><td style="text-align: center">5</td><td style="text-align: center">92</td></tr><tr><td style="text-align: left">李四</td><td style="text-align: center">市场部</td><td style="text-align: center">3</td><td style="text-align: center">88</td></tr><tr><td style="text-align: left">王五</td><td style="text-align: center">技术部</td><td style="text-align: center">8</td><td style="text-align: center">95</td></tr><tr><td style="text-align: left">赵六</td><td style="text-align: center">人事部</td><td style="text-align: center">2</td><td style="text-align: center">85</td></tr><tr><td style="text-align: left">钱七</td><td style="text-align: center">技术部</td><td style="text-align: center">6</td><td style="text-align: center">90</td></tr><tr><td style="text-align: left">孙八</td><td style="text-align: center">市场部</td><td style="text-align: center">4</td><td style="text-align: center">87</td></tr></tbody></table></div>
+
+
+<h3 id="可搜索表格">可搜索表格</h3>
+<p>使用 <code>&lt;!-- table: searchable --&gt;</code> 注释启用搜索过滤功能：</p>
+<p><div class="md-table-responsive"><div class="md-table-search">
+  <input type="text" class="md-table-search-input" data-table="table-9071gj" placeholder="搜索表格..." aria-label="搜索表格">
+</div><table id="table-9071gj" class="md-table md-table-striped md-table-hover md-table-searchable"><caption>产品列表（输入关键词搜索）</caption><thead><tr><th style="text-align: left">产品名称</th><th style="text-align: center">类别</th><th style="text-align: right">价格</th><th style="text-align: center">库存</th><th style="text-align: center">状态</th></tr></thead><tbody><tr><td style="text-align: left">MacBook Pro</td><td style="text-align: center">电脑</td><td style="text-align: right">12999</td><td style="text-align: center">50</td><td style="text-align: center">在售</td></tr><tr><td style="text-align: left">iPhone 15</td><td style="text-align: center">手机</td><td style="text-align: right">6999</td><td style="text-align: center">200</td><td style="text-align: center">在售</td></tr><tr><td style="text-align: left">iPad Air</td><td style="text-align: center">平板</td><td style="text-align: right">4599</td><td style="text-align: center">80</td><td style="text-align: center">在售</td></tr><tr><td style="text-align: left">AirPods Pro</td><td style="text-align: center">耳机</td><td style="text-align: right">1899</td><td style="text-align: center">150</td><td style="text-align: center">在售</td></tr><tr><td style="text-align: left">Apple Watch</td><td style="text-align: center">手表</td><td style="text-align: right">2999</td><td style="text-align: center">60</td><td style="text-align: center">预售</td></tr><tr><td style="text-align: left">Mac Mini</td><td style="text-align: center">电脑</td><td style="text-align: right">4499</td><td style="text-align: center">30</td><td style="text-align: center">在售</td></tr><tr><td style="text-align: left">HomePod</td><td style="text-align: center">音箱</td><td style="text-align: right">2299</td><td style="text-align: center">0</td><td style="text-align: center">缺货</td></tr></tbody></table></div>
+
+
+<h3 id="单元格合并">单元格合并</h3>
+<p>支持横向合并（colspan）和纵向合并（rowspan）：</p>
+<ul>
+<li><code>||</code> 或 <code>&gt;</code> - 向左合并（横向）</li>
+<li><code>^^</code> 或 <code>^</code> - 向上合并（纵向）</li>
+</ul>
+<p><div class="md-table-responsive"><table id="table-svxlyz" class="md-table md-table-striped md-table-hover"><thead><tr><th style="text-align: center">季度</th><th style="text-align: center">部门</th><th style="text-align: center">Q1 销售额</th><th style="text-align: center">Q2 销售额</th><th style="text-align: center">Q3 销售额</th><th style="text-align: center">Q4 销售额</th></tr></thead><tbody><tr><td style="text-align: center" rowspan="3">2024</td><td style="text-align: center">技术部</td><td style="text-align: center">120万</td><td style="text-align: center">150万</td><td style="text-align: center">180万</td><td style="text-align: center">200万</td></tr><tr><td style="text-align: center">市场部</td><td style="text-align: center">80万</td><td style="text-align: center">95万</td><td style="text-align: center">110万</td><td style="text-align: center">130万</td></tr><tr><td style="text-align: center">运营部</td><td style="text-align: center">60万</td><td style="text-align: center">70万</td><td style="text-align: center" rowspan="3">85万</td><td style="text-align: center" rowspan="3">100万</td></tr><tr><td style="text-align: center" rowspan="2">2025</td><td style="text-align: center">技术部</td><td style="text-align: center">180万</td><td style="text-align: center">210万</td></tr><tr><td style="text-align: center">市场部</td><td style="text-align: center">100万</td><td style="text-align: center">120万</td></tr></tbody></table></div>
+<h3 id="组合功能表格">组合功能表格</h3>
+<p>可以同时启用多个功能：</p>
+<p><div class="md-table-responsive"><div class="md-table-search">
+  <input type="text" class="md-table-search-input" data-table="table-bxr750" placeholder="搜索表格..." aria-label="搜索表格">
+</div><table id="table-bxr750" class="md-table md-table-striped md-table-hover md-table-sortable md-table-searchable"><caption>综合示例（排序 + 搜索）</caption><thead><tr><th style="text-align: center" data-sort-col="0" data-sort-dir="none">编号<span class="sort-icon"></span></th><th style="text-align: left" data-sort-col="1" data-sort-dir="none">项目名称<span class="sort-icon"></span></th><th style="text-align: center" data-sort-col="2" data-sort-dir="none">负责人<span class="sort-icon"></span></th><th style="text-align: center" data-sort-col="3" data-sort-dir="none">进度<span class="sort-icon"></span></th><th style="text-align: center" data-sort-col="4" data-sort-dir="none">优先级<span class="sort-icon"></span></th><th style="text-align: center" data-sort-col="5" data-sort-dir="none">截止日期<span class="sort-icon"></span></th></tr></thead><tbody><tr><td style="text-align: center">P001</td><td style="text-align: left">用户系统重构</td><td style="text-align: center">张三</td><td style="text-align: center">85%</td><td style="text-align: center">高</td><td style="text-align: center">2026-02-15</td></tr><tr><td style="text-align: center">P002</td><td style="text-align: left">移动端适配</td><td style="text-align: center">李四</td><td style="text-align: center">60%</td><td style="text-align: center">中</td><td style="text-align: center">2026-03-01</td></tr><tr><td style="text-align: center">P003</td><td style="text-align: left">性能优化</td><td style="text-align: center">王五</td><td style="text-align: center">100%</td><td style="text-align: center">高</td><td style="text-align: center">2026-01-31</td></tr><tr><td style="text-align: center">P004</td><td style="text-align: left">文档完善</td><td style="text-align: center">赵六</td><td style="text-align: center">40%</td><td style="text-align: center">低</td><td style="text-align: center">2026-03-15</td></tr><tr><td style="text-align: center">P005</td><td style="text-align: left">API 重设计</td><td style="text-align: center">钱七</td><td style="text-align: center">20%</td><td style="text-align: center">高</td><td style="text-align: center">2026-04-01</td></tr><tr><td style="text-align: center">P006</td><td style="text-align: left">单元测试</td><td style="text-align: center">孙八</td><td style="text-align: center">90%</td><td style="text-align: center">中</td><td style="text-align: center">2026-02-28</td></tr></tbody></table></div>
+
+
+<hr></p>
+<h2 id="高级语法特性">高级语法特性</h2>
+<p>除了基础语法，我们还支持许多高级特性，让你的文档更加丰富。</p>
+<h3 id="上标与下标">上标与下标</h3>
+<p>科学公式和化学符号经常需要上标和下标：</p>
+<ul>
+<li><strong>数学公式</strong>：爱因斯坦质能方程 E = mc<sup>2</sup></li>
+<li><strong>化学分子式</strong>：水 H<sub>2</sub>O、二氧化碳 CO<sub>2</sub>、葡萄糖 C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></li>
+<li><strong>物理单位</strong>：面积 m<sup>2</sup>、体积 m<sup>3</sup>、加速度 m/s<sup>2</sup></li>
+<li><strong>数学表达式</strong>：x<sup>2</sup> + y<sup>2</sup> = r<sup>2</sup>（圆的方程）</li>
+</ul>
+<h3 id="高亮与标记">高亮与标记</h3>
+<p>当你需要突出显示某些内容时，可以使用高亮：</p>
+<p>在这段代码中，<mark>最关键的部分</mark> 是数据验证逻辑。请特别注意 <mark>第 42 行</mark> 的边界条件处理。</p>
+<p>我们的目标是实现 <mark>零依赖</mark>、<mark>高性能</mark>、<mark>跨平台</mark> 的 Markdown 解析器。</p>
+<h3 id="插入与删除">插入与删除</h3>
+<p>文档修订时，标记新增和删除的内容非常有用：</p>
+<ul>
+<li>价格：<del>原价 ¥199</del> → <ins>现价 ¥99</ins></li>
+<li>功能：<del>已移除旧版 <abbr title="Application Programming Interface - 应用程序接口">API</abbr></del> → <ins>新增 TypeScript 类型支持</ins></li>
+<li>版本：<del>v0.9.0</del> → <ins>v1.0.0 正式版</ins></li>
+</ul>
+<h3 id="键盘按键">键盘按键</h3>
+<p>编写操作指南时，键盘按键符号让指令更清晰：</p>
+<p>常用快捷键：
+<ul>
+<li>保存文件：<kbd>Ctrl</kbd> + <kbd>S</kbd>（Mac: <kbd>Cmd</kbd> + <kbd>S</kbd>）</li>
+<li>撤销操作：<kbd>Ctrl</kbd> + <kbd>Z</kbd></li>
+<li>全选内容：<kbd>Ctrl</kbd> + <kbd>A</kbd></li>
+<li>查找替换：<kbd>Ctrl</kbd> + <kbd>H</kbd></li>
+<li>打开命令面板：<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></li>
+</ul>
+<p>特殊按键：<kbd>Enter</kbd> <kbd>Tab</kbd> <kbd>Esc</kbd> <kbd>Backspace</kbd> <kbd>Delete</kbd> <kbd>Space</kbd></p>
+<p>方向键：<kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd></p>
+<hr></p>
+<h2 id="emoji-表情">Emoji 表情</h2>
+<p>Emoji 让文档更加生动有趣！我们支持 300+ 常用 emoji 简码：</p>
+<h3 id="表情符号">表情符号</h3>
+<p>😄 微笑 | 😆 大笑 | 😉 眨眼 | 😍 爱心眼 | 🤔 思考</p>
+<p>😢 哭泣 | 😠 生气 | 😨 害怕 | 😴 睡觉 | 😎 墨镜</p>
+<h3 id="手势符号">手势符号</h3>
+<p>👍 点赞 | 👎 踩 | 👏 鼓掌 | 👋 挥手 | 🙏 祈祷 | 💪 肌肉</p>
+<h3 id="物品符号">物品符号</h3>
+<p>🚀 火箭 | ⭐ 星星 | 🔥 火焰 | 💡 灯泡 | 📖 书本</p>
+<p>💻 电脑 | 📱 手机 | ✉️ 邮件 | 📆 日历 | 🕐 时钟</p>
+<h3 id="状态标记">状态标记</h3>
+<p>✅ 完成 | ❌ 失败 | ⚠️ 警告 | ❓ 疑问 | ❗ 重要</p>
+<p>🚧 施工中 | 🐞 Bug | ✨ 新功能 | ⚡ 性能优化 | 📝 文档</p>
+<hr></p>
+<h2 id="脚注说明">脚注说明</h2>
+<p>脚注用于添加补充说明或引用来源，不打断正文阅读流程。</p>
+<p>Markdown 最初由 John Gruber 于 2004 年创建<sup class="footnote-ref"><a href="#fn-1" id="fnref-1">[1]</a></sup>，其设计目标是让文档在源码形式下也具有良好的可读性<sup class="footnote-ref"><a href="#fn-2" id="fnref-2">[2]</a></sup>。</p>
+<p>如今，Markdown 已经成为技术文档的事实标准，被广泛应用于 GitHub<sup class="footnote-ref"><a href="#fn-github" id="fnref-github">[github]</a></sup>、Stack Overflow、各类博客平台等。</p>
+<p>我们的 <code>@dreamer/markdown</code> 库在标准 Markdown 基础上进行了大量扩展<sup class="footnote-ref"><a href="#fn-3" id="fnref-3">[3]</a></sup>，支持 GFM、数学公式、自定义容器等高级特性。</p>
+<hr></p>
+<h2 id="数学公式">数学公式</h2>
+<p>对于学术论文、技术文档，数学公式支持必不可少。我们使用 LaTeX 语法。</p>
+<h3 id="行内公式">行内公式</h3>
+<p>勾股定理告诉我们：在直角三角形中，<span class="math-inline" data-math="a^2 + b^2 = c<sup>2">a</sup>2 + b^2 = c^2</span>。</p>
+<p>圆的面积公式 <span class="math-inline" data-math="A = \pi r^2">A = \pi r^2</span>，周长公式 <span class="math-inline" data-math="C = 2\pi r">C = 2\pi r</span>。</p>
+<p>求导公式：<span class="math-inline" data-math="(x^n)' = nx<sup>{n-1}">(x</sup>n)' = nx^{n-1}</span>，积分公式：<span class="math-inline" data-math="\int x^n dx = \frac{x^{n+1}}{n+1} + C">\int x^n dx = \frac{x^{n+1}}{n+1} + C</span>。</p>
+<p>欧拉公式 <span class="math-inline" data-math="e^{i\pi} + 1 = 0">e^{i\pi} + 1 = 0</span> 被誉为数学中最美丽的公式。</p>
+<h3 id="块级公式">块级公式</h3>
+<p>高斯积分（概率论基础）：</p>
+<p><div class="math-block" data-math="\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}">\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}</div></p>
+<p>求和公式：</p>
+<p><div class="math-block" data-math="\sum_{i=1}^{n} i = \frac{n(n+1)}{2}">\sum_{i=1}^{n} i = \frac{n(n+1)}{2}</div></p>
+<p>矩阵表示：</p>
+<p><div class="math-block" data-math="A = \begin{pmatrix}
+a_{11} &amp; a_{12} &amp; a_{13} \\
+a_{21} &amp; a_{22} &amp; a_{23} \\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{pmatrix}">A = \begin{pmatrix}
+a_{11} &amp; a_{12} &amp; a_{13} \\
+a_{21} &amp; a_{22} &amp; a_{23} \\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{pmatrix}</div></p>
+<p>二次方程求根公式：</p>
+<p><div class="math-block" data-math="x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}">x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</div></p>
+<hr></p>
+<h2 id="定义列表">定义列表</h2>
+<p>定义列表适合用于术语解释、词汇表等场景。</p>
+<dl>
+<dt>Markdown</dt>
+<dd>一种轻量级标记语言，由 John Gruber 于 2004 年创建。</dd>
+<dd>设计目标是让源文件具有良好的可读性。</dd>
+</dl>
+<dl>
+<dt>GFM (GitHub Flavored Markdown)</dt>
+<dd>GitHub 扩展的 Markdown 方言。</dd>
+<dd>增加了表格、任务列表、自动链接、删除线等特性。</dd>
+</dl>
+<dl>
+<dt>Front Matter</dt>
+<dd>文档开头的 YAML 格式元数据块。</dd>
+<dd>通常包含标题、作者、日期、标签等信息。</dd>
+</dl>
+<dl>
+<dt>AST (Abstract Syntax Tree)</dt>
+<dd>抽象语法树，代码的树状结构表示。</dd>
+<dd>Markdown 解析器通常会先将源文本转换为 AST，再生成 <abbr title="HyperText Markup Language - 超文本标记语言">HTML</abbr>。</dd>
+</dl>
+<hr></p>
+<h2 id="缩写定义">缩写定义</h2>
+<p>当文档中频繁使用缩写时，可以定义缩写的完整含义。鼠标悬停在缩写上可看到完整解释。</p>
+<p>本项目使用 <abbr title="HyperText Markup Language - 超文本标记语言">HTML</abbr> 和 <abbr title="Cascading Style Sheets - 层叠样式表">CSS</abbr> 技术构建用户界面，通过 <abbr title="Application Programming Interface - 应用程序接口">API</abbr> 与后端服务通信。所有资源通过 <abbr title="Uniform Resource Locator - 统一资源定位符">URL</abbr> 进行访问，数据交换使用 <abbr title="JavaScript Object Notation - JavaScript 对象表示法">JSON</abbr> 格式。</p>
+<p>项目托管在 <abbr title="JavaScript Registry - JavaScript 包注册中心">JSR</abbr> 上，支持在 Deno 和 Bun 等现代 JS 运行时中使用。源代码遵循 <abbr title="Massachusetts Institute of Technology - 麻省理工学院许可证">MIT</abbr> 许可证。</p>
+<hr></p>
+<h2 id="自定义容器">自定义容器</h2>
+<p>自定义容器用于突出显示不同类型的信息，增强文档的可读性。</p>
+<p><div class="container container-tip"><div class="container-title">小贴士</div><div class="container-content">使用 `@dreamer/markdown` 库时，建议启用所有默认选项以获得最佳体验。大多数选项默认已开启，你只需要关注需要自定义的部分。</div></div>
+<div class="container container-info"><div class="container-title">信息</div><div class="container-content">本库完全使用 TypeScript 编写，提供完整的类型定义。在支持 TypeScript 的编辑器中，你可以获得智能提示和类型检查。</div></div>
+<div class="container container-warning"><div class="container-title">注意事项</div><div class="container-content">- 处理用户输入的 Markdown 时，请确保启用 XSS 防护
+- 大文件（>1MB）可能影响解析性能
+- 某些扩展语法可能与标准 Markdown 不完全兼容</div></div>
+<div class="container container-danger"><div class="container-title">安全警告</div><div class="container-content">**永远不要** 直接将未经处理的用户输入渲染为 <abbr title="HyperText Markup Language - 超文本标记语言">HTML</abbr>！
+
+本库已内置 XSS 防护：
+- 自动转义 <abbr title="HyperText Markup Language - 超文本标记语言">HTML</abbr> 特殊字符
+- 过滤危险协议（javascript:、data: 等）
+- 验证外部资源链接</div></div>
+<div class="container container-note"><div class="container-title">开发备注</div><div class="container-content">当前版本（v1.0.0）已通过 538 个单元测试，测试覆盖率 100%。如发现任何问题，请在 GitHub 提交 Issue。</div></div>
+<details class="container container-details"><summary>点击查看更多技术细节</summary><div class="container-content">**性能优化措施：**
+
+1. 正则表达式预编译（80+ 个正则）
+2. ID 缓存机制（LRU 缓存 500 条）
+3. <abbr title="HyperText Markup Language - 超文本标记语言">HTML</abbr> 转义使用字符映射表
+4. 输入长度限制（防止 ReDoS 攻击）
+
+**代码示例：**
+
+ CODEBLOCK6 </div></details>
+<hr></p>
+<h2 id="图表展示">图表展示</h2>
+<p>通过 Mermaid 语法，可以在 Markdown 中绘制各种图表。</p>
+<h3 id="流程图">流程图</h3>
+<p><div class="mermaid-container" id="mermaid-0-1769849592945"><pre class="mermaid">graph TD
+    A[开始] --&gt; B{用户登录?}
+    B --&gt;|是| C[显示首页]
+    B --&gt;|否| D[显示登录页]
+    D --&gt; E[输入凭证]
+    E --&gt; F{验证通过?}
+    F --&gt;|是| C
+    F --&gt;|否| G[显示错误]
+    G --&gt; D
+    C --&gt; H[结束]</pre></div></p>
+<h3 id="时序图">时序图</h3>
+<p><div class="mermaid-container" id="mermaid-1-1769849592945"><pre class="mermaid">sequenceDiagram
+    participant U as 用户
+    participant C as 客户端
+    participant S as 服务器
+    participant D as 数据库
+
+    U-&gt;&gt;C: 输入 Markdown
+    C-&gt;&gt;S: 发送解析请求
+    S-&gt;&gt;S: 解析 Markdown
+    S-&gt;&gt;D: 保存文档
+    D--&gt;&gt;S: 确认保存
+    S--&gt;&gt;C: 返回 HTML
+    C--&gt;&gt;U: 显示渲染结果</pre></div></p>
+<h3 id="甘特图">甘特图</h3>
+<p><div class="mermaid-container" id="mermaid-2-1769849592945"><pre class="mermaid">gantt
+    title 项目开发计划
+    dateFormat  YYYY-MM-DD
+    section 发布
+    正式发布           :         rel1, after doc1, 1d
+    文档编写           :         doc1, after test2, 3d
+    section 测试阶段
+    集成测试           :active,  test2, after test1, 5d
+    单元测试           :done,    test1, after dev2, 5d
+    section 开发阶段
+    功能扩展           :done,    dev2, after dev1, 10d
+    核心模块开发       :done,    dev1, after des2, 14d
+    section 设计阶段
+    系统设计           :done,    des2, after des1, 5d
+    需求分析           :done,    des1, 2026-01-01, 7d</pre></div></p>
+<h3 id="饼图">饼图</h3>
+<p><div class="mermaid-container" id="mermaid-3-1769849592945"><pre class="mermaid">pie title 代码组成分析
+    &quot;解析器&quot; : 35
+    &quot;渲染器&quot; : 25
+    &quot;工具函数&quot; : 15
+    &quot;类型定义&quot; : 10
+    &quot;测试代码&quot; : 15</pre></div></p>
+<h3 id="柱状图">柱状图</h3>
+<p>使用 Mermaid 的 <code>xychart-beta</code> 语法可以绘制柱状图，适合展示数据对比：</p>
+<p><div class="mermaid-container" id="mermaid-4-1769849592945"><pre class="mermaid">xychart-beta
+    title &quot;Monthly Sales&quot;
+    x-axis [Jan, Feb, Mar, Apr, May, Jun]
+    y-axis &quot;Revenue (k)&quot; 0 --&gt; 100
+    bar [35, 48, 62, 55, 78, 92]</pre></div></p>
+<h3 id="折线图">折线图</h3>
+<p>折线图适合展示数据趋势和变化：</p>
+<p><div class="mermaid-container" id="mermaid-5-1769849592945"><pre class="mermaid">xychart-beta
+    title &quot;User Growth&quot;
+    x-axis [Q1, Q2, Q3, Q4]
+    y-axis &quot;Users (k)&quot; 0 --&gt; 50
+    line [12, 18, 28, 45]</pre></div></p>
+<h3 id="混合图表">混合图表</h3>
+<p>柱状图和折线图可以组合使用，同时展示数据量和趋势：</p>
+<p><div class="mermaid-container" id="mermaid-6-1769849592945"><pre class="mermaid">xychart-beta
+    title &quot;Sales vs Profit&quot;
+    x-axis [Jan, Feb, Mar, Apr, May, Jun]
+    y-axis &quot;Amount (k)&quot; 0 --&gt; 100
+    bar [35, 48, 62, 55, 78, 92]
+    line [8, 12, 18, 15, 22, 28]</pre></div></p>
+<hr></p>
+<h2 id="chartjs-图表">Chart.js 图表</h2>
+<p>除了 Mermaid，我们还支持 Chart.js，这是一个功能强大的轻量级图表库，提供更丰富的数据可视化选项。</p>
+<h3 id="折线图-line">折线图 (Line)</h3>
+<p>折线图适合展示数据随时间变化的趋势：</p>
+<p><div class="chartjs-container" id="chartjs-0-1769849592945">
+  <canvas id="canvas-chartjs-0-1769849592945"></canvas>
+</div>
+<script>
+(function() {
+  const config = {
+  "type": "line",
+  "data": {
+    "labels": ["一月", "二月", "三月", "四月", "五月", "六月"],
+    "datasets": [{
+      "label": "销售额",
+      "data": [12, 19, 3, 5, 2, 3],
+      "borderColor": "#3b82f6",
+      "backgroundColor": "rgba(59, 130, 246, 0.1)",
+      "fill": true,
+      "tension": 0.4
+    }]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": { "display": true, "text": "月度销售趋势" }
+    }
+  }
+};
+  const ctx = document.getElementById('canvas-chartjs-0-1769849592945');
+  if (ctx && typeof Chart !== 'undefined') {
+    new Chart(ctx, config);
+  } else if (ctx) {
+    // Chart.js 还未加载，等待加载完成
+    window.addEventListener('chartjs-ready', function() {
+      new Chart(ctx, config);
+    });
+  }
+})();
+</script></p>
+<h3 id="柱状图-bar">柱状图 (Bar)</h3>
+<p>柱状图适合比较不同类别的数据：</p>
+<p><div class="chartjs-container" id="chartjs-1-1769849592945">
+  <canvas id="canvas-chartjs-1-1769849592945"></canvas>
+</div>
+<script>
+(function() {
+  const config = {
+  "type": "bar",
+  "data": {
+    "labels": ["产品A", "产品B", "产品C", "产品D", "产品E"],
+    "datasets": [{
+      "label": "销量",
+      "data": [65, 59, 80, 81, 56],
+      "backgroundColor": [
+        "rgba(239, 68, 68, 0.8)",
+        "rgba(249, 115, 22, 0.8)",
+        "rgba(234, 179, 8, 0.8)",
+        "rgba(34, 197, 94, 0.8)",
+        "rgba(59, 130, 246, 0.8)"
+      ]
+    }]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": { "display": true, "text": "产品销量对比" }
+    }
+  }
+};
+  const ctx = document.getElementById('canvas-chartjs-1-1769849592945');
+  if (ctx && typeof Chart !== 'undefined') {
+    new Chart(ctx, config);
+  } else if (ctx) {
+    // Chart.js 还未加载，等待加载完成
+    window.addEventListener('chartjs-ready', function() {
+      new Chart(ctx, config);
+    });
+  }
+})();
+</script></p>
+<h3 id="饼图-pie">饼图 (Pie)</h3>
+<p>饼图适合展示各部分占整体的比例：</p>
+<p><div class="chartjs-container" id="chartjs-2-1769849592945">
+  <canvas id="canvas-chartjs-2-1769849592945"></canvas>
+</div>
+<script>
+(function() {
+  const config = {
+  "type": "pie",
+  "data": {
+    "labels": ["直接访问", "搜索引擎", "社交媒体", "邮件推广", "联盟广告"],
+    "datasets": [{
+      "data": [335, 310, 234, 135, 148],
+      "backgroundColor": [
+        "#ef4444",
+        "#f97316",
+        "#eab308",
+        "#22c55e",
+        "#3b82f6"
+      ]
+    }]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": { "display": true, "text": "访问来源分布" }
+    }
+  }
+};
+  const ctx = document.getElementById('canvas-chartjs-2-1769849592945');
+  if (ctx && typeof Chart !== 'undefined') {
+    new Chart(ctx, config);
+  } else if (ctx) {
+    // Chart.js 还未加载，等待加载完成
+    window.addEventListener('chartjs-ready', function() {
+      new Chart(ctx, config);
+    });
+  }
+})();
+</script></p>
+<h3 id="圆环图-doughnut">圆环图 (Doughnut)</h3>
+<p>圆环图是饼图的变体，中心可以显示汇总信息：</p>
+<p><div class="chartjs-container" id="chartjs-3-1769849592945">
+  <canvas id="canvas-chartjs-3-1769849592945"></canvas>
+</div>
+<script>
+(function() {
+  const config = {
+  "type": "doughnut",
+  "data": {
+    "labels": ["完成", "进行中", "待处理", "已取消"],
+    "datasets": [{
+      "data": [45, 25, 20, 10],
+      "backgroundColor": [
+        "#22c55e",
+        "#3b82f6",
+        "#eab308",
+        "#ef4444"
+      ]
+    }]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": { "display": true, "text": "任务状态分布" }
+    }
+  }
+};
+  const ctx = document.getElementById('canvas-chartjs-3-1769849592945');
+  if (ctx && typeof Chart !== 'undefined') {
+    new Chart(ctx, config);
+  } else if (ctx) {
+    // Chart.js 还未加载，等待加载完成
+    window.addEventListener('chartjs-ready', function() {
+      new Chart(ctx, config);
+    });
+  }
+})();
+</script></p>
+<h3 id="雷达图-radar">雷达图 (Radar)</h3>
+<p>雷达图适合展示多维度数据对比：</p>
+<p><div class="chartjs-container" id="chartjs-4-1769849592945">
+  <canvas id="canvas-chartjs-4-1769849592945"></canvas>
+</div>
+<script>
+(function() {
+  const config = {
+  "type": "radar",
+  "data": {
+    "labels": ["编程", "设计", "沟通", "管理", "创新", "执行力"],
+    "datasets": [{
+      "label": "员工A",
+      "data": [65, 59, 90, 81, 56, 55],
+      "borderColor": "#3b82f6",
+      "backgroundColor": "rgba(59, 130, 246, 0.2)"
+    }, {
+      "label": "员工B",
+      "data": [28, 48, 40, 19, 96, 27],
+      "borderColor": "#ef4444",
+      "backgroundColor": "rgba(239, 68, 68, 0.2)"
+    }]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": { "display": true, "text": "能力评估对比" }
+    }
+  }
+};
+  const ctx = document.getElementById('canvas-chartjs-4-1769849592945');
+  if (ctx && typeof Chart !== 'undefined') {
+    new Chart(ctx, config);
+  } else if (ctx) {
+    // Chart.js 还未加载，等待加载完成
+    window.addEventListener('chartjs-ready', function() {
+      new Chart(ctx, config);
+    });
+  }
+})();
+</script></p>
+<h3 id="极坐标图-polar-area">极坐标图 (Polar Area)</h3>
+<p>极坐标图结合了饼图和雷达图的特点：</p>
+<p><div class="chartjs-container" id="chartjs-5-1769849592945">
+  <canvas id="canvas-chartjs-5-1769849592945"></canvas>
+</div>
+<script>
+(function() {
+  const config = {
+  "type": "polarArea",
+  "data": {
+    "labels": ["红色", "橙色", "黄色", "绿色", "蓝色"],
+    "datasets": [{
+      "data": [11, 16, 7, 3, 14],
+      "backgroundColor": [
+        "rgba(239, 68, 68, 0.8)",
+        "rgba(249, 115, 22, 0.8)",
+        "rgba(234, 179, 8, 0.8)",
+        "rgba(34, 197, 94, 0.8)",
+        "rgba(59, 130, 246, 0.8)"
+      ]
+    }]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": { "display": true, "text": "颜色分布" }
+    }
+  }
+};
+  const ctx = document.getElementById('canvas-chartjs-5-1769849592945');
+  if (ctx && typeof Chart !== 'undefined') {
+    new Chart(ctx, config);
+  } else if (ctx) {
+    // Chart.js 还未加载，等待加载完成
+    window.addEventListener('chartjs-ready', function() {
+      new Chart(ctx, config);
+    });
+  }
+})();
+</script></p>
+<h3 id="散点图-scatter">散点图 (Scatter)</h3>
+<p>散点图适合展示两个变量之间的关系：</p>
+<p><div class="chartjs-container" id="chartjs-6-1769849592945">
+  <canvas id="canvas-chartjs-6-1769849592945"></canvas>
+</div>
+<script>
+(function() {
+  const config = {
+  "type": "scatter",
+  "data": {
+    "datasets": [{
+      "label": "数据集 A",
+      "data": [
+        {"x": -10, "y": 0},
+        {"x": 0, "y": 10},
+        {"x": 10, "y": 5},
+        {"x": 20, "y": 15},
+        {"x": 30, "y": 10}
+      ],
+      "backgroundColor": "#3b82f6"
+    }, {
+      "label": "数据集 B",
+      "data": [
+        {"x": -5, "y": 5},
+        {"x": 5, "y": 15},
+        {"x": 15, "y": 8},
+        {"x": 25, "y": 20},
+        {"x": 35, "y": 12}
+      ],
+      "backgroundColor": "#ef4444"
+    }]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": { "display": true, "text": "散点分布" }
+    }
+  }
+};
+  const ctx = document.getElementById('canvas-chartjs-6-1769849592945');
+  if (ctx && typeof Chart !== 'undefined') {
+    new Chart(ctx, config);
+  } else if (ctx) {
+    // Chart.js 还未加载，等待加载完成
+    window.addEventListener('chartjs-ready', function() {
+      new Chart(ctx, config);
+    });
+  }
+})();
+</script></p>
+<h3 id="气泡图-bubble">气泡图 (Bubble)</h3>
+<p>气泡图是散点图的扩展，第三个维度用气泡大小表示：</p>
+<p><div class="chartjs-container" id="chartjs-7-1769849592945">
+  <canvas id="canvas-chartjs-7-1769849592945"></canvas>
+</div>
+<script>
+(function() {
+  const config = {
+  "type": "bubble",
+  "data": {
+    "datasets": [{
+      "label": "公司规模",
+      "data": [
+        {"x": 20, "y": 30, "r": 15},
+        {"x": 40, "y": 10, "r": 10},
+        {"x": 30, "y": 22, "r": 20},
+        {"x": 25, "y": 18, "r": 8},
+        {"x": 35, "y": 28, "r": 25}
+      ],
+      "backgroundColor": "rgba(59, 130, 246, 0.6)"
+    }]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": { "display": true, "text": "公司规模分析（气泡大小表示员工数）" }
+    },
+    "scales": {
+      "x": { "title": { "display": true, "text": "营收（百万）" } },
+      "y": { "title": { "display": true, "text": "利润率（%）" } }
+    }
+  }
+};
+  const ctx = document.getElementById('canvas-chartjs-7-1769849592945');
+  if (ctx && typeof Chart !== 'undefined') {
+    new Chart(ctx, config);
+  } else if (ctx) {
+    // Chart.js 还未加载，等待加载完成
+    window.addEventListener('chartjs-ready', function() {
+      new Chart(ctx, config);
+    });
+  }
+})();
+</script></p>
+<hr></p>
+<h2 id="特殊字符">特殊字符</h2>
+<p>在 Markdown 中，某些字符有特殊含义。如需显示这些字符本身，需要使用反斜杠转义。</p>
+<h3 id="转义字符">转义字符</h3>
+<ul>
+<li>星号：\<em> 不是斜体 \</em></li>
+<li>下划线：\<em> 不是斜体 \</em></li>
+<li>方括号：\[不是链接\]</li>
+<li>反引号：\<code>不是代码\</code></li>
+<li>井号：\# 不是标题</li>
+</ul>
+<h3 id="html-实体"><abbr title="HyperText Markup Language - 超文本标记语言">HTML</abbr> 实体</h3>
+<ul>
+<li>小于号：&amp;lt;</li>
+<li>大于号：&amp;gt;</li>
+<li>与号：&amp;amp;</li>
+<li>引号：&amp;quot;</li>
+<li>版权符号：&amp;copy;</li>
+<li>注册商标：&amp;reg;</li>
+<li>商标：&amp;trade;</li>
+</ul>
+<h3 id="特殊符号">特殊符号</h3>
+<p>箭头：→ ← ↑ ↓ ↔ ⇒ ⇐ ⇑ ⇓</p>
+<p>数学：± × ÷ ≠ ≈ ≤ ≥ ∞ √ ∑ ∏ ∫</p>
+<p>货币：¥ $ € £ ¢</p>
+<p>其他：© ® ™ ° • ★ ☆ ♠ ♣ ♥ ♦</p>
+<hr></p>
+<h2 id="总结">总结</h2>
+<p>恭喜你阅读完这份文档！🎉</p>
+<p>我们已经展示了 <code>@dreamer/markdown</code> 库支持的所有主要功能：</p>
+<h3 id="基础功能">基础功能</h3>
+<ul>
+<li>✅ 标题、段落、换行</li>
+<li>✅ 粗体、斜体、删除线</li>
+<li>✅ 链接、图片</li>
+<li>✅ 有序、无序、任务列表</li>
+<li>✅ 引用块</li>
+<li>✅ 代码块（多语言支持）</li>
+<li>✅ 表格（对齐、合并、排序、搜索）</li>
+</ul>
+<h3 id="高级功能">高级功能</h3>
+<ul>
+<li>✅ Front Matter（YAML 元数据）</li>
+<li>✅ 目录自动生成</li>
+<li>✅ 脚注</li>
+<li>✅ 数学公式（LaTeX）</li>
+<li>✅ 定义列表</li>
+<li>✅ 缩写定义</li>
+<li>✅ 自定义容器</li>
+</ul>
+<h3 id="文本增强">文本增强</h3>
+<ul>
+<li>✅ 上标/下标</li>
+<li>✅ 高亮文本</li>
+<li>✅ 插入/删除标记</li>
+<li>✅ 键盘按键</li>
+<li>✅ Emoji 表情（300+）</li>
+</ul>
+<h3 id="图表与可视化">图表与可视化</h3>
+<ul>
+<li>✅ Mermaid 图表（流程图、时序图、甘特图、饼图、柱状图、折线图）</li>
+<li>✅ Chart.js 图表（折线图、柱状图、饼图、圆环图、雷达图、极坐标图、散点图、气泡图）</li>
+</ul>
+<hr></p>
+<p><strong>感谢使用 @dreamer/markdown！</strong> ❤️</p>
+<p>如有问题或建议，欢迎通过以下方式联系我们：</p>
+<ul>
+<li>⭐ GitHub: <a href="https://github.com/shuliangfu/markdown">https://github.com/shuliangfu/markdown</a></li>
+<li>📖 文档: <a href="https://jsr.io/@dreamer/markdown">https://jsr.io/@dreamer/markdown</a></li>
+</ul>
+<hr></p>
+<p><em>本文档由 @dreamer/markdown 解析生成</em>
+<em>最后更新：2026-01-31</em></p><section class="footnotes"><hr><ol><li id="fn-1">John Gruber, "Markdown", Daring Fireball, 2004年3月19日。 <a href="#fnref-1" class="footnote-backref">↩</a></li><li id="fn-2">Markdown 的哲学是"易读易写"（easy-to-read and easy-to-write）。 <a href="#fnref-2" class="footnote-backref">↩</a></li><li id="fn-github">GitHub 于 2009 年开始支持 Markdown，后发展出 GitHub Flavored Markdown (GFM)。 <a href="#fnref-github" class="footnote-backref">↩</a></li><li id="fn-3">完整支持 45+ 种扩展语法，详见 README 文档。 <a href="#fnref-3" class="footnote-backref">↩</a></li></ol></section>
+
+  </article>
+</main>
+<script>
+  // 平滑滚动
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  // 通知 Chart.js 已加载
+  window.dispatchEvent(new Event('chartjs-ready'));
+</script>
+<script>
+(function() {
+  'use strict';
+  
+  // 初始化所有表格
+  function initTables() {
+    // 响应式滚动检测
+    document.querySelectorAll('.md-table-responsive').forEach(function(container) {
+      function checkScroll() {
+        var hasScroll = container.scrollWidth > container.clientWidth;
+        container.classList.toggle('has-scroll', hasScroll);
+      }
+      checkScroll();
+      window.addEventListener('resize', checkScroll);
+    });
+    
+    // 可排序表格
+    document.querySelectorAll('.md-table-sortable').forEach(function(table) {
+      initSortable(table);
+    });
+    
+    // 可搜索表格
+    document.querySelectorAll('.md-table-search-input').forEach(function(input) {
+      initSearchable(input);
+    });
+  }
+  
+  // 初始化排序功能
+  function initSortable(table) {
+    var headers = table.querySelectorAll('th[data-sort-col]');
+    
+    headers.forEach(function(header) {
+      header.addEventListener('click', function() {
+        var col = parseInt(header.dataset.sortCol);
+        var dir = header.dataset.sortDir;
+        
+        // 切换排序方向
+        var newDir = dir === 'asc' ? 'desc' : 'asc';
+        
+        // 重置其他列
+        headers.forEach(function(h) {
+          h.dataset.sortDir = 'none';
+        });
+        header.dataset.sortDir = newDir;
+        
+        // 排序
+        sortTable(table, col, newDir);
+      });
+    });
+  }
+  
+  // 表格排序
+  function sortTable(table, col, dir) {
+    var tbody = table.querySelector('tbody');
+    var rows = Array.from(tbody.querySelectorAll('tr'));
+    
+    rows.sort(function(a, b) {
+      var aVal = getCellValue(a, col);
+      var bVal = getCellValue(b, col);
+      
+      // 尝试数字排序
+      var aNum = parseFloat(aVal.replace(/[^0-9.-]/g, ''));
+      var bNum = parseFloat(bVal.replace(/[^0-9.-]/g, ''));
+      
+      if (!isNaN(aNum) && !isNaN(bNum)) {
+        return dir === 'asc' ? aNum - bNum : bNum - aNum;
+      }
+      
+      // 字符串排序
+      return dir === 'asc' 
+        ? aVal.localeCompare(bVal, 'zh-CN')
+        : bVal.localeCompare(aVal, 'zh-CN');
+    });
+    
+    // 重新插入行
+    rows.forEach(function(row) {
+      tbody.appendChild(row);
+    });
+  }
+  
+  // 获取单元格值
+  function getCellValue(row, col) {
+    var cells = row.querySelectorAll('td');
+    var actualCol = 0;
+    
+    for (var i = 0; i < cells.length; i++) {
+      var cell = cells[i];
+      var colspan = parseInt(cell.getAttribute('colspan')) || 1;
+      
+      if (actualCol <= col && col < actualCol + colspan) {
+        return cell.textContent.trim();
+      }
+      actualCol += colspan;
+    }
+    
+    return '';
+  }
+  
+  // 初始化搜索功能
+  function initSearchable(input) {
+    var tableId = input.dataset.table;
+    var table = document.getElementById(tableId);
+    if (!table) return;
+    
+    var tbody = table.querySelector('tbody');
+    var rows = tbody.querySelectorAll('tr');
+    
+    input.addEventListener('input', function() {
+      var query = input.value.toLowerCase().trim();
+      var hasMatch = false;
+      
+      rows.forEach(function(row) {
+        var text = row.textContent.toLowerCase();
+        var match = !query || text.includes(query);
+        row.classList.toggle('no-match', !match);
+        if (match) hasMatch = true;
+      });
+      
+      // 显示无结果提示
+      var emptyRow = tbody.querySelector('.md-table-empty-row');
+      if (!hasMatch && !emptyRow) {
+        var colCount = table.querySelector('thead tr').children.length;
+        emptyRow = document.createElement('tr');
+        emptyRow.className = 'md-table-empty-row';
+        emptyRow.innerHTML = '<td colspan="' + colCount + '" class="md-table-empty">无匹配结果</td>';
+        tbody.appendChild(emptyRow);
+      } else if (hasMatch && emptyRow) {
+        emptyRow.remove();
+      }
+    });
+  }
+  
+  // DOM 加载完成后初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTables);
+  } else {
+    initTables();
+  }
+})();
+</script>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'default' });
+</script>
+
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 渲染块级公式
+  document.querySelectorAll('.math-block').forEach(function(el) {
+    var tex = el.getAttribute('data-math') || el.textContent;
+    try {
+      katex.render(tex, el, { displayMode: true, throwOnError: false });
+    } catch (e) {
+      console.error('KaTeX error:', e);
+    }
+  });
+  // 渲染行内公式
+  document.querySelectorAll('.math-inline').forEach(function(el) {
+    var tex = el.getAttribute('data-math') || el.textContent;
+    try {
+      katex.render(tex, el, { displayMode: false, throwOnError: false });
+    } catch (e) {
+      console.error('KaTeX error:', e);
+    }
+  });
+});
+</script>
+
+<!-- Prism.js 代码高亮 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script>
+  // 配置自动加载器路径
+  Prism.plugins.autoloader.languages_path = 'https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/';
+  
+  // 页面加载完成后高亮所有代码块
+  document.addEventListener('DOMContentLoaded', function() {
+    Prism.highlightAll();
+  });
+</script>
+</body>
+</html>
