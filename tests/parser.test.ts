@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from "@dreamer/test";
-import { parse, escapeHtml, type CodeHighlighter } from "../src/mod.ts";
+import { type CodeHighlighter, escapeHtml, parse } from "../src/mod.ts";
 
 // ============================================================================
 // HTML 转义测试

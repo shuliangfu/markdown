@@ -661,21 +661,29 @@ $$`;
 
 describe("parse - 自动链接", () => {
   it("应该自动链接 HTTP URL", () => {
-    const html = parse("Visit https://example.com for more", { autolink: true });
+    const html = parse("Visit https://example.com for more", {
+      autolink: true,
+    });
 
-    expect(html).toContain('<a href="https://example.com">https://example.com</a>');
+    expect(html).toContain(
+      '<a href="https://example.com">https://example.com</a>',
+    );
   });
 
   it("应该自动链接 HTTPS URL", () => {
     const html = parse("Visit http://example.com for more", { autolink: true });
 
-    expect(html).toContain('<a href="http://example.com">http://example.com</a>');
+    expect(html).toContain(
+      '<a href="http://example.com">http://example.com</a>',
+    );
   });
 
   it("应该自动链接邮箱", () => {
     const html = parse("Contact test@example.com", { autolink: true });
 
-    expect(html).toContain('<a href="mailto:test@example.com">test@example.com</a>');
+    expect(html).toContain(
+      '<a href="mailto:test@example.com">test@example.com</a>',
+    );
   });
 
   it("应该处理多个自动链接", () => {
@@ -769,7 +777,8 @@ https://example.com
   });
 
   it("应该使用自定义高亮函数", () => {
-    const highlight: CodeHighlighter = (code) => `[HIGHLIGHTED]${code}[/HIGHLIGHTED]`;
+    const highlight: CodeHighlighter = (code) =>
+      `[HIGHLIGHTED]${code}[/HIGHLIGHTED]`;
 
     const content = "```js\ncode\n```";
     const result = render(content, { highlight });
@@ -809,7 +818,8 @@ describe("applyTemplate - 模板应用", () => {
   });
 
   it("应该支持自定义模板", () => {
-    const template = "<html><title>{{title}}</title><body>{{content}}</body></html>";
+    const template =
+      "<html><title>{{title}}</title><body>{{content}}</body></html>";
     const result = {
       html: "<p>Hello</p>",
       frontMatter: { title: "Custom" },
@@ -818,7 +828,9 @@ describe("applyTemplate - 模板应用", () => {
 
     const page = applyTemplate(template, result);
 
-    expect(page).toBe("<html><title>Custom</title><body><p>Hello</p></body></html>");
+    expect(page).toBe(
+      "<html><title>Custom</title><body><p>Hello</p></body></html>",
+    );
   });
 
   it("应该替换多个占位符", () => {
@@ -981,7 +993,9 @@ describe("parse - 缩写", () => {
 
     const html = parse(markdown, { abbreviations: true });
 
-    expect(html).toContain('<abbr title="HyperText Markup Language">HTML</abbr>');
+    expect(html).toContain(
+      '<abbr title="HyperText Markup Language">HTML</abbr>',
+    );
     expect(html).not.toContain("*[HTML]");
   });
 
@@ -993,7 +1007,9 @@ describe("parse - 缩写", () => {
 
     const html = parse(markdown, { abbreviations: true });
 
-    expect(html).toContain('<abbr title="HyperText Markup Language">HTML</abbr>');
+    expect(html).toContain(
+      '<abbr title="HyperText Markup Language">HTML</abbr>',
+    );
     expect(html).toContain('<abbr title="Cascading Style Sheets">CSS</abbr>');
   });
 
@@ -1155,7 +1171,10 @@ describe("parse - 上标/下标", () => {
   });
 
   it("不应与删除线冲突", () => {
-    const html = parse("~~deleted~~ and H~2~O", { gfm: true, superSubScript: true });
+    const html = parse("~~deleted~~ and H~2~O", {
+      gfm: true,
+      superSubScript: true,
+    });
 
     expect(html).toContain("<del>deleted</del>");
     expect(html).toContain("<sub>2</sub>");
@@ -1168,7 +1187,9 @@ describe("parse - 上标/下标", () => {
 
 describe("parse - 高亮文本", () => {
   it("应该解析高亮文本", () => {
-    const html = parse("This is ==highlighted== text", { highlight_text: true });
+    const html = parse("This is ==highlighted== text", {
+      highlight_text: true,
+    });
 
     expect(html).toContain("<mark>highlighted</mark>");
   });

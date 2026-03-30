@@ -3,7 +3,12 @@
  */
 
 import { describe, expect, it } from "@dreamer/test";
-import { render, applyTemplate, DEFAULT_TEMPLATE, type CodeHighlighter } from "../src/mod.ts";
+import {
+  applyTemplate,
+  type CodeHighlighter,
+  DEFAULT_TEMPLATE,
+  render,
+} from "../src/mod.ts";
 
 // ============================================================================
 // 完整渲染测试

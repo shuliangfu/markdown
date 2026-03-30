@@ -4,13 +4,13 @@
 
 import { describe, expect, it } from "@dreamer/test";
 import {
+  getCodeStyles,
   parseCodeMeta,
+  parseDiff,
+  parseFileTree,
   parseHighlightLines,
   renderCodeBlock,
-  parseDiff,
   restoreDiff,
-  parseFileTree,
-  getCodeStyles,
 } from "../src/code.ts";
 
 describe("代码块元信息解析", () => {

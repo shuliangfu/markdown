@@ -33,8 +33,11 @@ console.log("  HTML 长度:", result.html.length, "字符");
 const tocHtml = renderToc(result.toc);
 
 // 样式和脚本会由 render 函数自动收集，applyTemplate 自动注入
-console.log("  自动收集样式:", result.styles.length, "字符");
-console.log("  自动收集脚本:", result.scripts.length, "字符");
+// `MarkdownResult` 上 `styles` / `scripts` 为可选字段；`render()` 通常会填充二者，此处用空串兜底便于类型检查
+const styleLen = (result.styles ?? "").length;
+const scriptLen = (result.scripts ?? "").length;
+console.log("  自动收集样式:", styleLen, "字符");
+console.log("  自动收集脚本:", scriptLen, "字符");
 
 // 构建 Front Matter 信息 HTML
 const tags = Array.isArray(result.frontMatter.tags)

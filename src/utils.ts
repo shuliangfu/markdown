@@ -77,7 +77,10 @@ const CONTROL_CHARS_REGEX = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g;
  */
 export function escapeHtml(text: string): string {
   if (!text) return "";
-  return text.replace(HTML_ESCAPE_REGEX, (char) => HTML_ESCAPE_MAP[char] || char);
+  return text.replace(
+    HTML_ESCAPE_REGEX,
+    (char) => HTML_ESCAPE_MAP[char] || char,
+  );
 }
 
 /**
@@ -196,7 +199,7 @@ export function generateId(text: string): string {
  */
 export function memoize<T extends (...args: string[]) => string>(
   fn: T,
-  maxSize = 100
+  maxSize = 100,
 ): T {
   const cache = new Map<string, string>();
 
@@ -225,7 +228,10 @@ export function memoize<T extends (...args: string[]) => string>(
 /**
  * 带缓存的 ID 生成函数
  */
-export const generateIdCached: (text: string) => string = memoize(generateId, 500);
+export const generateIdCached: (text: string) => string = memoize(
+  generateId,
+  500,
+);
 
 // ============================================================================
 // 占位符工具（代码复用）
@@ -258,7 +264,7 @@ export function createPlaceholder(type: string, index: number): string {
 export function restorePlaceholders(
   html: string,
   type: string,
-  blocks: string[]
+  blocks: string[],
 ): string {
   let result = html;
   for (let i = 0; i < blocks.length; i++) {

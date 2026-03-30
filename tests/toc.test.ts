@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from "@dreamer/test";
-import { extractToc, buildNestedToc, generateId } from "../src/mod.ts";
+import { buildNestedToc, extractToc, generateId } from "../src/mod.ts";
 
 describe("generateId - 锚点 ID 生成", () => {
   it("应该生成基本英文 ID", () => {

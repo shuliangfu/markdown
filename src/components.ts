@@ -78,7 +78,7 @@ export function parseColumns(content: string): string {
         .join("");
 
       return `<div class="columns columns-${colCount}">${columnsHtml}</div>`;
-    }
+    },
   );
 }
 
@@ -172,14 +172,20 @@ function renderTabs(tabs: TabItem[], groupId: number): string {
   const tabsHtml = tabs
     .map(
       (tab, i) =>
-        `<button type="button" class="tab-btn${i === 0 ? " active" : ""}" data-tab="tab-${groupId}-${i}" onclick="switchTab(this)">${escapeHtml(tab.label)}</button>`
+        `<button type="button" class="tab-btn${
+          i === 0 ? " active" : ""
+        }" data-tab="tab-${groupId}-${i}" onclick="switchTab(this)">${
+          escapeHtml(tab.label)
+        }</button>`,
     )
     .join("");
 
   const panelsHtml = tabs
     .map(
       (tab, i) =>
-        `<div class="tab-panel${i === 0 ? " active" : ""}" data-panel="tab-${groupId}-${i}">${tab.content}</div>`
+        `<div class="tab-panel${
+          i === 0 ? " active" : ""
+        }" data-panel="tab-${groupId}-${i}">${tab.content}</div>`,
     )
     .join("");
 
@@ -245,7 +251,7 @@ function renderAccordion(items: TabItem[], groupId: number): string {
         `<details class="accordion-item" id="accordion-${groupId}-${i}">
           <summary class="accordion-header">${escapeHtml(item.label)}</summary>
           <div class="accordion-content">${item.content}</div>
-        </details>`
+        </details>`,
     )
     .join("");
 
@@ -328,11 +334,15 @@ function renderTimeline(items: TimelineItem[]): string {
         `<div class="timeline-item">
           <div class="timeline-marker"></div>
           <div class="timeline-content">
-            ${item.time ? `<div class="timeline-time">${escapeHtml(item.time)}</div>` : ""}
+            ${
+          item.time
+            ? `<div class="timeline-time">${escapeHtml(item.time)}</div>`
+            : ""
+        }
             <div class="timeline-title">${escapeHtml(item.title)}</div>
             <div class="timeline-body">${item.content}</div>
           </div>
-        </div>`
+        </div>`,
     )
     .join("");
 
@@ -399,7 +409,9 @@ function renderCard(content: string, options: CardOptions): string {
   let html = '<div class="card">';
 
   if (image) {
-    html += `<div class="card-image"><img src="${escapeHtml(image)}" alt="${escapeHtml(title || "")}"></div>`;
+    html += `<div class="card-image"><img src="${escapeHtml(image)}" alt="${
+      escapeHtml(title || "")
+    }"></div>`;
   }
 
   html += '<div class="card-body">';
@@ -432,10 +444,9 @@ function renderCard(content: string, options: CardOptions): string {
 export function parseCardGrid(content: string): string {
   // 使用预编译正则
   return content.replace(CARD_GRID_REGEX, (_, cols, gridContent) => {
-      const columnCount = cols ? parseInt(cols, 10) : 3;
-      return `<div class="card-grid grid-${columnCount}">${gridContent}</div>`;
-    }
-  );
+    const columnCount = cols ? parseInt(cols, 10) : 3;
+    return `<div class="card-grid grid-${columnCount}">${gridContent}</div>`;
+  });
 }
 
 // ============================================================================
@@ -525,7 +536,7 @@ function renderSteps(steps: StepItem[]): string {
             <div class="step-title">${escapeHtml(step.title)}</div>
             <div class="step-body">${step.content}</div>
           </div>
-        </div>`
+        </div>`,
     )
     .join("");
 

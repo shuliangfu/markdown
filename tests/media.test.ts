@@ -4,17 +4,17 @@
 
 import { describe, expect, it } from "@dreamer/test";
 import {
-  parseImageMeta,
-  renderImage,
-  parseVideo,
-  renderYouTube,
-  renderBilibili,
-  renderLocalVideo,
-  parseAudio,
-  renderAudio,
-  parseIframe,
-  renderIframe,
   getMediaStyles,
+  parseAudio,
+  parseIframe,
+  parseImageMeta,
+  parseVideo,
+  renderAudio,
+  renderBilibili,
+  renderIframe,
+  renderImage,
+  renderLocalVideo,
+  renderYouTube,
 } from "../src/media.ts";
 
 describe("图片元信息解析", () => {

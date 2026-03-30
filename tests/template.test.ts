@@ -3,7 +3,11 @@
  */
 
 import { describe, expect, it } from "@dreamer/test";
-import { applyTemplate, DEFAULT_TEMPLATE, createTemplate } from "../src/template.ts";
+import {
+  applyTemplate,
+  createTemplate,
+  DEFAULT_TEMPLATE,
+} from "../src/template.ts";
 import type { MarkdownResult } from "../src/types.ts";
 
 describe("默认模板", () => {

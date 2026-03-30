@@ -1,6 +1,6 @@
 ---
 title: Markdown 完整语法测试文档
-description: 测试 @dreamer/markdown 库的所有解析功能，展示丰富的 Markdown 语法支持
+description: 测试 @dreamer/markdown 包的所有解析功能，展示丰富的 Markdown 语法支持
 author: Dreamer Team
 date: 2026-01-31
 tags:
@@ -13,9 +13,9 @@ version: 1.0.0
 
 # Markdown 完整语法演示
 
-欢迎阅读本文档！这是一份全面展示 `@dreamer/markdown` 库解析能力的测试文档。无论你是 Markdown 新手还是资深用户，这份文档都将帮助你了解我们支持的所有语法特性。
+欢迎阅读本文档！这是一份全面展示 `@dreamer/markdown` 包解析能力的测试文档。无论你是 Markdown 新手还是资深用户，这份文档都将帮助你了解我们支持的所有语法特性。
 
-本库采用纯 TypeScript 实现，零依赖，支持 **Deno**、**Bun** 和浏览器环境，是构建文档系统、博客平台、知识库的理想选择。
+本包采用纯 TypeScript 实现，零依赖，支持 **Deno**、**Bun** 和浏览器环境，是构建文档系统、博客平台、知识库的理想选择。
 
 ---
 
@@ -115,7 +115,6 @@ Markdown 支持多种链接方式：
 
 - **前端技术栈**
   - React - 用户界面库
-  - Vue - 渐进式框架
   - Svelte - 编译型框架
 - **后端技术栈**
   - Node.js - JavaScript 运行时
@@ -205,7 +204,7 @@ Markdown 支持多种链接方式：
 
 ## 代码展示
 
-代码块是技术文档的核心组成部分。我们的库支持多种编程语言的语法展示。
+代码块是技术文档的核心组成部分。我们的包支持多种编程语言的语法展示。
 
 ### TypeScript 示例
 
@@ -332,7 +331,7 @@ echo "✅ 部署完成！"
 {
   "name": "@dreamer/markdown",
   "version": "1.0.0",
-  "description": "功能丰富的 Markdown 解析库",
+  "description": "功能丰富的 Markdown 解析包",
   "exports": {
     ".": "./src/mod.ts",
     "./table": "./src/table.ts",
@@ -354,7 +353,7 @@ echo "✅ 部署完成！"
 
 ## 表格功能
 
-表格是展示结构化数据的最佳方式。我们的库提供了强大的表格增强功能。
+表格是展示结构化数据的最佳方式。我们的包提供了强大的表格增强功能。
 
 ### 基础数据表
 
@@ -528,7 +527,7 @@ Markdown 最初由 John Gruber 于 2004 年创建[^1]，其设计目标是让文
 
 如今，Markdown 已经成为技术文档的事实标准，被广泛应用于 GitHub[^github]、Stack Overflow、各类博客平台等。
 
-我们的 `@dreamer/markdown` 库在标准 Markdown 基础上进行了大量扩展[^3]，支持 GFM、数学公式、自定义容器等高级特性。
+我们的 `@dreamer/markdown` 包在标准 Markdown 基础上进行了大量扩展[^3]，支持 GFM、数学公式、自定义容器等高级特性。
 
 [^1]: John Gruber, "Markdown", Daring Fireball, 2004年3月19日。
 [^2]: Markdown 的哲学是"易读易写"（easy-to-read and easy-to-write）。
@@ -628,11 +627,11 @@ AST (Abstract Syntax Tree)
 自定义容器用于突出显示不同类型的信息，增强文档的可读性。
 
 :::tip 小贴士
-使用 `@dreamer/markdown` 库时，建议启用所有默认选项以获得最佳体验。大多数选项默认已开启，你只需要关注需要自定义的部分。
+使用 `@dreamer/markdown` 包时，建议启用所有默认选项以获得最佳体验。大多数选项默认已开启，你只需要关注需要自定义的部分。
 :::
 
 :::info 信息
-本库完全使用 TypeScript 编写，提供完整的类型定义。在支持 TypeScript 的编辑器中，你可以获得智能提示和类型检查。
+本包完全使用 TypeScript 编写，提供完整的类型定义。在支持 TypeScript 的编辑器中，你可以获得智能提示和类型检查。
 :::
 
 :::warning 注意事项
@@ -644,7 +643,7 @@ AST (Abstract Syntax Tree)
 :::danger 安全警告
 **永远不要** 直接将未经处理的用户输入渲染为 HTML！
 
-本库已内置 XSS 防护：
+本包已内置 XSS 防护：
 - 自动转义 HTML 特殊字符
 - 过滤危险协议（javascript:、data: 等）
 - 验证外部资源链接
@@ -1080,7 +1079,7 @@ xychart-beta
 
 恭喜你阅读完这份文档！:tada:
 
-我们已经展示了 `@dreamer/markdown` 库支持的所有主要功能：
+我们已经展示了 `@dreamer/markdown` 包支持的所有主要功能：
 
 ### 基础功能
 - :white_check_mark: 标题、段落、换行

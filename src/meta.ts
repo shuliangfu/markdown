@@ -57,7 +57,7 @@ export interface ReadingTimeResult {
  */
 export function estimateReadingTime(
   content: string,
-  options: ReadingTimeOptions = {}
+  options: ReadingTimeOptions = {},
 ): ReadingTimeResult {
   const {
     wordsPerMinuteCN = 300,
@@ -85,7 +85,8 @@ export function estimateReadingTime(
   const englishWords = englishMatches?.length || 0;
 
   // 计算阅读时间
-  let minutes = chineseWords / wordsPerMinuteCN + englishWords / wordsPerMinuteEN;
+  let minutes = chineseWords / wordsPerMinuteCN +
+    englishWords / wordsPerMinuteEN;
 
   if (includeCode && codeLines > 0) {
     minutes += codeLines / codePerMinute;
@@ -183,7 +184,9 @@ export function countWords(content: string): WordCountResult {
   const numbers = numberMatches?.length || 0;
 
   // 统计标点符号
-  const punctuationMatches = textContent.match(/[，。！？；：、""''（）【】《》…—,.!?;:'"()\[\]]/g);
+  const punctuationMatches = textContent.match(
+    /[，。！？；：、""''（）【】《》…—,.!?;:'"()\[\]]/g,
+  );
   const punctuation = punctuationMatches?.length || 0;
 
   // 统计段落数
@@ -237,7 +240,7 @@ export interface UpdateTimeOptions {
  */
 export function formatUpdateTime(
   date: Date | string,
-  options: UpdateTimeOptions = {}
+  options: UpdateTimeOptions = {},
 ): string {
   const { format = "full", locale = "zh-CN" } = options;
   const d = typeof date === "string" ? new Date(date) : date;
@@ -246,16 +249,15 @@ export function formatUpdateTime(
     return formatRelativeTime(d);
   }
 
-  const formatOptions: Intl.DateTimeFormatOptions =
-    format === "date"
-      ? { year: "numeric", month: "long", day: "numeric" }
-      : {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        };
+  const formatOptions: Intl.DateTimeFormatOptions = format === "date"
+    ? { year: "numeric", month: "long", day: "numeric" }
+    : {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
 
   return d.toLocaleDateString(locale, formatOptions);
 }
@@ -288,7 +290,7 @@ function formatRelativeTime(date: Date): string {
  */
 export function renderUpdateTime(
   date: Date | string,
-  options: UpdateTimeOptions = {}
+  options: UpdateTimeOptions = {},
 ): string {
   const formattedTime = formatUpdateTime(date, options);
   const d = typeof date === "string" ? new Date(date) : date;
@@ -349,7 +351,9 @@ export function parseAuthors(content: string): {
       // 检查是否使用列表格式
       if (trimmedBlock.startsWith("-")) {
         // 分割为多个作者项，处理开头的 "- "
-        const items = trimmedBlock.split(/^-\s+|\n-\s+/m).filter((item: string) => item.trim());
+        const items = trimmedBlock.split(/^-\s+|\n-\s+/m).filter((
+          item: string,
+        ) => item.trim());
 
         for (const item of items) {
           const author: Author = { name: "" };
@@ -422,7 +426,7 @@ export function parseAuthors(content: string): {
       }
 
       return `<!-- authors: ${authors.length} -->`;
-    }
+    },
   );
 
   return { authors, content };
@@ -437,11 +441,17 @@ export function renderAuthors(authors: Author[]): string {
   const authorsHtml = authors
     .map((author) => {
       const avatarHtml = author.avatar
-        ? `<img class="author-avatar" src="${escapeHtml(author.avatar)}" alt="${escapeHtml(author.name)}">`
-        : `<span class="author-avatar author-avatar-placeholder">${author.name.charAt(0)}</span>`;
+        ? `<img class="author-avatar" src="${escapeHtml(author.avatar)}" alt="${
+          escapeHtml(author.name)
+        }">`
+        : `<span class="author-avatar author-avatar-placeholder">${
+          author.name.charAt(0)
+        }</span>`;
 
       const nameHtml = author.url
-        ? `<a href="${escapeHtml(author.url)}" class="author-name">${escapeHtml(author.name)}</a>`
+        ? `<a href="${escapeHtml(author.url)}" class="author-name">${
+          escapeHtml(author.name)
+        }</a>`
         : `<span class="author-name">${escapeHtml(author.name)}</span>`;
 
       const roleHtml = author.role
@@ -449,7 +459,9 @@ export function renderAuthors(authors: Author[]): string {
         : "";
 
       const emailHtml = author.email
-        ? `<a href="mailto:${escapeHtml(author.email)}" class="author-email">${escapeHtml(author.email)}</a>`
+        ? `<a href="mailto:${escapeHtml(author.email)}" class="author-email">${
+          escapeHtml(author.email)
+        }</a>`
         : "";
 
       return `<div class="author">
@@ -489,7 +501,7 @@ export interface DocumentMeta {
  */
 export function extractDocumentMeta(
   content: string,
-  updateTime?: Date | string
+  updateTime?: Date | string,
 ): DocumentMeta {
   const readingTime = estimateReadingTime(content);
   const wordCount = countWords(content);
@@ -498,7 +510,9 @@ export function extractDocumentMeta(
   return {
     readingTime,
     wordCount,
-    updateTime: updateTime ? (typeof updateTime === "string" ? new Date(updateTime) : updateTime) : undefined,
+    updateTime: updateTime
+      ? (typeof updateTime === "string" ? new Date(updateTime) : updateTime)
+      : undefined,
     authors,
   };
 }

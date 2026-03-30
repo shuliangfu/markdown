@@ -132,7 +132,7 @@ export function parseEnhancedImages(content: string): string {
     (_, alt, url, meta) => {
       const options = meta ? parseImageMeta(meta) : {};
       return renderImage(url, alt, options);
-    }
+    },
   );
 }
 
@@ -144,9 +144,10 @@ export function parseEnhancedImages(content: string): string {
 export function renderImage(
   src: string,
   alt: string,
-  options: ImageOptions = {}
+  options: ImageOptions = {},
 ): string {
-  const { lazy = false, caption, width, height, align, lightbox = false } = options;
+  const { lazy = false, caption, width, height, align, lightbox = false } =
+    options;
 
   // URL 安全检查
   const safeSrc = sanitizeUrl(src);
@@ -155,7 +156,10 @@ export function renderImage(
   }
 
   // 构建图片属性
-  const attrs: string[] = [`src="${escapeHtml(safeSrc)}"`, `alt="${escapeHtml(alt || "")}"`];
+  const attrs: string[] = [
+    `src="${escapeHtml(safeSrc)}"`,
+    `alt="${escapeHtml(alt || "")}"`,
+  ];
   if (lazy) attrs.push('loading="lazy"');
   if (width) attrs.push(`width="${escapeHtml(width)}"`);
   if (height) attrs.push(`height="${escapeHtml(height)}"`);
@@ -166,7 +170,9 @@ export function renderImage(
   // 如果有标题，使用 figure
   if (caption) {
     const alignClass = align ? ` align-${align}` : "";
-    return `<figure class="image-figure${alignClass}">${img}<figcaption>${escapeHtml(caption)}</figcaption></figure>`;
+    return `<figure class="image-figure${alignClass}">${img}<figcaption>${
+      escapeHtml(caption)
+    }</figcaption></figure>`;
   }
 
   // 如果有对齐
@@ -223,7 +229,7 @@ export function parseVideo(content: string): string {
     (_, videoId, meta) => {
       const options = meta ? parseVideoMeta(meta) : {};
       return renderYouTube(videoId.trim(), options);
-    }
+    },
   );
 
   // Bilibili（使用预编译正则）
@@ -232,7 +238,7 @@ export function parseVideo(content: string): string {
     (_, bvid, meta) => {
       const options = meta ? parseVideoMeta(meta) : {};
       return renderBilibili(bvid.trim(), options);
-    }
+    },
   );
 
   // Vimeo（使用预编译正则）
@@ -241,7 +247,7 @@ export function parseVideo(content: string): string {
     (_, videoId, meta) => {
       const options = meta ? parseVideoMeta(meta) : {};
       return renderVimeo(videoId.trim(), options);
-    }
+    },
   );
 
   // 本地视频（使用预编译正则）
@@ -250,7 +256,7 @@ export function parseVideo(content: string): string {
     (_, url, meta) => {
       const options = meta ? parseVideoMeta(meta) : {};
       return renderLocalVideo(url.trim(), options);
-    }
+    },
   );
 
   return content;
@@ -305,13 +311,17 @@ function isVideoIdSafe(videoId: string): boolean {
  *
  * 添加视频 ID 验证，防止注入
  */
-export function renderYouTube(videoId: string, options: VideoOptions = {}): string {
+export function renderYouTube(
+  videoId: string,
+  options: VideoOptions = {},
+): string {
   // 验证视频 ID
   if (!isVideoIdSafe(videoId)) {
     return `<!-- Invalid YouTube video ID -->`;
   }
 
-  const { width = "100%", height = "400", autoplay = false, start = 0, title } = options;
+  const { width = "100%", height = "400", autoplay = false, start = 0, title } =
+    options;
 
   let src = `https://www.youtube.com/embed/${videoId}`;
   const params: string[] = [];
@@ -321,7 +331,9 @@ export function renderYouTube(videoId: string, options: VideoOptions = {}): stri
 
   const safeWidth = escapeHtml(String(width));
   const safeHeight = escapeHtml(String(height));
-  const titleAttr = title ? ` title="${escapeHtml(title)}"` : ' title="YouTube Video"';
+  const titleAttr = title
+    ? ` title="${escapeHtml(title)}"`
+    : ' title="YouTube Video"';
 
   return `<div class="video-container video-youtube"><iframe width="${safeWidth}" height="${safeHeight}" src="${src}"${titleAttr} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
 }
@@ -331,7 +343,10 @@ export function renderYouTube(videoId: string, options: VideoOptions = {}): stri
  *
  * 添加 BV 号验证，防止注入
  */
-export function renderBilibili(bvid: string, options: VideoOptions = {}): string {
+export function renderBilibili(
+  bvid: string,
+  options: VideoOptions = {},
+): string {
   // 验证 BV 号
   if (!SAFE_BVID_REGEX.test(bvid)) {
     return `<!-- Invalid Bilibili video ID -->`;
@@ -339,10 +354,13 @@ export function renderBilibili(bvid: string, options: VideoOptions = {}): string
 
   const { width = "100%", height = "400", title } = options;
 
-  const src = `https://player.bilibili.com/player.html?bvid=${bvid}&high_quality=1`;
+  const src =
+    `https://player.bilibili.com/player.html?bvid=${bvid}&high_quality=1`;
   const safeWidth = escapeHtml(String(width));
   const safeHeight = escapeHtml(String(height));
-  const titleAttr = title ? ` title="${escapeHtml(title)}"` : ' title="Bilibili Video"';
+  const titleAttr = title
+    ? ` title="${escapeHtml(title)}"`
+    : ' title="Bilibili Video"';
 
   return `<div class="video-container video-bilibili"><iframe width="${safeWidth}" height="${safeHeight}" src="${src}"${titleAttr} frameborder="0" allowfullscreen scrolling="no"></iframe></div>`;
 }
@@ -352,7 +370,10 @@ export function renderBilibili(bvid: string, options: VideoOptions = {}): string
  *
  * 添加视频 ID 验证，防止注入
  */
-export function renderVimeo(videoId: string, options: VideoOptions = {}): string {
+export function renderVimeo(
+  videoId: string,
+  options: VideoOptions = {},
+): string {
   // 验证视频 ID（Vimeo 使用纯数字 ID）
   if (!/^\d+$/.test(videoId)) {
     return `<!-- Invalid Vimeo video ID -->`;
@@ -365,7 +386,9 @@ export function renderVimeo(videoId: string, options: VideoOptions = {}): string
 
   const safeWidth = escapeHtml(String(width));
   const safeHeight = escapeHtml(String(height));
-  const titleAttr = title ? ` title="${escapeHtml(title)}"` : ' title="Vimeo Video"';
+  const titleAttr = title
+    ? ` title="${escapeHtml(title)}"`
+    : ' title="Vimeo Video"';
 
   return `<div class="video-container video-vimeo"><iframe width="${safeWidth}" height="${safeHeight}" src="${src}"${titleAttr} frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>`;
 }
@@ -375,15 +398,24 @@ export function renderVimeo(videoId: string, options: VideoOptions = {}): string
  *
  * 添加 URL 安全检查
  */
-export function renderLocalVideo(src: string, options: VideoOptions = {}): string {
+export function renderLocalVideo(
+  src: string,
+  options: VideoOptions = {},
+): string {
   // URL 安全检查
   const safeSrc = sanitizeUrl(src);
   if (!safeSrc) {
     return `<!-- Invalid video URL -->`;
   }
 
-  const { width = "100%", height, autoplay = false, muted = false, loop = false, title } =
-    options;
+  const {
+    width = "100%",
+    height,
+    autoplay = false,
+    muted = false,
+    loop = false,
+    title,
+  } = options;
 
   const attrs: string[] = [`src="${escapeHtml(safeSrc)}"`, "controls"];
   if (width) attrs.push(`width="${escapeHtml(String(width))}"`);
@@ -393,7 +425,9 @@ export function renderLocalVideo(src: string, options: VideoOptions = {}): strin
   if (loop) attrs.push("loop");
   if (title) attrs.push(`title="${escapeHtml(title)}"`);
 
-  return `<div class="video-container video-local"><video ${attrs.join(" ")}>您的浏览器不支持视频播放</video></div>`;
+  return `<div class="video-container video-local"><video ${
+    attrs.join(" ")
+  }>您的浏览器不支持视频播放</video></div>`;
 }
 
 // ============================================================================
@@ -424,7 +458,7 @@ export function parseAudio(content: string): string {
     (_, url, meta) => {
       const options = meta ? parseAudioMeta(meta) : {};
       return renderAudio(url.trim(), options);
-    }
+    },
   );
 }
 
@@ -464,9 +498,13 @@ export function renderAudio(src: string, options: AudioOptions = {}): string {
   if (autoplay) attrs.push("autoplay");
   if (loop) attrs.push("loop");
 
-  const titleHtml = title ? `<div class="audio-title">${escapeHtml(title)}</div>` : "";
+  const titleHtml = title
+    ? `<div class="audio-title">${escapeHtml(title)}</div>`
+    : "";
 
-  return `<div class="audio-container">${titleHtml}<audio ${attrs.join(" ")}>您的浏览器不支持音频播放</audio></div>`;
+  return `<div class="audio-container">${titleHtml}<audio ${
+    attrs.join(" ")
+  }>您的浏览器不支持音频播放</audio></div>`;
 }
 
 // ============================================================================
@@ -495,7 +533,7 @@ export function parseIframe(content: string): string {
     (_, url, meta) => {
       const options = meta ? parseIframeMeta(meta) : {};
       return renderIframe(url.trim(), options);
-    }
+    },
   );
 }
 
@@ -551,7 +589,9 @@ export function renderIframe(src: string, options: IframeOptions = {}): string {
   const safeboxValue = sandbox || "allow-scripts allow-same-origin";
   attrs.push(`sandbox="${escapeHtml(safeboxValue)}"`);
 
-  return `<div class="iframe-container"><iframe ${attrs.join(" ")}></iframe></div>`;
+  return `<div class="iframe-container"><iframe ${
+    attrs.join(" ")
+  }></iframe></div>`;
 }
 
 // ============================================================================

@@ -4,19 +4,19 @@
 
 import { describe, expect, it } from "@dreamer/test";
 import {
-  LIGHT_THEME,
   DARK_THEME,
   generateCSSVariables,
   getBaseThemeStyles,
-  getThemeToggleScript,
-  renderThemeToggle,
-  getPrintStyles,
+  getFullThemeStyles,
   getGitHubTheme,
   getGitLabTheme,
   getMinimalTheme,
   getModernTheme,
   getPresetTheme,
-  getFullThemeStyles,
+  getPrintStyles,
+  getThemeToggleScript,
+  LIGHT_THEME,
+  renderThemeToggle,
 } from "../src/theme.ts";
 
 describe("主题变量", () => {

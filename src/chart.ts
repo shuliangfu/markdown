@@ -69,10 +69,12 @@ export function parseMermaid(content: string): {
       const placeholder = `\x00MERMAID${charts.length}\x00`;
       const id = `mermaid-${charts.length}-${Date.now()}`;
       charts.push(
-        `<div class="mermaid-container" id="${id}"><pre class="mermaid">${escapeHtml(code.trim())}</pre></div>`
+        `<div class="mermaid-container" id="${id}"><pre class="mermaid">${
+          escapeHtml(code.trim())
+        }</pre></div>`,
       );
       return placeholder;
-    }
+    },
   );
 
   return { content: processed, charts };
@@ -117,10 +119,12 @@ export function parsePlantUML(content: string): {
       // 使用 PlantUML 服务器编码
       const encoded = encodePlantUML(code.trim());
       charts.push(
-        `<div class="plantuml-container" id="${id}"><img class="plantuml" src="https://www.plantuml.com/plantuml/svg/${encoded}" alt="PlantUML Diagram" data-source="${escapeHtml(code.trim())}"></div>`
+        `<div class="plantuml-container" id="${id}"><img class="plantuml" src="https://www.plantuml.com/plantuml/svg/${encoded}" alt="PlantUML Diagram" data-source="${
+          escapeHtml(code.trim())
+        }"></div>`,
       );
       return placeholder;
-    }
+    },
   );
 
   return { content: processed, charts };
@@ -190,10 +194,10 @@ export function parseMindmap(content: string): {
       const nodes = parseMindmapNodes(code.trim());
       const html = renderMindmapNodes(nodes);
       charts.push(
-        `<div class="mindmap-container" id="${id}">${html}</div>`
+        `<div class="mindmap-container" id="${id}">${html}</div>`,
       );
       return placeholder;
-    }
+    },
   );
 
   return { content: processed, charts };
@@ -239,11 +243,14 @@ function renderMindmapNodes(nodes: MindmapNode[]): string {
   if (nodes.length === 0) return "";
 
   const renderNode = (node: MindmapNode): string => {
-    const childrenHtml =
-      node.children.length > 0
-        ? `<ul class="mindmap-children">${node.children.map(renderNode).join("")}</ul>`
-        : "";
-    return `<li class="mindmap-node mindmap-level-${node.level}"><span class="mindmap-text">${escapeHtml(node.text)}</span>${childrenHtml}</li>`;
+    const childrenHtml = node.children.length > 0
+      ? `<ul class="mindmap-children">${
+        node.children.map(renderNode).join("")
+      }</ul>`
+      : "";
+    return `<li class="mindmap-node mindmap-level-${node.level}"><span class="mindmap-text">${
+      escapeHtml(node.text)
+    }</span>${childrenHtml}</li>`;
   };
 
   return `<ul class="mindmap">${nodes.map(renderNode).join("")}</ul>`;
@@ -423,7 +430,15 @@ export function getMermaidScript(): string {
  */
 export interface ChartJSConfig {
   /** 图表类型 */
-  type: "line" | "bar" | "pie" | "doughnut" | "radar" | "polarArea" | "bubble" | "scatter";
+  type:
+    | "line"
+    | "bar"
+    | "pie"
+    | "doughnut"
+    | "radar"
+    | "polarArea"
+    | "bubble"
+    | "scatter";
   /** 数据配置 */
   data: {
     labels?: string[];
@@ -476,7 +491,7 @@ export function parseChartJS(content: string): {
       } catch {
         // JSON 解析失败，返回错误提示
         charts.push(
-          `<div class="chartjs-error">Chart.js 配置错误：无效的 JSON 格式</div>`
+          `<div class="chartjs-error">Chart.js 配置错误：无效的 JSON 格式</div>`,
         );
         return placeholder;
       }
@@ -499,10 +514,10 @@ export function parseChartJS(content: string): {
     });
   }
 })();
-</script>`
+</script>`,
       );
       return placeholder;
-    }
+    },
   );
 
   return { content: processed, charts };

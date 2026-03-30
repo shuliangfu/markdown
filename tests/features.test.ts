@@ -203,7 +203,9 @@ describe("parse - 缩写", () => {
 
     const html = parse(markdown, { abbreviations: true });
 
-    expect(html).toContain('<abbr title="HyperText Markup Language">HTML</abbr>');
+    expect(html).toContain(
+      '<abbr title="HyperText Markup Language">HTML</abbr>',
+    );
     expect(html).not.toContain("*[HTML]");
   });
 
@@ -215,7 +217,9 @@ describe("parse - 缩写", () => {
 
     const html = parse(markdown, { abbreviations: true });
 
-    expect(html).toContain('<abbr title="HyperText Markup Language">HTML</abbr>');
+    expect(html).toContain(
+      '<abbr title="HyperText Markup Language">HTML</abbr>',
+    );
     expect(html).toContain('<abbr title="Cascading Style Sheets">CSS</abbr>');
   });
 
@@ -383,7 +387,9 @@ describe("parse - 上标/下标", () => {
 
 describe("parse - 高亮文本", () => {
   it("应该解析高亮文本", () => {
-    const html = parse("This is ==highlighted== text", { highlight_text: true });
+    const html = parse("This is ==highlighted== text", {
+      highlight_text: true,
+    });
     expect(html).toContain("<mark>highlighted</mark>");
   });
 

@@ -70,8 +70,9 @@ export function parseNestedLists(html: string, gfm: boolean): string {
       // 管理列表栈
       if (listStack.length === 0) {
         // 开始新列表
-        const className =
-          gfm && listItem.includes("task-item") ? ' class="task-list"' : "";
+        const className = gfm && listItem.includes("task-item")
+          ? ' class="task-list"'
+          : "";
         result.push(`<${listType}${className}>`);
         listStack.push({ type: listType, indent });
       } else {
@@ -79,8 +80,9 @@ export function parseNestedLists(html: string, gfm: boolean): string {
 
         if (indent > currentLevel.indent) {
           // 进入更深层级
-          const className =
-            gfm && listItem.includes("task-item") ? ' class="task-list"' : "";
+          const className = gfm && listItem.includes("task-item")
+            ? ' class="task-list"'
+            : "";
           result.push(`<${listType}${className}>`);
           listStack.push({ type: listType, indent });
         } else if (indent < currentLevel.indent) {
@@ -100,8 +102,9 @@ export function parseNestedLists(html: string, gfm: boolean): string {
           ) {
             const closed = listStack.pop()!;
             result.push(`</${closed.type}>`);
-            const className =
-              gfm && listItem.includes("task-item") ? ' class="task-list"' : "";
+            const className = gfm && listItem.includes("task-item")
+              ? ' class="task-list"'
+              : "";
             result.push(`<${listType}${className}>`);
             listStack.push({ type: listType, indent });
           }
@@ -109,8 +112,9 @@ export function parseNestedLists(html: string, gfm: boolean): string {
           // 同级但类型不同
           const closed = listStack.pop()!;
           result.push(`</${closed.type}>`);
-          const className =
-            gfm && listItem.includes("task-item") ? ' class="task-list"' : "";
+          const className = gfm && listItem.includes("task-item")
+            ? ' class="task-list"'
+            : "";
           result.push(`<${listType}${className}>`);
           listStack.push({ type: listType, indent });
         }

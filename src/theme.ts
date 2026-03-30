@@ -22,7 +22,12 @@ export type ThemeType = "light" | "dark" | "auto";
 /**
  * 预设主题
  */
-export type PresetTheme = "default" | "github" | "gitlab" | "minimal" | "modern";
+export type PresetTheme =
+  | "default"
+  | "github"
+  | "gitlab"
+  | "minimal"
+  | "modern";
 
 /**
  * 主题变量
@@ -104,8 +109,10 @@ export const LIGHT_THEME: ThemeVariables = {
   colorCodeText: "#333",
   colorCodeBackground: "#f4f4f4",
 
-  fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-  fontFamilyMono: "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace",
+  fontFamily:
+    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+  fontFamilyMono:
+    "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace",
   fontSize: "16px",
   lineHeight: "1.6",
 
@@ -143,8 +150,10 @@ export const DARK_THEME: ThemeVariables = {
   colorCodeText: "#e0e0e0",
   colorCodeBackground: "#2d2d2d",
 
-  fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-  fontFamilyMono: "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace",
+  fontFamily:
+    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+  fontFamilyMono:
+    "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace",
   fontSize: "16px",
   lineHeight: "1.6",
 
@@ -164,37 +173,75 @@ export const DARK_THEME: ThemeVariables = {
 export function generateCSSVariables(variables: ThemeVariables): string {
   const lines: string[] = [];
 
-  if (variables.colorPrimary) lines.push(`--color-primary: ${variables.colorPrimary};`);
-  if (variables.colorSecondary) lines.push(`--color-secondary: ${variables.colorSecondary};`);
-  if (variables.colorSuccess) lines.push(`--color-success: ${variables.colorSuccess};`);
-  if (variables.colorWarning) lines.push(`--color-warning: ${variables.colorWarning};`);
-  if (variables.colorDanger) lines.push(`--color-danger: ${variables.colorDanger};`);
+  if (variables.colorPrimary) {
+    lines.push(`--color-primary: ${variables.colorPrimary};`);
+  }
+  if (variables.colorSecondary) {
+    lines.push(`--color-secondary: ${variables.colorSecondary};`);
+  }
+  if (variables.colorSuccess) {
+    lines.push(`--color-success: ${variables.colorSuccess};`);
+  }
+  if (variables.colorWarning) {
+    lines.push(`--color-warning: ${variables.colorWarning};`);
+  }
+  if (variables.colorDanger) {
+    lines.push(`--color-danger: ${variables.colorDanger};`);
+  }
   if (variables.colorInfo) lines.push(`--color-info: ${variables.colorInfo};`);
 
   if (variables.colorText) lines.push(`--color-text: ${variables.colorText};`);
-  if (variables.colorTextMuted) lines.push(`--color-text-muted: ${variables.colorTextMuted};`);
-  if (variables.colorTextLight) lines.push(`--color-text-light: ${variables.colorTextLight};`);
+  if (variables.colorTextMuted) {
+    lines.push(`--color-text-muted: ${variables.colorTextMuted};`);
+  }
+  if (variables.colorTextLight) {
+    lines.push(`--color-text-light: ${variables.colorTextLight};`);
+  }
 
-  if (variables.colorBackground) lines.push(`--color-bg: ${variables.colorBackground};`);
-  if (variables.colorBackgroundSecondary) lines.push(`--color-bg-secondary: ${variables.colorBackgroundSecondary};`);
-  if (variables.colorBackgroundCode) lines.push(`--color-bg-code: ${variables.colorBackgroundCode};`);
+  if (variables.colorBackground) {
+    lines.push(`--color-bg: ${variables.colorBackground};`);
+  }
+  if (variables.colorBackgroundSecondary) {
+    lines.push(`--color-bg-secondary: ${variables.colorBackgroundSecondary};`);
+  }
+  if (variables.colorBackgroundCode) {
+    lines.push(`--color-bg-code: ${variables.colorBackgroundCode};`);
+  }
 
-  if (variables.colorBorder) lines.push(`--color-border: ${variables.colorBorder};`);
-  if (variables.colorBorderLight) lines.push(`--color-border-light: ${variables.colorBorderLight};`);
+  if (variables.colorBorder) {
+    lines.push(`--color-border: ${variables.colorBorder};`);
+  }
+  if (variables.colorBorderLight) {
+    lines.push(`--color-border-light: ${variables.colorBorderLight};`);
+  }
 
   if (variables.colorLink) lines.push(`--color-link: ${variables.colorLink};`);
-  if (variables.colorLinkHover) lines.push(`--color-link-hover: ${variables.colorLinkHover};`);
+  if (variables.colorLinkHover) {
+    lines.push(`--color-link-hover: ${variables.colorLinkHover};`);
+  }
 
-  if (variables.colorCodeText) lines.push(`--color-code-text: ${variables.colorCodeText};`);
-  if (variables.colorCodeBackground) lines.push(`--color-code-bg: ${variables.colorCodeBackground};`);
+  if (variables.colorCodeText) {
+    lines.push(`--color-code-text: ${variables.colorCodeText};`);
+  }
+  if (variables.colorCodeBackground) {
+    lines.push(`--color-code-bg: ${variables.colorCodeBackground};`);
+  }
 
-  if (variables.fontFamily) lines.push(`--font-family: ${variables.fontFamily};`);
-  if (variables.fontFamilyMono) lines.push(`--font-family-mono: ${variables.fontFamilyMono};`);
+  if (variables.fontFamily) {
+    lines.push(`--font-family: ${variables.fontFamily};`);
+  }
+  if (variables.fontFamilyMono) {
+    lines.push(`--font-family-mono: ${variables.fontFamilyMono};`);
+  }
   if (variables.fontSize) lines.push(`--font-size: ${variables.fontSize};`);
-  if (variables.lineHeight) lines.push(`--line-height: ${variables.lineHeight};`);
+  if (variables.lineHeight) {
+    lines.push(`--line-height: ${variables.lineHeight};`);
+  }
 
   if (variables.spacing) lines.push(`--spacing: ${variables.spacing};`);
-  if (variables.borderRadius) lines.push(`--border-radius: ${variables.borderRadius};`);
+  if (variables.borderRadius) {
+    lines.push(`--border-radius: ${variables.borderRadius};`);
+  }
 
   if (variables.maxWidth) lines.push(`--max-width: ${variables.maxWidth};`);
 

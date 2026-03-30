@@ -36,7 +36,8 @@ const DEFINE_INLINE_REGEX = /@define\(([^,]+),\s*([^)]+)\)/g;
 const DEFINE_BLOCK_REGEX = /:::define\n([\s\S]*?):::/g;
 
 /** 变量引用正则 */
-const VARIABLE_REF_REGEX = /\{\{\s*([^}|]+)(?:\s*\|\s*default:\s*["']([^"']+)["'])?\s*\}\}/g;
+const VARIABLE_REF_REGEX =
+  /\{\{\s*([^}|]+)(?:\s*\|\s*default:\s*["']([^"']+)["'])?\s*\}\}/g;
 
 /** 条件块正则 */
 const CONDITIONAL_REGEX = /@if\(([^)]+)\)([\s\S]*?)(?:@else([\s\S]*?))?@endif/g;
@@ -78,7 +79,7 @@ export type FileLoader = (path: string) => Promise<string> | string;
  */
 export async function parseIncludes(
   content: string,
-  loader: FileLoader
+  loader: FileLoader,
 ): Promise<string> {
   // 使用预编译正则
   const matches = [...content.matchAll(INCLUDE_REGEX)];
@@ -101,14 +102,18 @@ export async function parseIncludes(
         // 包装为代码块（使用预编译正则）
         const langMatch = meta.match(LANG_REGEX);
         if (langMatch) {
-          includedContent = "```" + langMatch[1] + "\n" + includedContent + "\n```";
+          includedContent = "```" + langMatch[1] + "\n" + includedContent +
+            "\n```";
         }
       }
 
       content = content.replace(fullMatch, includedContent);
     } catch (error) {
       console.warn(`Failed to include file: ${path}`, error);
-      content = content.replace(fullMatch, `<!-- Failed to include: ${escapeHtml(path)} -->`);
+      content = content.replace(
+        fullMatch,
+        `<!-- Failed to include: ${escapeHtml(path)} -->`,
+      );
     }
   }
 
@@ -157,12 +162,11 @@ export function parseVariableDefinitions(content: string): {
       if (colonIndex !== -1) {
         const name = line.slice(0, colonIndex).trim();
         const value = line.slice(colonIndex + 1).trim();
-          variables[name] = value;
-        }
+        variables[name] = value;
       }
-      return "";
     }
-  );
+    return "";
+  });
 
   return { variables, content };
 }
@@ -211,12 +215,18 @@ export function applyVariables(content: string, variables: Variables): string {
  * @param variables - 变量定义
  * @returns 处理后的内容
  */
-export function parseConditional(content: string, variables: Variables): string {
+export function parseConditional(
+  content: string,
+  variables: Variables,
+): string {
   // 使用预编译正则
-  return content.replace(CONDITIONAL_REGEX, (_, condition, ifContent, elseContent) => {
-    const result = evaluateCondition(condition, variables);
-    return result ? ifContent.trim() : (elseContent?.trim() || "");
-  });
+  return content.replace(
+    CONDITIONAL_REGEX,
+    (_, condition, ifContent, elseContent) => {
+      const result = evaluateCondition(condition, variables);
+      return result ? ifContent.trim() : (elseContent?.trim() || "");
+    },
+  );
 }
 
 /**
@@ -311,37 +321,36 @@ export function parseGlossary(content: string): {
 
   // 使用预编译正则
   content = content.replace(GLOSSARY_REGEX, (_, block) => {
-      const lines = block.trim().split("\n");
-      let currentTerm: GlossaryTerm | null = null;
+    const lines = block.trim().split("\n");
+    let currentTerm: GlossaryTerm | null = null;
 
-      for (const line of lines) {
-        if (line.startsWith(":")) {
-          // 定义行
-          if (currentTerm) {
-            const def = line.slice(1).trim();
-            if (!currentTerm.definition) {
-              currentTerm.definition = def;
-            } else {
-              if (!currentTerm.aliases) currentTerm.aliases = [];
-              currentTerm.aliases.push(def);
-            }
+    for (const line of lines) {
+      if (line.startsWith(":")) {
+        // 定义行
+        if (currentTerm) {
+          const def = line.slice(1).trim();
+          if (!currentTerm.definition) {
+            currentTerm.definition = def;
+          } else {
+            if (!currentTerm.aliases) currentTerm.aliases = [];
+            currentTerm.aliases.push(def);
           }
-        } else if (line.trim()) {
-          // 术语行
-          if (currentTerm) {
-            terms.push(currentTerm);
-          }
-          currentTerm = { term: line.trim(), definition: "" };
         }
+      } else if (line.trim()) {
+        // 术语行
+        if (currentTerm) {
+          terms.push(currentTerm);
+        }
+        currentTerm = { term: line.trim(), definition: "" };
       }
-
-      if (currentTerm) {
-        terms.push(currentTerm);
-      }
-
-      return `<!-- glossary: ${terms.length} terms -->`;
     }
-  );
+
+    if (currentTerm) {
+      terms.push(currentTerm);
+    }
+
+    return `<!-- glossary: ${terms.length} terms -->`;
+  });
 
   return { terms, content };
 }
@@ -357,10 +366,16 @@ export function renderGlossary(terms: GlossaryTerm[]): string {
   const termsHtml = sortedTerms
     .map(
       (term) => `
-        <dt id="glossary-${escapeHtml(term.term.toLowerCase().replace(/\s+/g, "-"))}">${escapeHtml(term.term)}</dt>
+        <dt id="glossary-${
+        escapeHtml(term.term.toLowerCase().replace(/\s+/g, "-"))
+      }">${escapeHtml(term.term)}</dt>
         <dd>${escapeHtml(term.definition)}</dd>
-        ${term.aliases?.map((a) => `<dd class="glossary-alias">${escapeHtml(a)}</dd>`).join("") || ""}
-      `
+        ${
+        term.aliases?.map((a) =>
+          `<dd class="glossary-alias">${escapeHtml(a)}</dd>`
+        ).join("") || ""
+      }
+      `,
     )
     .join("");
 
@@ -370,14 +385,22 @@ export function renderGlossary(terms: GlossaryTerm[]): string {
 /**
  * 自动链接术语
  */
-export function linkGlossaryTerms(content: string, terms: GlossaryTerm[]): string {
+export function linkGlossaryTerms(
+  content: string,
+  terms: GlossaryTerm[],
+): string {
   for (const term of terms) {
     const id = term.term.toLowerCase().replace(/\s+/g, "-");
     // 使用导入的 escapeRegExp 函数
-    const regex = new RegExp(`\\b(${escapeRegExp(term.term)})\\b(?![^<]*>)`, "gi");
+    const regex = new RegExp(
+      `\\b(${escapeRegExp(term.term)})\\b(?![^<]*>)`,
+      "gi",
+    );
     content = content.replace(
       regex,
-      `<a href="#glossary-${escapeHtml(id)}" class="glossary-link" title="${escapeHtml(term.definition)}">$1</a>`
+      `<a href="#glossary-${escapeHtml(id)}" class="glossary-link" title="${
+        escapeHtml(term.definition)
+      }">$1</a>`,
     );
   }
   return content;
@@ -419,7 +442,13 @@ export function parseApiDoc(content: string): string {
     // 解析参数（使用预编译正则）
     body.replace(
       API_PARAM_REGEX,
-      (_match: string, name: string, type: string, required: string, desc: string) => {
+      (
+        _match: string,
+        name: string,
+        type: string,
+        required: string,
+        desc: string,
+      ) => {
         params.push({
           name,
           type,
@@ -427,7 +456,7 @@ export function parseApiDoc(content: string): string {
           description: desc.trim(),
         });
         return "";
-      }
+      },
     );
 
     return renderApiDoc(method, path, params);
@@ -437,23 +466,32 @@ export function parseApiDoc(content: string): string {
 /**
  * 渲染 API 文档
  */
-function renderApiDoc(method: string, path: string, params: ApiParam[]): string {
+function renderApiDoc(
+  method: string,
+  path: string,
+  params: ApiParam[],
+): string {
   const methodClass = `api-method api-${method.toLowerCase()}`;
 
-  const paramsHtml =
-    params.length > 0
-      ? `<table class="api-params">
+  const paramsHtml = params.length > 0
+    ? `<table class="api-params">
           <thead><tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
           <tbody>
-            ${params
-              .map(
-                (p) =>
-                  `<tr><td><code>${escapeHtml(p.name)}</code></td><td><code>${escapeHtml(p.type)}</code></td><td>${p.required ? "✓" : ""}</td><td>${escapeHtml(p.description)}</td></tr>`
-              )
-              .join("")}
+            ${
+      params
+        .map(
+          (p) =>
+            `<tr><td><code>${escapeHtml(p.name)}</code></td><td><code>${
+              escapeHtml(p.type)
+            }</code></td><td>${p.required ? "✓" : ""}</td><td>${
+              escapeHtml(p.description)
+            }</td></tr>`,
+        )
+        .join("")
+    }
           </tbody>
         </table>`
-      : "";
+    : "";
 
   return `<div class="api-doc">
     <div class="api-header">
@@ -503,7 +541,7 @@ export function parseChangelog(content: string): string {
           description: desc.trim(),
         });
         return "";
-      }
+      },
     );
 
     return renderChangelog(version, date, items);
@@ -516,7 +554,7 @@ export function parseChangelog(content: string): string {
 function renderChangelog(
   version: string,
   date: string,
-  items: ChangelogItem[]
+  items: ChangelogItem[],
 ): string {
   const groupedItems = items.reduce(
     (acc, item) => {
@@ -524,7 +562,7 @@ function renderChangelog(
       acc[item.type].push(item.description);
       return acc;
     },
-    {} as Record<string, string[]>
+    {} as Record<string, string[]>,
   );
 
   const typeLabels: Record<string, string> = {
@@ -545,7 +583,7 @@ function renderChangelog(
             ${descs.map((d) => `<li>${escapeHtml(d)}</li>`).join("")}
           </ul>
         </div>
-      `
+      `,
     )
     .join("");
 

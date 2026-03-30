@@ -136,7 +136,7 @@ export const DEFAULT_TEMPLATE: string = `<!DOCTYPE html>
  */
 export function applyTemplate(
   template: string,
-  result: MarkdownResult
+  result: MarkdownResult,
 ): string {
   let html = template;
 

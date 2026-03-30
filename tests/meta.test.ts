@@ -4,17 +4,17 @@
 
 import { describe, expect, it } from "@dreamer/test";
 import {
-  estimateReadingTime,
-  renderReadingTime,
   countWords,
-  renderWordCount,
+  estimateReadingTime,
+  extractDocumentMeta,
   formatUpdateTime,
-  renderUpdateTime,
+  getMetaStyles,
   parseAuthors,
   renderAuthors,
-  extractDocumentMeta,
   renderDocumentMeta,
-  getMetaStyles,
+  renderReadingTime,
+  renderUpdateTime,
+  renderWordCount,
 } from "../src/meta.ts";
 
 describe("阅读时间估算", () => {

@@ -770,7 +770,6 @@ EMOJI_MAP.photo = EMOJI_MAP.camera;
 EMOJI_MAP.music = EMOJI_MAP.musical_note;
 EMOJI_MAP.audio = EMOJI_MAP.speaker;
 
-
 // ============================================================================
 // Emoji 函数
 // ============================================================================

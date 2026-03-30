@@ -5,16 +5,16 @@
 import { describe, expect, it } from "@dreamer/test";
 import {
   enhanceFootnotes,
-  getSmoothScrollScript,
-  highlightKeywords,
-  getSearchHighlightScript,
-  renderTocNavigation,
-  getTocActiveScript,
-  renderBackToTop,
   getBackToTopScript,
-  renderReadingProgress,
-  getReadingProgressScript,
   getInteractiveStyles,
+  getReadingProgressScript,
+  getSearchHighlightScript,
+  getSmoothScrollScript,
+  getTocActiveScript,
+  highlightKeywords,
+  renderBackToTop,
+  renderReadingProgress,
+  renderTocNavigation,
 } from "../src/interactive.ts";
 import type { TocItem } from "../src/types.ts";
 

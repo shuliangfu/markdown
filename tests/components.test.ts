@@ -4,14 +4,14 @@
 
 import { describe, expect, it } from "@dreamer/test";
 import {
-  parseColumns,
-  parseTabs,
-  parseAccordion,
-  parseTimeline,
-  parseCards,
-  parseSteps,
-  getComponentStyles,
   getComponentScript,
+  getComponentStyles,
+  parseAccordion,
+  parseCards,
+  parseColumns,
+  parseSteps,
+  parseTabs,
+  parseTimeline,
 } from "../src/components.ts";
 
 describe("多栏布局", () => {

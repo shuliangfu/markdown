@@ -322,7 +322,9 @@ export function generateTableHtml(data: TableData): string {
       const sortAttr = options.sortable
         ? ` data-sort-col="${i}" data-sort-dir="none"`
         : "";
-      const sortIcon = options.sortable ? '<span class="sort-icon"></span>' : "";
+      const sortIcon = options.sortable
+        ? '<span class="sort-icon"></span>'
+        : "";
       return `<th${style}${sortAttr}>${h.content}${sortIcon}</th>`;
     })
     .join("");
@@ -336,10 +338,12 @@ export function generateTableHtml(data: TableData): string {
           if (cell.merged) return "";
 
           const style = cell.align ? ` style="text-align: ${cell.align}"` : "";
-          const colspanAttr =
-            cell.colspan && cell.colspan > 1 ? ` colspan="${cell.colspan}"` : "";
-          const rowspanAttr =
-            cell.rowspan && cell.rowspan > 1 ? ` rowspan="${cell.rowspan}"` : "";
+          const colspanAttr = cell.colspan && cell.colspan > 1
+            ? ` colspan="${cell.colspan}"`
+            : "";
+          const rowspanAttr = cell.rowspan && cell.rowspan > 1
+            ? ` rowspan="${cell.rowspan}"`
+            : "";
 
           return `<td${style}${colspanAttr}${rowspanAttr}>${cell.content}</td>`;
         })
@@ -354,7 +358,9 @@ export function generateTableHtml(data: TableData): string {
     : "";
 
   // 基础表格
-  let tableHtml = `<table id="${tableId}" class="${classes.join(" ")}">${captionHtml}<thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`;
+  let tableHtml = `<table id="${tableId}" class="${
+    classes.join(" ")
+  }">${captionHtml}<thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`;
 
   // 添加搜索框
   if (options.searchable) {
@@ -469,7 +475,7 @@ export function parseTableOptions(optionsStr: string): TableEnhanceOptions {
   if (classMatch) options.className = classMatch[1];
 
   const placeholderMatch = optionsStr.match(
-    /placeholder\s*=\s*["']([^"']+)["']/i
+    /placeholder\s*=\s*["']([^"']+)["']/i,
   );
   if (placeholderMatch) options.searchPlaceholder = placeholderMatch[1];
 
@@ -905,8 +911,7 @@ export function createTableFromData<T extends Record<string, unknown>>(
   }
 
   // 自动生成列定义
-  const cols =
-    columns ||
+  const cols = columns ||
     (Object.keys(data[0]) as (keyof T)[]).map((key) => ({
       key,
       label: String(key),

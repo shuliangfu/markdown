@@ -27,7 +27,8 @@ const RUBY_SYNTAX1_REGEX = /\{([^}]+)\}\(([^)]+)\)/g;
 const RUBY_SYNTAX2_REGEX = /\[\[([^\]]+)\]\]\(([^)]+)\)/g;
 
 /** 标题属性正则 */
-const HEADING_ATTR_REGEX = /<h([1-6])\s+id="([^"]+)"([^>]*)>([^<]+)<\/h\1>\s*\{([^}]+)\}/g;
+const HEADING_ATTR_REGEX =
+  /<h([1-6])\s+id="([^"]+)"([^>]*)>([^<]+)<\/h\1>\s*\{([^}]+)\}/g;
 
 /** 段落属性正则 */
 const PARAGRAPH_ATTR_REGEX = /(<p>.*?)\s*\{([^}]+)\}\s*(<\/p>)/g;
@@ -60,7 +61,8 @@ const RTL_BLOCK_REGEX = /:::rtl\n([\s\S]*?):::/g;
 const LTR_BLOCK_REGEX = /:::ltr\n([\s\S]*?):::/g;
 
 /** 引用署名正则 */
-const BLOCKQUOTE_ATTR_REGEX = /(<blockquote>[\s\S]*?)\n—\s*([^<\n]+)(<\/blockquote>)/g;
+const BLOCKQUOTE_ATTR_REGEX =
+  /(<blockquote>[\s\S]*?)\n—\s*([^<\n]+)(<\/blockquote>)/g;
 
 /** 危险标记正则 */
 const DANGER_MARK_REGEX = /!!([^!]+)!!/g;
@@ -86,13 +88,13 @@ export function parseRuby(content: string): string {
   // 语法 1: {汉字}(hàn zì)（使用预编译正则）
   content = content.replace(
     RUBY_SYNTAX1_REGEX,
-    '<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>'
+    "<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>",
   );
 
   // 语法 2: [[汉字]](hàn zì)（使用预编译正则）
   content = content.replace(
     RUBY_SYNTAX2_REGEX,
-    '<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>'
+    "<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>",
   );
 
   return content;
@@ -129,9 +131,13 @@ export function parseAttributes(content: string): string {
       const classAttr = options.classes?.length
         ? ` class="${options.classes.join(" ")}"`
         : "";
-      const styleAttr = options.style ? ` style="${escapeHtml(options.style)}"` : "";
-      return `<h${level} id="${escapeHtml(newId)}"${classAttr}${styleAttr}${attrs}>${text}</h${level}>`;
-    }
+      const styleAttr = options.style
+        ? ` style="${escapeHtml(options.style)}"`
+        : "";
+      return `<h${level} id="${
+        escapeHtml(newId)
+      }"${classAttr}${styleAttr}${attrs}>${text}</h${level}>`;
+    },
   );
 
   // 段落属性（行尾，使用预编译正则）
@@ -142,10 +148,12 @@ export function parseAttributes(content: string): string {
       const classAttr = options.classes?.length
         ? ` class="${options.classes.join(" ")}"`
         : "";
-      const styleAttr = options.style ? ` style="${escapeHtml(options.style)}"` : "";
+      const styleAttr = options.style
+        ? ` style="${escapeHtml(options.style)}"`
+        : "";
       const idAttr = options.id ? ` id="${escapeHtml(options.id)}"` : "";
       return start.replace("<p>", `<p${idAttr}${classAttr}${styleAttr}>`) + end;
-    }
+    },
   );
 
   // 行内元素属性（使用预编译正则）
@@ -156,10 +164,12 @@ export function parseAttributes(content: string): string {
       const classAttr = options.classes?.length
         ? ` class="${options.classes.join(" ")}"`
         : "";
-      const styleAttr = options.style ? ` style="${escapeHtml(options.style)}"` : "";
+      const styleAttr = options.style
+        ? ` style="${escapeHtml(options.style)}"`
+        : "";
       const idAttr = options.id ? ` id="${escapeHtml(options.id)}"` : "";
       return `<span${idAttr}${classAttr}${styleAttr}>${text}</span>`;
-    }
+    },
   );
 
   return content;
@@ -214,7 +224,9 @@ export function parseBadge(content: string): string {
   // 使用预编译正则
   return content.replace(BADGE_REGEX, (_, text, meta) => {
     const type = meta?.match(/type=(\w+)/)?.[1] || "default";
-    return `<span class="badge badge-${escapeHtml(type)}">${escapeHtml(text)}</span>`;
+    return `<span class="badge badge-${escapeHtml(type)}">${
+      escapeHtml(text)
+    }</span>`;
   });
 }
 
@@ -229,7 +241,9 @@ export function parseTag(content: string): string {
   // 使用预编译正则
   return content.replace(TAG_REGEX, (_, text, meta) => {
     const colorMatch = meta?.match(/color=["']?([^"'\s}]+)["']?/);
-    const style = colorMatch ? ` style="background-color: ${escapeHtml(colorMatch[1])}"` : "";
+    const style = colorMatch
+      ? ` style="background-color: ${escapeHtml(colorMatch[1])}"`
+      : "";
     return `<span class="tag"${style}>${escapeHtml(text)}</span>`;
   });
 }
@@ -253,7 +267,9 @@ export function parseButton(content: string): string {
 
     const type = meta?.match(/type=(\w+)/)?.[1] || "default";
     const size = meta?.match(/size=(\w+)/)?.[1] || "medium";
-    return `<a href="${escapeHtml(safeUrl)}" class="btn btn-${escapeHtml(type)} btn-${escapeHtml(size)}">${escapeHtml(text)}</a>`;
+    return `<a href="${escapeHtml(safeUrl)}" class="btn btn-${
+      escapeHtml(type)
+    } btn-${escapeHtml(size)}">${escapeHtml(text)}</a>`;
   });
 }
 
@@ -305,25 +321,25 @@ export function parseTextDirection(content: string): string {
   // RTL（使用预编译正则）
   content = content.replace(
     RTL_INLINE_REGEX,
-    '<span dir="rtl" class="text-rtl">$1</span>'
+    '<span dir="rtl" class="text-rtl">$1</span>',
   );
 
   // LTR（使用预编译正则）
   content = content.replace(
     LTR_INLINE_REGEX,
-    '<span dir="ltr" class="text-ltr">$1</span>'
+    '<span dir="ltr" class="text-ltr">$1</span>',
   );
 
   // RTL 块（使用预编译正则）
   content = content.replace(
     RTL_BLOCK_REGEX,
-    '<div dir="rtl" class="block-rtl">$1</div>'
+    '<div dir="rtl" class="block-rtl">$1</div>',
   );
 
   // LTR 块（使用预编译正则）
   content = content.replace(
     LTR_BLOCK_REGEX,
-    '<div dir="ltr" class="block-ltr">$1</div>'
+    '<div dir="ltr" class="block-ltr">$1</div>',
   );
 
   return content;
@@ -344,7 +360,7 @@ export function parseBlockquoteAttribution(content: string): string {
   // 使用预编译正则
   return content.replace(
     BLOCKQUOTE_ATTR_REGEX,
-    '$1<footer class="blockquote-footer">— $2</footer>$3'
+    '$1<footer class="blockquote-footer">— $2</footer>$3',
   );
 }
 
@@ -364,19 +380,19 @@ export function parseSpecialMarks(content: string): string {
   // 危险/错误（使用预编译正则）
   content = content.replace(
     DANGER_MARK_REGEX,
-    '<span class="mark-danger">$1</span>'
+    '<span class="mark-danger">$1</span>',
   );
 
   // 待确认/疑问（使用预编译正则）
   content = content.replace(
     QUESTION_MARK_REGEX,
-    '<span class="mark-question">$1</span>'
+    '<span class="mark-question">$1</span>',
   );
 
   // 重要（使用预编译正则）
   content = content.replace(
     IMPORTANT_MARK_REGEX,
-    '<span class="mark-important">$1</span>'
+    '<span class="mark-important">$1</span>',
   );
 
   return content;

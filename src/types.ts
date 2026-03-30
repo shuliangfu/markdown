@@ -38,10 +38,14 @@ export interface MarkdownResult {
   frontMatter: FrontMatter;
   /** 目录结构 */
   toc: TocItem[];
-  /** 需要注入的 CSS 样式（根据解析内容自动收集） */
-  styles: string;
-  /** 需要注入的 JS 脚本（根据解析内容自动收集） */
-  scripts: string;
+  /**
+   * 需要注入的 CSS 样式（`render` 会根据内容收集）；单元测试或手写 {@link MarkdownResult} 时可省略。
+   */
+  styles?: string;
+  /**
+   * 需要注入的 JS 脚本（`render` 会根据内容收集）；单元测试或手写结果时可省略。
+   */
+  scripts?: string;
 }
 
 /**

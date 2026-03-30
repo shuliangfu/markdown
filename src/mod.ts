@@ -32,48 +32,44 @@
 // ============================================================================
 
 export type {
-  FrontMatter,
-  MarkdownResult,
-  TocItem,
-  MarkdownOptions,
-  ParseOptions,
   CodeHighlighter,
-  ContainerType,
   Container,
+  ContainerType,
   Footnote,
+  FrontMatter,
+  MarkdownOptions,
+  MarkdownResult,
+  ParseOptions,
+  TocItem,
 } from "./types.ts";
 
 // ============================================================================
 // 模块导入
 // ============================================================================
 
-import type {
-  FrontMatter,
-  MarkdownResult,
-  MarkdownOptions,
-} from "./types.ts";
+import type { FrontMatter, MarkdownOptions, MarkdownResult } from "./types.ts";
 
 import { parseFrontMatter } from "./front-matter.ts";
 import { extractToc } from "./toc.ts";
 import { parse } from "./parser.ts";
 import {
-  parseMermaid,
-  restoreMermaid,
-  parsePlantUML,
-  restorePlantUML,
-  parseMindmap,
-  restoreMindmap,
-  parseChartJS,
-  restoreChartJS,
-  getMermaidScript,
-  getChartStyles,
   getChartJSScript,
   getChartJSStyles,
+  getChartStyles,
   getMathScript,
+  getMermaidScript,
+  parseChartJS,
+  parseMermaid,
+  parseMindmap,
+  parsePlantUML,
+  restoreChartJS,
+  restoreMermaid,
+  restoreMindmap,
+  restorePlantUML,
 } from "./chart.ts";
 import {
-  getTableStyles,
   getTableScript,
+  getTableStyles,
   parseEnhancedTable,
   restoreEnhancedTable,
 } from "./table.ts";
@@ -109,7 +105,7 @@ import { getFullThemeStyles } from "./theme.ts";
  */
 export function render(
   content: string,
-  options: MarkdownOptions = {}
+  options: MarkdownOptions = {},
 ): MarkdownResult {
   const {
     frontMatter: parseFrontMatterEnabled = true,
@@ -201,8 +197,7 @@ export function render(
   }
 
   // 图表样式（检测是否有图表）
-  const hasMermaidCharts =
-    mermaidResult.charts.length > 0 ||
+  const hasMermaidCharts = mermaidResult.charts.length > 0 ||
     plantumlResult.charts.length > 0 ||
     mindmapResult.charts.length > 0;
   if (hasMermaidCharts) {
@@ -253,62 +248,62 @@ export type { FrontMatterResult } from "./front-matter.ts";
 export { parse } from "./parser.ts";
 
 // 目录
-export { extractToc, buildNestedToc, renderToc } from "./toc.ts";
+export { buildNestedToc, extractToc, renderToc } from "./toc.ts";
 
 // 模板
-export { DEFAULT_TEMPLATE, applyTemplate, createTemplate } from "./template.ts";
+export { applyTemplate, createTemplate, DEFAULT_TEMPLATE } from "./template.ts";
 
 // 工具函数
 export {
+  cleanupParagraphs,
+  createPlaceholder,
   escapeHtml,
   escapeRegExp,
   generateId,
   generateIdCached,
-  sanitizeUrl,
-  sanitizeText,
+  getSafeString,
   isUrlSafe,
-  removeControlChars,
+  isValidString,
   limitLength,
   memoize,
-  createPlaceholder,
+  removeControlChars,
   restorePlaceholders,
-  cleanupParagraphs,
-  isValidString,
-  getSafeString,
+  sanitizeText,
+  sanitizeUrl,
 } from "./utils.ts";
 
 // Emoji
-export { getEmoji, parseEmoji, EMOJI_MAP } from "./emoji.ts";
+export { EMOJI_MAP, getEmoji, parseEmoji } from "./emoji.ts";
 
 // 表格
 export {
-  parseTable,
-  parseTableAlignment,
-  parseEnhancedTable,
-  restoreEnhancedTable,
-  parseTableOptions,
-  parseCellMerge,
-  processCellMerge,
-  generateTableHtml,
   createTable,
   createTableFromData,
-  getTableStyles,
+  generateTableHtml,
   getTableScript,
+  getTableStyles,
+  parseCellMerge,
+  parseEnhancedTable,
+  parseTable,
+  parseTableAlignment,
+  parseTableOptions,
+  processCellMerge,
+  restoreEnhancedTable,
 } from "./table.ts";
 export type {
   TableAlignment,
-  TableEnhanceOptions,
   TableData,
+  TableEnhanceOptions,
 } from "./table.ts";
 
 // 列表
-export { parseNestedLists, parseDefinitionList } from "./list.ts";
+export { parseDefinitionList, parseNestedLists } from "./list.ts";
 
 // 容器
 export {
   extractContainers,
-  restoreContainers,
   getContainerStyles,
+  restoreContainers,
 } from "./container.ts";
 export type { ContainerResult } from "./container.ts";
 
@@ -317,41 +312,47 @@ export type { ContainerResult } from "./container.ts";
 // ============================================================================
 
 export {
-  parseMermaid,
-  restoreMermaid,
-  parsePlantUML,
-  restorePlantUML,
-  parseMindmap,
-  restoreMindmap,
-  parseChartJS,
-  restoreChartJS,
-  getMathScript,
-  getChartStyles,
-  getMermaidScript,
   getChartJSScript,
   getChartJSStyles,
+  getChartStyles,
+  getMathScript,
+  getMermaidScript,
+  parseChartJS,
+  parseMermaid,
+  parseMindmap,
+  parsePlantUML,
+  restoreChartJS,
+  restoreMermaid,
+  restoreMindmap,
+  restorePlantUML,
 } from "./chart.ts";
-export type { ChartType, ChartOptions, MindmapNode, MathRenderer, ChartJSConfig } from "./chart.ts";
+export type {
+  ChartJSConfig,
+  ChartOptions,
+  ChartType,
+  MathRenderer,
+  MindmapNode,
+} from "./chart.ts";
 
 // ============================================================================
 // 代码增强
 // ============================================================================
 
 export {
-  parseCodeMeta,
-  parseHighlightLines,
-  renderCodeBlock,
-  parseDiff,
-  restoreDiff,
-  renderDiff,
-  parseCodeGroup,
-  restoreCodeGroup,
-  parseFileTree,
-  restoreFileTree,
-  getCodeStyles,
   getCodeScript,
+  getCodeStyles,
   getPrismScript,
   getPrismStyles,
+  parseCodeGroup,
+  parseCodeMeta,
+  parseDiff,
+  parseFileTree,
+  parseHighlightLines,
+  renderCodeBlock,
+  renderDiff,
+  restoreCodeGroup,
+  restoreDiff,
+  restoreFileTree,
 } from "./code.ts";
 export type { CodeBlockOptions, CodeGroupItem, FileTreeNode } from "./code.ts";
 
@@ -360,55 +361,66 @@ export type { CodeBlockOptions, CodeGroupItem, FileTreeNode } from "./code.ts";
 // ============================================================================
 
 export {
-  parseImageMeta,
-  parseEnhancedImages,
-  renderImage,
-  parseVideo,
-  renderYouTube,
-  renderBilibili,
-  renderVimeo,
-  renderLocalVideo,
-  parseAudio,
-  renderAudio,
-  parseIframe,
-  renderIframe,
-  getMediaStyles,
   getLightboxScript,
+  getMediaStyles,
+  parseAudio,
+  parseEnhancedImages,
+  parseIframe,
+  parseImageMeta,
+  parseVideo,
+  renderAudio,
+  renderBilibili,
+  renderIframe,
+  renderImage,
+  renderLocalVideo,
+  renderVimeo,
+  renderYouTube,
 } from "./media.ts";
-export type { ImageOptions, VideoPlatform, VideoOptions, AudioOptions, IframeOptions } from "./media.ts";
+export type {
+  AudioOptions,
+  IframeOptions,
+  ImageOptions,
+  VideoOptions,
+  VideoPlatform,
+} from "./media.ts";
 
 // ============================================================================
 // 布局组件
 // ============================================================================
 
 export {
-  parseColumns,
-  parseTabs,
-  parseAccordion,
-  parseTimeline,
-  parseCards,
-  parseCardGrid,
-  parseSteps,
-  getComponentStyles,
   getComponentScript,
+  getComponentStyles,
+  parseAccordion,
+  parseCardGrid,
+  parseCards,
+  parseColumns,
+  parseSteps,
+  parseTabs,
+  parseTimeline,
 } from "./components.ts";
-export type { TabItem, TimelineItem, CardOptions, StepItem } from "./components.ts";
+export type {
+  CardOptions,
+  StepItem,
+  TabItem,
+  TimelineItem,
+} from "./components.ts";
 
 // ============================================================================
 // 文本增强
 // ============================================================================
 
 export {
-  parseRuby,
+  getTextStyles,
   parseAttributes,
   parseBadge,
-  parseTag,
+  parseBlockquoteAttribution,
   parseButton,
   parseProgress,
-  parseTextDirection,
-  parseBlockquoteAttribution,
+  parseRuby,
   parseSpecialMarks,
-  getTextStyles,
+  parseTag,
+  parseTextDirection,
 } from "./text.ts";
 export type { AttributeOptions, BadgeType } from "./text.ts";
 
@@ -418,16 +430,16 @@ export type { AttributeOptions, BadgeType } from "./text.ts";
 
 export {
   enhanceFootnotes,
-  getSmoothScrollScript,
-  highlightKeywords,
-  getSearchHighlightScript,
-  renderTocNavigation,
-  getTocActiveScript,
-  renderBackToTop,
   getBackToTopScript,
-  renderReadingProgress,
-  getReadingProgressScript,
   getInteractiveStyles,
+  getReadingProgressScript,
+  getSearchHighlightScript,
+  getSmoothScrollScript,
+  getTocActiveScript,
+  highlightKeywords,
+  renderBackToTop,
+  renderReadingProgress,
+  renderTocNavigation,
 } from "./interactive.ts";
 
 // ============================================================================
@@ -435,43 +447,49 @@ export {
 // ============================================================================
 
 export {
-  parseIncludes,
-  parseVariableDefinitions,
   applyVariables,
-  parseConditional,
-  parseGlossary,
-  renderGlossary,
+  getDocumentStyles,
   linkGlossaryTerms,
   parseApiDoc,
   parseChangelog,
-  getDocumentStyles,
+  parseConditional,
+  parseGlossary,
+  parseIncludes,
+  parseVariableDefinitions,
+  renderGlossary,
 } from "./document.ts";
-export type { FileLoader, Variables, GlossaryTerm, ApiParam, ChangelogItem } from "./document.ts";
+export type {
+  ApiParam,
+  ChangelogItem,
+  FileLoader,
+  GlossaryTerm,
+  Variables,
+} from "./document.ts";
 
 // ============================================================================
 // 元信息
 // ============================================================================
 
 export {
-  estimateReadingTime,
-  renderReadingTime,
   countWords,
-  renderWordCount,
+  estimateReadingTime,
+  extractDocumentMeta,
   formatUpdateTime,
-  renderUpdateTime,
+  getMetaStyles,
   parseAuthors,
   renderAuthors,
-  extractDocumentMeta,
   renderDocumentMeta,
-  getMetaStyles,
+  renderReadingTime,
+  renderUpdateTime,
+  renderWordCount,
 } from "./meta.ts";
 export type {
-  ReadingTimeOptions,
-  ReadingTimeResult,
-  WordCountResult,
-  UpdateTimeOptions,
   Author,
   DocumentMeta,
+  ReadingTimeOptions,
+  ReadingTimeResult,
+  UpdateTimeOptions,
+  WordCountResult,
 } from "./meta.ts";
 
 // ============================================================================
@@ -479,21 +497,21 @@ export type {
 // ============================================================================
 
 export {
-  LIGHT_THEME,
   DARK_THEME,
   generateCSSVariables,
   getBaseThemeStyles,
-  getThemeToggleScript,
-  renderThemeToggle,
-  getPrintStyles,
+  getFullThemeStyles,
   getGitHubTheme,
   getGitLabTheme,
   getMinimalTheme,
   getModernTheme,
   getPresetTheme,
-  getFullThemeStyles,
+  getPrintStyles,
+  getThemeToggleScript,
+  LIGHT_THEME,
+  renderThemeToggle,
 } from "./theme.ts";
-export type { ThemeType, PresetTheme, ThemeVariables } from "./theme.ts";
+export type { PresetTheme, ThemeType, ThemeVariables } from "./theme.ts";
 
 // ============================================================================
 // 兼容导出

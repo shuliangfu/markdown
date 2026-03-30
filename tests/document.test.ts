@@ -4,15 +4,15 @@
 
 import { describe, expect, it } from "@dreamer/test";
 import {
-  parseVariableDefinitions,
   applyVariables,
-  parseConditional,
-  parseGlossary,
-  renderGlossary,
+  getDocumentStyles,
   linkGlossaryTerms,
   parseApiDoc,
   parseChangelog,
-  getDocumentStyles,
+  parseConditional,
+  parseGlossary,
+  parseVariableDefinitions,
+  renderGlossary,
 } from "../src/document.ts";
 
 describe("变量定义", () => {

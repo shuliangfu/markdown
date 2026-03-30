@@ -12,18 +12,18 @@
 
 import { describe, expect, it } from "@dreamer/test";
 import {
-  parseTableAlignment,
-  parseTable,
-  parseEnhancedTable,
-  restoreEnhancedTable,
-  parseTableOptions,
-  parseCellMerge,
-  processCellMerge,
-  generateTableHtml,
   createTable,
   createTableFromData,
-  getTableStyles,
+  generateTableHtml,
   getTableScript,
+  getTableStyles,
+  parseCellMerge,
+  parseEnhancedTable,
+  parseTable,
+  parseTableAlignment,
+  parseTableOptions,
+  processCellMerge,
+  restoreEnhancedTable,
 } from "../src/table.ts";
 
 describe("表格对齐解析", () => {
@@ -73,9 +73,9 @@ describe("表格解析", () => {
 | 左 | 中 | 右 |
     `.trim();
     const html = parseTable(content);
-    expect(html).toContain('text-align: left');
-    expect(html).toContain('text-align: center');
-    expect(html).toContain('text-align: right');
+    expect(html).toContain("text-align: left");
+    expect(html).toContain("text-align: center");
+    expect(html).toContain("text-align: right");
   });
 
   it("应该解析多行表格", () => {
@@ -279,7 +279,7 @@ describe("表格选项解析", () => {
 
   it("应该解析复杂选项组合", () => {
     const options = parseTableOptions(
-      'sortable, searchable, caption="数据表", class="data-table"'
+      'sortable, searchable, caption="数据表", class="data-table"',
     );
     expect(options.sortable).toBe(true);
     expect(options.searchable).toBe(true);
@@ -536,7 +536,9 @@ describe("createTableFromData 函数", () => {
       { name: "张三", age: 25 },
       { name: "李四", age: 30 },
     ];
-    const html = createTableFromData(data as unknown as Record<string, unknown>[]);
+    const html = createTableFromData(
+      data as unknown as Record<string, unknown>[],
+    );
 
     expect(html).toContain("<th>name</th>");
     expect(html).toContain("<th>age</th>");
@@ -553,7 +555,7 @@ describe("createTableFromData 函数", () => {
       [
         { key: "name", label: "姓名" },
         { key: "age", label: "年龄", align: "right" },
-      ]
+      ],
     );
 
     expect(html).toContain("<th>姓名</th>");
@@ -572,7 +574,7 @@ describe("createTableFromData 函数", () => {
     const html = createTableFromData(
       data as unknown as Record<string, unknown>[],
       undefined,
-      { sortable: true, caption: "ID 列表" }
+      { sortable: true, caption: "ID 列表" },
     );
 
     expect(html).toContain("md-table-sortable");
@@ -670,9 +672,9 @@ describe("表格增强集成测试", () => {
     expect(html).toContain("<caption>用户数据</caption>");
 
     // 验证对齐
-    expect(html).toContain('text-align: left');
-    expect(html).toContain('text-align: center');
-    expect(html).toContain('text-align: right');
+    expect(html).toContain("text-align: left");
+    expect(html).toContain("text-align: center");
+    expect(html).toContain("text-align: right");
 
     // 验证内容
     expect(html).toContain("张三");
@@ -683,7 +685,7 @@ describe("表格增强集成测试", () => {
     const tableHtml = createTable(
       ["功能", "状态"],
       [["排序", "✅"], ["搜索", "✅"]],
-      { sortable: true }
+      { sortable: true },
     );
 
     const styles = getTableStyles();

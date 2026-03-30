@@ -4,13 +4,13 @@
 
 import { describe, expect, it } from "@dreamer/test";
 import {
-  parseMermaid,
-  restoreMermaid,
-  parseMindmap,
-  restoreMindmap,
-  getMathScript,
   getChartStyles,
+  getMathScript,
   getMermaidScript,
+  parseMermaid,
+  parseMindmap,
+  restoreMermaid,
+  restoreMindmap,
 } from "../src/chart.ts";
 
 describe("Mermaid 图表", () => {

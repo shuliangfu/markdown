@@ -66,15 +66,15 @@ export function extractContainers(content: string): {
       if (type === "details") {
         const summary = title ? title.trim() : "详情";
         containers.push(
-          `<details class="container container-details"><summary>${summary}</summary><div class="container-content">${containerContent}</div></details>`
+          `<details class="container container-details"><summary>${summary}</summary><div class="container-content">${containerContent}</div></details>`,
         );
       } else {
         containers.push(
-          `<div class="container container-${type}">${containerTitle}<div class="container-content">${containerContent}</div></div>`
+          `<div class="container container-${type}">${containerTitle}<div class="container-content">${containerContent}</div></div>`,
         );
       }
       return placeholder;
-    }
+    },
   );
 
   return { content: processed, containers };

@@ -5,8 +5,8 @@
 import { describe, expect, it } from "@dreamer/test";
 import {
   extractContainers,
-  restoreContainers,
   getContainerStyles,
+  restoreContainers,
 } from "../src/container.ts";
 
 describe("容器提取", () => {

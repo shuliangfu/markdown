@@ -1,6 +1,6 @@
 # @dreamer/markdown 示例
 
-本目录包含 `@dreamer/markdown` 库的使用示例。
+本目录包含 `@dreamer/markdown` 包的使用示例。
 
 ## 示例列表
 

@@ -91,7 +91,9 @@ export function parseHighlightLines(spec: string): Set<number> {
   for (const part of spec.split(",")) {
     const trimmed = part.trim();
     if (trimmed.includes("-")) {
-      const [start, end] = trimmed.split("-").map((n) => parseInt(n.trim(), 10));
+      const [start, end] = trimmed.split("-").map((n) =>
+        parseInt(n.trim(), 10)
+      );
       for (let i = start; i <= end; i++) {
         lines.add(i);
       }
@@ -109,7 +111,7 @@ export function parseHighlightLines(spec: string): Set<number> {
 export function renderCodeBlock(
   code: string,
   lang: string,
-  options: CodeBlockOptions = {}
+  options: CodeBlockOptions = {},
 ): string {
   const {
     lineNumbers = false,
@@ -133,9 +135,15 @@ export function renderCodeBlock(
     const highlightClass = isHighlighted ? " highlighted" : "";
 
     if (lineNumbers) {
-      codeHtml += `<span class="code-line${highlightClass}"><span class="line-number">${lineNum}</span><span class="line-content">${escapeHtml(line)}</span></span>\n`;
+      codeHtml +=
+        `<span class="code-line${highlightClass}"><span class="line-number">${lineNum}</span><span class="line-content">${
+          escapeHtml(line)
+        }</span></span>\n`;
     } else {
-      codeHtml += `<span class="code-line${highlightClass}"><span class="line-content">${escapeHtml(line)}</span></span>\n`;
+      codeHtml +=
+        `<span class="code-line${highlightClass}"><span class="line-content">${
+          escapeHtml(line)
+        }</span></span>\n`;
     }
   });
 
@@ -144,22 +152,28 @@ export function renderCodeBlock(
   if (filename || lang || copyButton) {
     headerHtml = `<div class="code-header">`;
     if (filename) {
-      headerHtml += `<span class="code-filename">${escapeHtml(filename)}</span>`;
+      headerHtml += `<span class="code-filename">${
+        escapeHtml(filename)
+      }</span>`;
     } else if (lang) {
       headerHtml += `<span class="code-lang">${escapeHtml(lang)}</span>`;
     }
     if (copyButton) {
-      headerHtml += `<button type="button" class="code-copy-btn" onclick="copyCode(this)" title="复制代码">📋</button>`;
+      headerHtml +=
+        `<button type="button" class="code-copy-btn" onclick="copyCode(this)" title="复制代码">📋</button>`;
     }
     headerHtml += `</div>`;
   }
 
   const langClass = lang ? ` language-${lang}` : "";
   const lineNumbersClass = lineNumbers ? " with-line-numbers" : "";
-  const content = `${headerHtml}<pre class="code-block${lineNumbersClass}"><code class="${langClass}">${codeHtml}</code></pre>`;
+  const content =
+    `${headerHtml}<pre class="code-block${lineNumbersClass}"><code class="${langClass}">${codeHtml}</code></pre>`;
 
   if (collapsible) {
-    return `<details class="code-collapsible"><summary>${filename || lang || "代码"}</summary>${content}</details>`;
+    return `<details class="code-collapsible"><summary>${
+      filename || lang || "代码"
+    }</summary>${content}</details>`;
   }
 
   return `<div class="code-container">${content}</div>`;
@@ -191,7 +205,7 @@ export function parseDiff(content: string): {
       const placeholder = `\x00DIFF${diffs.length}\x00`;
       diffs.push(renderDiff(code.trim()));
       return placeholder;
-    }
+    },
   );
 
   return { content: processed, diffs };
@@ -269,7 +283,7 @@ export function parseCodeGroup(content: string): {
       const items = parseCodeGroupItems(groupContent);
       groups.push(renderCodeGroup(items, groups.length));
       return placeholder;
-    }
+    },
   );
 
   return { content: processed, groups };
@@ -303,14 +317,22 @@ function renderCodeGroup(items: CodeGroupItem[], groupId: number): string {
   const tabsHtml = items
     .map(
       (item, i) =>
-        `<button type="button" class="code-group-tab${i === 0 ? " active" : ""}" data-tab="${groupId}-${i}" onclick="switchCodeTab(this)">${escapeHtml(item.label)}</button>`
+        `<button type="button" class="code-group-tab${
+          i === 0 ? " active" : ""
+        }" data-tab="${groupId}-${i}" onclick="switchCodeTab(this)">${
+          escapeHtml(item.label)
+        }</button>`,
     )
     .join("");
 
   const panelsHtml = items
     .map(
       (item, i) =>
-        `<div class="code-group-panel${i === 0 ? " active" : ""}" data-panel="${groupId}-${i}"><pre><code class="language-${item.lang}">${escapeHtml(item.code)}</code></pre></div>`
+        `<div class="code-group-panel${
+          i === 0 ? " active" : ""
+        }" data-panel="${groupId}-${i}"><pre><code class="language-${item.lang}">${
+          escapeHtml(item.code)
+        }</code></pre></div>`,
     )
     .join("");
 
@@ -367,7 +389,7 @@ export function parseFileTree(content: string): {
       const nodes = parseFileTreeNodes(code.trim());
       trees.push(renderFileTree(nodes));
       return placeholder;
-    }
+    },
   );
 
   return { content: processed, trees };
@@ -425,12 +447,15 @@ function renderFileTree(nodes: FileTreeNode[]): string {
   const renderNode = (node: FileTreeNode): string => {
     const icon = node.type === "folder" ? "📁" : getFileIcon(node.name);
     const highlightClass = node.highlight ? " highlighted" : "";
-    const childrenHtml =
-      node.children && node.children.length > 0
-        ? `<ul class="filetree-children">${node.children.map(renderNode).join("")}</ul>`
-        : "";
+    const childrenHtml = node.children && node.children.length > 0
+      ? `<ul class="filetree-children">${
+        node.children.map(renderNode).join("")
+      }</ul>`
+      : "";
 
-    return `<li class="filetree-node filetree-${node.type}${highlightClass}"><span class="filetree-icon">${icon}</span><span class="filetree-name">${escapeHtml(node.name)}</span>${childrenHtml}</li>`;
+    return `<li class="filetree-node filetree-${node.type}${highlightClass}"><span class="filetree-icon">${icon}</span><span class="filetree-name">${
+      escapeHtml(node.name)
+    }</span>${childrenHtml}</li>`;
   };
 
   return `<ul class="filetree">${nodes.map(renderNode).join("")}</ul>`;

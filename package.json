@@ -1,6 +1,8 @@
 {
   "name": "@dreamer/markdown",
   "version": "1.0.0",
+  "description": "Markdown parsing and rendering utilities.",
+  "type": "module",
   "exports": {
     ".": "./src/mod.ts",
     "./types": "./src/types.ts",
@@ -23,38 +25,17 @@
     "./meta": "./src/meta.ts",
     "./theme": "./src/theme.ts"
   },
-  "imports": {
-    "@dreamer/test": "jsr:@dreamer/test@^1.0.15"
-  },
-  "tasks": {
-    "test": "deno test -A tests/",
+  "scripts": {
+    "test": "bun test tests/",
     "check": "deno check src/mod.ts",
     "lint": "deno lint src/ tests/",
     "fmt": "deno fmt src/ tests/"
   },
-  "publish": {
-    "include": [
-      "src/**/*.ts",
-      "deno.json",
-      "README.md",
-      "LICENSE",
-      "NOTICE"
-    ],
-    "exclude": [
-      "tests/**",
-      "**/*.test.ts"
-    ]
+  "devDependencies": {
+    "@dreamer/test": "npm:@jsr/dreamer__test@^1.0.15"
   },
-  "nodeModulesDir": "auto",
-  "compilerOptions": {
-    "strict": true,
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "dom.asynciterable",
-      "deno.ns",
-      "deno.window"
-    ]
-  }
+  "engines": {
+    "bun": ">=1.3"
+  },
+  "keywords": ["markdown", "parser", "dreamer"]
 }

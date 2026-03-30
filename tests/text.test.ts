@@ -4,16 +4,16 @@
 
 import { describe, expect, it } from "@dreamer/test";
 import {
-  parseRuby,
+  getTextStyles,
   parseAttributes,
   parseBadge,
-  parseTag,
+  parseBlockquoteAttribution,
   parseButton,
   parseProgress,
-  parseTextDirection,
-  parseBlockquoteAttribution,
+  parseRuby,
   parseSpecialMarks,
-  getTextStyles,
+  parseTag,
+  parseTextDirection,
 } from "../src/text.ts";
 
 describe("Ruby 注音", () => {
@@ -93,7 +93,7 @@ describe("标签", () => {
 
   it("应该解析带颜色的标签", () => {
     // 语法: :tag[标签名]{color=#ff0000}
-    const content = ':tag[蓝色标签]{color=#0000ff}';
+    const content = ":tag[蓝色标签]{color=#0000ff}";
     const html = parseTag(content);
     expect(html).toContain("tag");
     expect(html).toContain("background-color: #0000ff");

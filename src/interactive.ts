@@ -32,7 +32,7 @@ export function enhanceFootnotes(html: string): string {
     (_, id, content) => {
       footnoteContents.set(id, content.trim());
       return "";
-    }
+    },
   );
 
   // 增强脚注引用
@@ -40,8 +40,12 @@ export function enhanceFootnotes(html: string): string {
     /<sup class="footnote-ref"><a href="#fn-([^"]+)"([^>]*)>([^<]+)<\/a><\/sup>/g,
     (_, id, attrs, text) => {
       const content = footnoteContents.get(id) || "";
-      return `<sup class="footnote-ref footnote-hover" data-footnote="${escapeHtml(content)}"><a href="#fn-${id}"${attrs}>${text}</a><span class="footnote-tooltip">${escapeHtml(content)}</span></sup>`;
-    }
+      return `<sup class="footnote-ref footnote-hover" data-footnote="${
+        escapeHtml(content)
+      }"><a href="#fn-${id}"${attrs}>${text}</a><span class="footnote-tooltip">${
+        escapeHtml(content)
+      }</span></sup>`;
+    },
   );
 }
 
@@ -97,9 +101,13 @@ export function highlightKeywords(
     className?: string;
     /** 高亮标签 */
     tag?: string;
-  } = {}
+  } = {},
 ): string {
-  const { caseSensitive = false, className = "search-highlight", tag = "mark" } = options;
+  const {
+    caseSensitive = false,
+    className = "search-highlight",
+    tag = "mark",
+  } = options;
 
   for (const keyword of keywords) {
     if (!keyword.trim()) continue;
@@ -108,12 +116,12 @@ export function highlightKeywords(
     // 避免在标签内替换
     const regex = new RegExp(
       `(?<![<][^>]*)\\b(${escapeRegExpForSearch(keyword)})\\b(?![^<]*[>])`,
-      flags
+      flags,
     );
 
     html = html.replace(
       regex,
-      `<${tag} class="${className}">$1</${tag}>`
+      `<${tag} class="${className}">$1</${tag}>`,
     );
   }
 
@@ -214,7 +222,7 @@ export function renderTocNavigation(
     numbered?: boolean;
     /** CSS 类名 */
     className?: string;
-  } = {}
+  } = {},
 ): string {
   const {
     maxDepth = 3,
@@ -235,7 +243,9 @@ export function renderTocNavigation(
         for (let i = depth; i < 6; i++) counter[i] = 0;
 
         const number = numbered
-          ? `<span class="toc-number">${counter.slice(0, depth).filter(n => n > 0).join(".")}</span>`
+          ? `<span class="toc-number">${
+            counter.slice(0, depth).filter((n) => n > 0).join(".")
+          }</span>`
           : "";
 
         const childrenHtml = renderItems(item.children, depth + 1);
@@ -245,7 +255,9 @@ export function renderTocNavigation(
           return `<li class="toc-item toc-level-${depth}">
             <details>
               <summary>
-                <a href="#${item.id}" class="toc-link" data-toc-id="${item.id}">${number}${escapeHtml(item.text)}</a>
+                <a href="#${item.id}" class="toc-link" data-toc-id="${item.id}">${number}${
+            escapeHtml(item.text)
+          }</a>
               </summary>
               ${childrenHtml}
             </details>
@@ -253,7 +265,9 @@ export function renderTocNavigation(
         }
 
         return `<li class="toc-item toc-level-${depth}">
-          <a href="#${item.id}" class="toc-link" data-toc-id="${item.id}">${number}${escapeHtml(item.text)}</a>
+          <a href="#${item.id}" class="toc-link" data-toc-id="${item.id}">${number}${
+          escapeHtml(item.text)
+        }</a>
           ${childrenHtml}
         </li>`;
       })

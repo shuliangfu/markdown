@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from "@dreamer/test";
-import { parseNestedLists, parseDefinitionList } from "../src/list.ts";
+import { parseDefinitionList, parseNestedLists } from "../src/list.ts";
 
 describe("嵌套列表", () => {
   it("应该解析简单无序列表", () => {

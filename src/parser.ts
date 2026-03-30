@@ -11,18 +11,18 @@
 
 import type { ParseOptions } from "./types.ts";
 import {
+  cleanupParagraphs,
+  createPlaceholder,
   escapeHtml,
   escapeRegExp,
   generateIdCached,
-  createPlaceholder,
-  restorePlaceholders,
-  cleanupParagraphs,
-  sanitizeUrl,
   limitLength,
+  restorePlaceholders,
+  sanitizeUrl,
 } from "./utils.ts";
 import { getEmoji } from "./emoji.ts";
 import { parseTable } from "./table.ts";
-import { parseNestedLists, parseDefinitionList } from "./list.ts";
+import { parseDefinitionList, parseNestedLists } from "./list.ts";
 
 // ============================================================================
 // 预编译正则表达式（性能优化）
@@ -38,7 +38,8 @@ const MATH_BLOCK_REGEX = /\$\$([\s\S]*?)\$\$/g;
 const MATH_INLINE_REGEX = /\$([^\$\n]+)\$/g;
 
 /** 自定义容器正则 */
-const CONTAINER_REGEX = /^:::(note|tip|info|warning|danger|details|quote|[\w-]+)(?:\s+(.+))?\n([\s\S]*?)^:::\s*$/gm;
+const CONTAINER_REGEX =
+  /^:::(note|tip|info|warning|danger|details|quote|[\w-]+)(?:\s+(.+))?\n([\s\S]*?)^:::\s*$/gm;
 
 /** 脚注定义正则 */
 const FOOTNOTE_DEF_REGEX = /^\[\^([^\]]+)\]:\s*(.+)$/gm;
@@ -108,7 +109,8 @@ const LINK_REGEX = /\[([^\]]+)\]\(([^)]+)\)/g;
 const URL_AUTOLINK_REGEX = /(?<![">])(https?:\/\/[^\s<>"'\[\]()]+)/g;
 
 /** 邮箱自动链接正则 */
-const EMAIL_AUTOLINK_REGEX = /(?<![">])([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(?![^<]*>)/g;
+const EMAIL_AUTOLINK_REGEX =
+  /(?<![">])([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(?![^<]*>)/g;
 
 /** 引用正则 */
 const BLOCKQUOTE_REGEX = /^&gt;\s+(.+)$/gm;
@@ -121,7 +123,6 @@ const HR_REGEX = /^[-*_]{3,}$/gm;
 
 /** 段落分隔正则 */
 const PARAGRAPH_SPLIT_REGEX = /\n\n+/g;
-
 
 // ============================================================================
 // 核心解析函数
@@ -193,7 +194,7 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
       const placeholder = createPlaceholder("MATHBLOCK", mathBlocks.length);
       const escapedFormula = escapeHtml(formula.trim());
       mathBlocks.push(
-        `<div class="math-block" data-math="${escapedFormula}">${escapedFormula}</div>`
+        `<div class="math-block" data-math="${escapedFormula}">${escapedFormula}</div>`,
       );
       return placeholder;
     });
@@ -202,7 +203,10 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
   // 提取自定义容器（:::type ... :::）
   if (containers) {
     html = html.replace(CONTAINER_REGEX, (_, type, title, content) => {
-      const placeholder = createPlaceholder("CONTAINER", containerBlocks.length);
+      const placeholder = createPlaceholder(
+        "CONTAINER",
+        containerBlocks.length,
+      );
       const safeTitle = title ? escapeHtml(title.trim()) : "";
       const containerTitle = safeTitle
         ? `<div class="container-title">${safeTitle}</div>`
@@ -213,11 +217,13 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
       if (type === "details") {
         const summary = safeTitle || "详情";
         containerBlocks.push(
-          `<details class="container container-details"><summary>${summary}</summary><div class="container-content">${containerContent}</div></details>`
+          `<details class="container container-details"><summary>${summary}</summary><div class="container-content">${containerContent}</div></details>`,
         );
       } else {
         containerBlocks.push(
-          `<div class="container container-${escapeHtml(type)}">${containerTitle}<div class="container-content">${containerContent}</div></div>`
+          `<div class="container container-${
+            escapeHtml(type)
+          }">${containerTitle}<div class="container-content">${containerContent}</div></div>`,
         );
       }
       return placeholder;
@@ -233,7 +239,7 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
   if (math) {
     html = html.replace(
       MATH_INLINE_REGEX,
-      '<span class="math-inline" data-math="$1">$1</span>'
+      '<span class="math-inline" data-math="$1">$1</span>',
     );
   }
 
@@ -332,11 +338,11 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
   if (gfm) {
     html = html.replace(
       TASK_DONE_REGEX,
-      '<li class="task-item done"><input type="checkbox" checked disabled> $1</li>'
+      '<li class="task-item done"><input type="checkbox" checked disabled> $1</li>',
     );
     html = html.replace(
       TASK_TODO_REGEX,
-      '<li class="task-item"><input type="checkbox" disabled> $1</li>'
+      '<li class="task-item"><input type="checkbox" disabled> $1</li>',
     );
   }
 
@@ -347,7 +353,9 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
     if (!safeUrl) return `![${escapeHtml(alt)}](${escapeHtml(url)})`;
     // 构建 img 标签，包含可选的 title 属性
     const titleAttr = title ? ` title="${escapeHtml(title)}"` : "";
-    return `<img src="${escapeHtml(safeUrl)}" alt="${escapeHtml(alt)}"${titleAttr}>`;
+    return `<img src="${escapeHtml(safeUrl)}" alt="${
+      escapeHtml(alt)
+    }"${titleAttr}>`;
   });
 
   // 链接（添加 URL 安全检查）
@@ -366,7 +374,7 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
     });
     html = html.replace(
       EMAIL_AUTOLINK_REGEX,
-      '<a href="mailto:$1">$1</a>'
+      '<a href="mailto:$1">$1</a>',
     );
   }
 
@@ -397,7 +405,8 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
     let footnotesHtml = '<section class="footnotes"><hr><ol>';
     for (const [id, content] of footnoteMap) {
       const safeId = escapeHtml(id);
-      footnotesHtml += `<li id="fn-${safeId}">${content} <a href="#fnref-${safeId}" class="footnote-backref">↩</a></li>`;
+      footnotesHtml +=
+        `<li id="fn-${safeId}">${content} <a href="#fnref-${safeId}" class="footnote-backref">↩</a></li>`;
     }
     footnotesHtml += "</ol></section>";
     html += footnotesHtml;
@@ -418,7 +427,10 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
         continue;
       }
       const regex = new RegExp(`\\b${escapeRegExp(abbr)}\\b(?![^<]*>)`, "g");
-      html = html.replace(regex, `<abbr title="${escapeHtml(fullText)}">${escapeHtml(abbr)}</abbr>`);
+      html = html.replace(
+        regex,
+        `<abbr title="${escapeHtml(fullText)}">${escapeHtml(abbr)}</abbr>`,
+      );
     }
   }
 
@@ -439,8 +451,8 @@ export {
   escapeHtml,
   escapeRegExp,
   generateIdCached as generateId,
-  sanitizeUrl,
-  sanitizeText,
   isUrlSafe,
   limitLength,
+  sanitizeText,
+  sanitizeUrl,
 } from "./utils.ts";
