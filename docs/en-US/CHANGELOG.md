@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.1] - 2026-04-07
+
+### Fixed
+
+- **`parse(..., { breaks: true })`:** Replaced naive global `\n` → `<br>` with
+  **`applyGfmLineBreaks`**, which (1) preserves newlines inside fenced
+  **`<pre><code>`** blocks, (2) removes decorative newlines between adjacent
+  block-level tags (e.g. `</h1>` and `<ul>`), and (3) still turns in-flow soft
+  line breaks into **`<br>`**, matching GFM-oriented expectations.
+- **Horizontal rules in paragraphs:** `cleanupParagraphs` now closes **`</p>`**
+  before **`<hr>`** when a rule sits after text on a single newline, and strips
+  stray **`<hr></p>`** so output stays valid HTML.
+- **Math inline + superscript:** **`^...^`** processing no longer runs across
+  **`<span class="math-inline">`** placeholders, so **`data-math`** keeps raw
+  LaTeX (e.g. `a^2 + b^2 = c^2`) intact.
+- **Tables:** Removed erroneous **`<p>`** wrappers around
+  **`<div class="md-table-responsive">`** blocks in **`cleanupParagraphs`**.
+
+### Added
+
+- **`applyGfmLineBreaks(html)`** in **`./utils`** and re-exported from the root
+  package (`src/mod.ts`).
+- **Tests** for breaks behavior, horizontal rules, math **`data-math`** safety,
+  and related parser edge cases.
+
+### Changed
+
+- **`deno.json`:** **`deno fmt`** excludes **`examples/**/*.html`** (generated
+  sample pages are not hand-formatted sources).
+
+---
+
 ## [1.0.0] - 2026-03-30
 
 First **stable** release. The API surface, subpath exports, and behavior match

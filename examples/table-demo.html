@@ -1,362 +1,472 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>表格增强示例</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1 { color: #333; }
-    
-/* 响应式表格容器 */
-.md-table-responsive {
-  display: block;
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-}
-
-/* 移动端滚动提示 */
-@media (max-width: 768px) {
-  .md-table-responsive {
-    position: relative;
-  }
-  .md-table-responsive::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 30px;
-    background: linear-gradient(to right, transparent, rgba(0,0,0,0.05));
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .md-table-responsive.has-scroll::after {
-    opacity: 1;
-  }
-}
-
-/* 基础表格样式 */
-.md-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 16px 0;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.md-table th,
-.md-table td {
-  padding: 12px 16px;
-  border: 1px solid #e1e4e8;
-  text-align: left;
-}
-
-.md-table th {
-  background: #f6f8fa;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-/* 斑马条纹 */
-.md-table-striped tbody tr:nth-child(2n) {
-  background: #f6f8fa;
-}
-
-/* 悬停高亮 */
-.md-table-hover tbody tr:hover {
-  background: #f0f4f8;
-}
-
-/* 可排序表格 */
-.md-table-sortable th {
-  cursor: pointer;
-  user-select: none;
-  position: relative;
-  padding-right: 24px;
-}
-
-.md-table-sortable th:hover {
-  background: #e8ecf0;
-}
-
-.md-table-sortable .sort-icon {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border: 5px solid transparent;
-  opacity: 0.3;
-}
-
-.md-table-sortable th[data-sort-dir="none"] .sort-icon {
-  border-top-color: #666;
-  border-bottom-color: #666;
-  border-top-width: 4px;
-  border-bottom-width: 4px;
-  margin-top: -4px;
-}
-
-.md-table-sortable th[data-sort-dir="asc"] .sort-icon {
-  border-bottom-color: #333;
-  opacity: 1;
-}
-
-.md-table-sortable th[data-sort-dir="desc"] .sort-icon {
-  border-top-color: #333;
-  opacity: 1;
-  margin-top: 4px;
-}
-
-/* 搜索框 */
-.md-table-search {
-  margin-bottom: 12px;
-}
-
-.md-table-search-input {
-  width: 100%;
-  max-width: 300px;
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.md-table-search-input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-}
-
-.md-table-search-input::placeholder {
-  color: #9ca3af;
-}
-
-/* 无匹配结果 */
-.md-table tbody tr.no-match {
-  display: none;
-}
-
-/* 空状态 */
-.md-table-empty {
-  text-align: center;
-  padding: 32px 16px;
-  color: #6b7280;
-}
-
-/* 表格标题 */
-.md-table caption {
-  padding: 8px 16px;
-  font-weight: 600;
-  text-align: left;
-  caption-side: top;
-  color: #374151;
-}
-
-/* 暗色主题 */
-@media (prefers-color-scheme: dark) {
-  .md-table th,
-  .md-table td {
-    border-color: #30363d;
-  }
-  
-  .md-table th {
-    background: #21262d;
-  }
-  
-  .md-table-striped tbody tr:nth-child(2n) {
-    background: #161b22;
-  }
-  
-  .md-table-hover tbody tr:hover {
-    background: #1f242b;
-  }
-  
-  .md-table-sortable th:hover {
-    background: #292e36;
-  }
-  
-  .md-table-search-input {
-    background: #0d1117;
-    border-color: #30363d;
-    color: #c9d1d9;
-  }
-  
-  .md-table-search-input:focus {
-    border-color: #58a6ff;
-    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
-  }
-  
-  .md-table caption {
-    color: #c9d1d9;
-  }
-}
-
-  </style>
-</head>
-<body>
-  <h1>表格增强示例</h1>
-  
-  <h2>可排序可搜索表格</h2>
-  <div class="md-table-responsive"><div class="md-table-search">
-  <input type="text" class="md-table-search-input" data-table="table-rx6wb5" placeholder="搜索用户..." aria-label="搜索表格">
-</div><table id="table-rx6wb5" class="md-table md-table-striped md-table-hover md-table-sortable md-table-searchable"><thead><tr><th style="text-align: center" data-sort-col="0" data-sort-dir="none">ID<span class="sort-icon"></span></th><th data-sort-col="1" data-sort-dir="none">姓名<span class="sort-icon"></span></th><th data-sort-col="2" data-sort-dir="none">邮箱<span class="sort-icon"></span></th><th style="text-align: center" data-sort-col="3" data-sort-dir="none">角色<span class="sort-icon"></span></th></tr></thead><tbody><tr><td style="text-align: center">1</td><td>张三</td><td>zhangsan@example.com</td><td style="text-align: center">管理员</td></tr><tr><td style="text-align: center">2</td><td>李四</td><td>lisi@example.com</td><td style="text-align: center">编辑</td></tr><tr><td style="text-align: center">3</td><td>王五</td><td>wangwu@example.com</td><td style="text-align: center">用户</td></tr></tbody></table></div>
-  
-  <h2>基础表格</h2>
-  <div class="md-table-responsive"><table id="table-61tra5" class="md-table md-table-striped md-table-hover md-table-sortable"><caption>表格功能列表</caption><thead><tr><th data-sort-col="0" data-sort-dir="none">功能<span class="sort-icon"></span></th><th data-sort-col="1" data-sort-dir="none">状态<span class="sort-icon"></span></th><th data-sort-col="2" data-sort-dir="none">描述<span class="sort-icon"></span></th></tr></thead><tbody><tr><td>响应式</td><td>✅</td><td>移动端自动横向滚动</td></tr><tr><td>排序</td><td>✅</td><td>点击表头排序</td></tr><tr><td>搜索</td><td>✅</td><td>实时过滤表格内容</td></tr><tr><td>合并</td><td>✅</td><td>支持 rowspan/colspan</td></tr></tbody></table></div>
-  
-  <script>
-    
-(function() {
-  'use strict';
-  
-  // 初始化所有表格
-  function initTables() {
-    // 响应式滚动检测
-    document.querySelectorAll('.md-table-responsive').forEach(function(container) {
-      function checkScroll() {
-        var hasScroll = container.scrollWidth > container.clientWidth;
-        container.classList.toggle('has-scroll', hasScroll);
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表格增强示例</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
       }
-      checkScroll();
-      window.addEventListener('resize', checkScroll);
-    });
-    
-    // 可排序表格
-    document.querySelectorAll('.md-table-sortable').forEach(function(table) {
-      initSortable(table);
-    });
-    
-    // 可搜索表格
-    document.querySelectorAll('.md-table-search-input').forEach(function(input) {
-      initSearchable(input);
-    });
-  }
-  
-  // 初始化排序功能
-  function initSortable(table) {
-    var headers = table.querySelectorAll('th[data-sort-col]');
-    
-    headers.forEach(function(header) {
-      header.addEventListener('click', function() {
-        var col = parseInt(header.dataset.sortCol);
-        var dir = header.dataset.sortDir;
-        
-        // 切换排序方向
-        var newDir = dir === 'asc' ? 'desc' : 'asc';
-        
-        // 重置其他列
-        headers.forEach(function(h) {
-          h.dataset.sortDir = 'none';
-        });
-        header.dataset.sortDir = newDir;
-        
-        // 排序
-        sortTable(table, col, newDir);
-      });
-    });
-  }
-  
-  // 表格排序
-  function sortTable(table, col, dir) {
-    var tbody = table.querySelector('tbody');
-    var rows = Array.from(tbody.querySelectorAll('tr'));
-    
-    rows.sort(function(a, b) {
-      var aVal = getCellValue(a, col);
-      var bVal = getCellValue(b, col);
-      
-      // 尝试数字排序
-      var aNum = parseFloat(aVal.replace(/[^0-9.-]/g, ''));
-      var bNum = parseFloat(bVal.replace(/[^0-9.-]/g, ''));
-      
-      if (!isNaN(aNum) && !isNaN(bNum)) {
-        return dir === 'asc' ? aNum - bNum : bNum - aNum;
+      h1 {
+        color: #333;
       }
-      
-      // 字符串排序
-      return dir === 'asc' 
-        ? aVal.localeCompare(bVal, 'zh-CN')
-        : bVal.localeCompare(aVal, 'zh-CN');
-    });
-    
-    // 重新插入行
-    rows.forEach(function(row) {
-      tbody.appendChild(row);
-    });
-  }
-  
-  // 获取单元格值
-  function getCellValue(row, col) {
-    var cells = row.querySelectorAll('td');
-    var actualCol = 0;
-    
-    for (var i = 0; i < cells.length; i++) {
-      var cell = cells[i];
-      var colspan = parseInt(cell.getAttribute('colspan')) || 1;
-      
-      if (actualCol <= col && col < actualCol + colspan) {
-        return cell.textContent.trim();
-      }
-      actualCol += colspan;
-    }
-    
-    return '';
-  }
-  
-  // 初始化搜索功能
-  function initSearchable(input) {
-    var tableId = input.dataset.table;
-    var table = document.getElementById(tableId);
-    if (!table) return;
-    
-    var tbody = table.querySelector('tbody');
-    var rows = tbody.querySelectorAll('tr');
-    
-    input.addEventListener('input', function() {
-      var query = input.value.toLowerCase().trim();
-      var hasMatch = false;
-      
-      rows.forEach(function(row) {
-        var text = row.textContent.toLowerCase();
-        var match = !query || text.includes(query);
-        row.classList.toggle('no-match', !match);
-        if (match) hasMatch = true;
-      });
-      
-      // 显示无结果提示
-      var emptyRow = tbody.querySelector('.md-table-empty-row');
-      if (!hasMatch && !emptyRow) {
-        var colCount = table.querySelector('thead tr').children.length;
-        emptyRow = document.createElement('tr');
-        emptyRow.className = 'md-table-empty-row';
-        emptyRow.innerHTML = '<td colspan="' + colCount + '" class="md-table-empty">无匹配结果</td>';
-        tbody.appendChild(emptyRow);
-      } else if (hasMatch && emptyRow) {
-        emptyRow.remove();
-      }
-    });
-  }
-  
-  // DOM 加载完成后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTables);
-  } else {
-    initTables();
-  }
-})();
 
-  </script>
-</body>
+      /* 响应式表格容器 */
+      .md-table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+      }
+
+      /* 移动端滚动提示 */
+      @media (max-width: 768px) {
+        .md-table-responsive {
+          position: relative;
+        }
+        .md-table-responsive::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          width: 30px;
+          background: linear-gradient(
+            to right,
+            transparent,
+            rgba(0, 0, 0, 0.05)
+          );
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.2s;
+        }
+        .md-table-responsive.has-scroll::after {
+          opacity: 1;
+        }
+      }
+
+      /* 基础表格样式 */
+      .md-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 16px 0;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .md-table th,
+      .md-table td {
+        padding: 12px 16px;
+        border: 1px solid #e1e4e8;
+        text-align: left;
+      }
+
+      .md-table th {
+        background: #f6f8fa;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      /* 斑马条纹 */
+      .md-table-striped tbody tr:nth-child(2n) {
+        background: #f6f8fa;
+      }
+
+      /* 悬停高亮 */
+      .md-table-hover tbody tr:hover {
+        background: #f0f4f8;
+      }
+
+      /* 可排序表格 */
+      .md-table-sortable th {
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        padding-right: 24px;
+      }
+
+      .md-table-sortable th:hover {
+        background: #e8ecf0;
+      }
+
+      .md-table-sortable .sort-icon {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        opacity: 0.3;
+      }
+
+      .md-table-sortable th[data-sort-dir="none"] .sort-icon {
+        border-top-color: #666;
+        border-bottom-color: #666;
+        border-top-width: 4px;
+        border-bottom-width: 4px;
+        margin-top: -4px;
+      }
+
+      .md-table-sortable th[data-sort-dir="asc"] .sort-icon {
+        border-bottom-color: #333;
+        opacity: 1;
+      }
+
+      .md-table-sortable th[data-sort-dir="desc"] .sort-icon {
+        border-top-color: #333;
+        opacity: 1;
+        margin-top: 4px;
+      }
+
+      /* 搜索框 */
+      .md-table-search {
+        margin-bottom: 12px;
+      }
+
+      .md-table-search-input {
+        width: 100%;
+        max-width: 300px;
+        padding: 8px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+
+      .md-table-search-input:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      }
+
+      .md-table-search-input::placeholder {
+        color: #9ca3af;
+      }
+
+      /* 无匹配结果 */
+      .md-table tbody tr.no-match {
+        display: none;
+      }
+
+      /* 空状态 */
+      .md-table-empty {
+        text-align: center;
+        padding: 32px 16px;
+        color: #6b7280;
+      }
+
+      /* 表格标题 */
+      .md-table caption {
+        padding: 8px 16px;
+        font-weight: 600;
+        text-align: left;
+        caption-side: top;
+        color: #374151;
+      }
+
+      /* 暗色主题 */
+      @media (prefers-color-scheme: dark) {
+        .md-table th,
+        .md-table td {
+          border-color: #30363d;
+        }
+
+        .md-table th {
+          background: #21262d;
+        }
+
+        .md-table-striped tbody tr:nth-child(2n) {
+          background: #161b22;
+        }
+
+        .md-table-hover tbody tr:hover {
+          background: #1f242b;
+        }
+
+        .md-table-sortable th:hover {
+          background: #292e36;
+        }
+
+        .md-table-search-input {
+          background: #0d1117;
+          border-color: #30363d;
+          color: #c9d1d9;
+        }
+
+        .md-table-search-input:focus {
+          border-color: #58a6ff;
+          box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+        }
+
+        .md-table caption {
+          color: #c9d1d9;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>表格增强示例</h1>
+
+    <h2>可排序可搜索表格</h2>
+    <div class="md-table-responsive">
+      <div class="md-table-search">
+        <input
+          type="text"
+          class="md-table-search-input"
+          data-table="table-rx6wb5"
+          placeholder="搜索用户..."
+          aria-label="搜索表格"
+        >
+      </div>
+      <table
+        id="table-rx6wb5"
+        class="md-table md-table-striped md-table-hover md-table-sortable md-table-searchable"
+      >
+        <thead>
+          <tr>
+            <th
+              style="text-align: center"
+              data-sort-col="0"
+              data-sort-dir="none"
+            >
+              ID<span class="sort-icon"></span>
+            </th>
+            <th data-sort-col="1" data-sort-dir="none">
+              姓名<span class="sort-icon"></span>
+            </th>
+            <th data-sort-col="2" data-sort-dir="none">
+              邮箱<span class="sort-icon"></span>
+            </th>
+            <th
+              style="text-align: center"
+              data-sort-col="3"
+              data-sort-dir="none"
+            >
+              角色<span class="sort-icon"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align: center">1</td>
+            <td>张三</td>
+            <td>zhangsan@example.com</td>
+            <td style="text-align: center">管理员</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">2</td>
+            <td>李四</td>
+            <td>lisi@example.com</td>
+            <td style="text-align: center">编辑</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">3</td>
+            <td>王五</td>
+            <td>wangwu@example.com</td>
+            <td style="text-align: center">用户</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>基础表格</h2>
+    <div class="md-table-responsive">
+      <table
+        id="table-61tra5"
+        class="md-table md-table-striped md-table-hover md-table-sortable"
+      >
+        <caption>表格功能列表</caption>
+        <thead>
+          <tr>
+            <th data-sort-col="0" data-sort-dir="none">
+              功能<span class="sort-icon"></span>
+            </th>
+            <th data-sort-col="1" data-sort-dir="none">
+              状态<span class="sort-icon"></span>
+            </th>
+            <th data-sort-col="2" data-sort-dir="none">
+              描述<span class="sort-icon"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>响应式</td>
+            <td>✅</td>
+            <td>移动端自动横向滚动</td>
+          </tr>
+          <tr>
+            <td>排序</td>
+            <td>✅</td>
+            <td>点击表头排序</td>
+          </tr>
+          <tr>
+            <td>搜索</td>
+            <td>✅</td>
+            <td>实时过滤表格内容</td>
+          </tr>
+          <tr>
+            <td>合并</td>
+            <td>✅</td>
+            <td>支持 rowspan/colspan</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        // 初始化所有表格
+        function initTables() {
+          // 响应式滚动检测
+          document.querySelectorAll(".md-table-responsive").forEach(
+            function (container) {
+              function checkScroll() {
+                var hasScroll = container.scrollWidth > container.clientWidth;
+                container.classList.toggle("has-scroll", hasScroll);
+              }
+              checkScroll();
+              window.addEventListener("resize", checkScroll);
+            },
+          );
+
+          // 可排序表格
+          document.querySelectorAll(".md-table-sortable").forEach(
+            function (table) {
+              initSortable(table);
+            },
+          );
+
+          // 可搜索表格
+          document.querySelectorAll(".md-table-search-input").forEach(
+            function (input) {
+              initSearchable(input);
+            },
+          );
+        }
+
+        // 初始化排序功能
+        function initSortable(table) {
+          var headers = table.querySelectorAll("th[data-sort-col]");
+
+          headers.forEach(function (header) {
+            header.addEventListener("click", function () {
+              var col = parseInt(header.dataset.sortCol);
+              var dir = header.dataset.sortDir;
+
+              // 切换排序方向
+              var newDir = dir === "asc" ? "desc" : "asc";
+
+              // 重置其他列
+              headers.forEach(function (h) {
+                h.dataset.sortDir = "none";
+              });
+              header.dataset.sortDir = newDir;
+
+              // 排序
+              sortTable(table, col, newDir);
+            });
+          });
+        }
+
+        // 表格排序
+        function sortTable(table, col, dir) {
+          var tbody = table.querySelector("tbody");
+          var rows = Array.from(tbody.querySelectorAll("tr"));
+
+          rows.sort(function (a, b) {
+            var aVal = getCellValue(a, col);
+            var bVal = getCellValue(b, col);
+
+            // 尝试数字排序
+            var aNum = parseFloat(aVal.replace(/[^0-9.-]/g, ""));
+            var bNum = parseFloat(bVal.replace(/[^0-9.-]/g, ""));
+
+            if (!isNaN(aNum) && !isNaN(bNum)) {
+              return dir === "asc" ? aNum - bNum : bNum - aNum;
+            }
+
+            // 字符串排序
+            return dir === "asc"
+              ? aVal.localeCompare(bVal, "zh-CN")
+              : bVal.localeCompare(aVal, "zh-CN");
+          });
+
+          // 重新插入行
+          rows.forEach(function (row) {
+            tbody.appendChild(row);
+          });
+        }
+
+        // 获取单元格值
+        function getCellValue(row, col) {
+          var cells = row.querySelectorAll("td");
+          var actualCol = 0;
+
+          for (var i = 0; i < cells.length; i++) {
+            var cell = cells[i];
+            var colspan = parseInt(cell.getAttribute("colspan")) || 1;
+
+            if (actualCol <= col && col < actualCol + colspan) {
+              return cell.textContent.trim();
+            }
+            actualCol += colspan;
+          }
+
+          return "";
+        }
+
+        // 初始化搜索功能
+        function initSearchable(input) {
+          var tableId = input.dataset.table;
+          var table = document.getElementById(tableId);
+          if (!table) return;
+
+          var tbody = table.querySelector("tbody");
+          var rows = tbody.querySelectorAll("tr");
+
+          input.addEventListener("input", function () {
+            var query = input.value.toLowerCase().trim();
+            var hasMatch = false;
+
+            rows.forEach(function (row) {
+              var text = row.textContent.toLowerCase();
+              var match = !query || text.includes(query);
+              row.classList.toggle("no-match", !match);
+              if (match) hasMatch = true;
+            });
+
+            // 显示无结果提示
+            var emptyRow = tbody.querySelector(".md-table-empty-row");
+            if (!hasMatch && !emptyRow) {
+              var colCount = table.querySelector("thead tr").children.length;
+              emptyRow = document.createElement("tr");
+              emptyRow.className = "md-table-empty-row";
+              emptyRow.innerHTML = '<td colspan="' + colCount +
+                '" class="md-table-empty">无匹配结果</td>';
+              tbody.appendChild(emptyRow);
+            } else if (hasMatch && emptyRow) {
+              emptyRow.remove();
+            }
+          });
+        }
+
+        // DOM 加载完成后初始化
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initTables);
+        } else {
+          initTables();
+        }
+      })();
+    </script>
+  </body>
 </html>

@@ -4,7 +4,7 @@
  * 展示如何解析 Markdown 文件中的 YAML Front Matter
  */
 
-import { render, parseFrontMatter } from "../src/mod.ts";
+import { parseFrontMatter, render } from "../src/mod.ts";
 
 // ============================================================================
 // 基本 Front Matter 解析

@@ -7,7 +7,7 @@
 
 [![JSR](https://jsr.io/badges/@dreamer/markdown)](https://jsr.io/@dreamer/markdown)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](../../LICENSE)
-[![Tests](https://img.shields.io/badge/tests-559%20passed-brightgreen)](./TEST_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-565%20passed-brightgreen)](./TEST_REPORT.md)
 
 ---
 
@@ -649,12 +649,12 @@ interface MarkdownOptions {
 
 ## 📊 测试报告
 
-[![Tests](https://img.shields.io/badge/tests-559%20passed-brightgreen)](./TEST_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-565%20passed-brightgreen)](./TEST_REPORT.md)
 
 | 指标     | 值   |
 | -------- | ---- |
-| 总测试数 | 559  |
-| 通过     | 559  |
+| 总测试数 | 565  |
+| 通过     | 565  |
 | 失败     | 0    |
 | 通过率   | 100% |
 | 测试文件 | 21   |
@@ -676,12 +676,13 @@ interface MarkdownOptions {
 
 ## 📜 变更日志
 
-### [1.0.0] - 2026-03-30
+### [1.0.1] - 2026-04-07
 
-首个稳定版：`render` / `parse` / Front Matter / 目录 / `applyTemplate`，GFM
-向扩展、增强表格、图表（Mermaid、PlantUML、思维导图、Chart.js）、Prism
-向代码辅助、主题样式，以及手写 `MarkdownResult` 时可选的 `styles` /
-`scripts`。完整记录见 [CHANGELOG.md](./CHANGELOG.md)。
+**修复** — `applyGfmLineBreaks` 与 breaks；**`cleanupParagraphs`**
+下水平线与段落、 **`md-table-responsive`** 外 **`div`** 不再误包 **`</p>`** /
+**`<p>`**；行内数学 **`data-math`** 免受 **`^...^`** 破坏。 **新增** —
+**`applyGfmLineBreaks`** 导出及 parser 测试。 **变更** — **`deno fmt`** 排除
+**`examples/**/*.html`**。完整记录见 [CHANGELOG.md](./CHANGELOG.md)。
 
 ---
 

@@ -4,8 +4,8 @@
  * 展示如何从 Markdown 生成目录（Table of Contents）
  */
 
-import { render, extractToc } from "../src/mod.ts";
-import { renderTocNavigation, getTocActiveScript } from "../src/interactive.ts";
+import { extractToc, render } from "../src/mod.ts";
+import { getTocActiveScript, renderTocNavigation } from "../src/interactive.ts";
 
 // ============================================================================
 // 基本目录生成

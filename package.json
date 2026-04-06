@@ -1,6 +1,6 @@
 {
   "name": "@dreamer/markdown",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Markdown parsing and rendering utilities.",
   "type": "module",
   "exports": {

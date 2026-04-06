@@ -7,8 +7,8 @@
 import { render } from "../src/mod.ts";
 import {
   enhanceFootnotes,
-  highlightKeywords,
   getInteractiveStyles,
+  highlightKeywords,
 } from "../src/interactive.ts";
 
 // ============================================================================
@@ -202,7 +202,8 @@ console.log(kbdResult.html);
 
 console.log("\n=== 搜索关键词高亮 ===\n");
 
-const content = "<p>TypeScript 是 JavaScript 的超集，TypeScript 添加了类型系统。</p>";
+const content =
+  "<p>TypeScript 是 JavaScript 的超集，TypeScript 添加了类型系统。</p>";
 const keywords = ["TypeScript", "类型"];
 
 const highlightedHtml = highlightKeywords(content, keywords);

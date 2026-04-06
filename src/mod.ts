@@ -255,6 +255,7 @@ export { applyTemplate, createTemplate, DEFAULT_TEMPLATE } from "./template.ts";
 
 // 工具函数
 export {
+  applyGfmLineBreaks,
   cleanupParagraphs,
   createPlaceholder,
   escapeHtml,

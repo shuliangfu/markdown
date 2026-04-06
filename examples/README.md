@@ -4,16 +4,16 @@
 
 ## 示例列表
 
-| 文件 | 说明 |
-|------|------|
-| [basic.ts](./basic.ts) | 基础渲染、解析选项、自定义高亮 |
-| [front-matter.ts](./front-matter.ts) | YAML Front Matter 解析 |
-| [toc.ts](./toc.ts) | 目录生成和导航渲染 |
-| [gfm.ts](./gfm.ts) | GFM 功能：表格、任务列表、删除线、自动链接 |
-| [advanced.ts](./advanced.ts) | 高级功能：脚注、数学公式、容器、上下标等 |
-| [table.ts](./table.ts) | 表格增强：排序、搜索、合并、响应式 |
-| [test-document.md](./test-document.md) | 完整语法测试文档 |
-| [generate-html.ts](./generate-html.ts) | 生成 HTML 测试页面 |
+| 文件                                   | 说明                                       |
+| -------------------------------------- | ------------------------------------------ |
+| [basic.ts](./basic.ts)                 | 基础渲染、解析选项、自定义高亮             |
+| [front-matter.ts](./front-matter.ts)   | YAML Front Matter 解析                     |
+| [toc.ts](./toc.ts)                     | 目录生成和导航渲染                         |
+| [gfm.ts](./gfm.ts)                     | GFM 功能：表格、任务列表、删除线、自动链接 |
+| [advanced.ts](./advanced.ts)           | 高级功能：脚注、数学公式、容器、上下标等   |
+| [table.ts](./table.ts)                 | 表格增强：排序、搜索、合并、响应式         |
+| [test-document.md](./test-document.md) | 完整语法测试文档                           |
+| [generate-html.ts](./generate-html.ts) | 生成 HTML 测试页面                         |
 
 ## 运行示例
 

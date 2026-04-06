@@ -109,9 +109,65 @@ describe("parse - 基本语法", () => {
     expect(parse("___")).toContain("<hr>");
   });
 
+  /**
+   * 水平线紧接前文仅单换行时，输出不得出现无效的 `<hr></p>`（块级 hr 不能包在段落闭合里）
+   */
+  it("水平线：单换行分隔时不应产生 hr></p", () => {
+    const html = parse("段落一行\n---\n\n下一段");
+    expect(html).not.toContain("<hr></p>");
+    expect(html).toMatch(/<\/p>\s*<hr>/);
+  });
+
+  it("水平线：breaks 开启时单换行分隔仍应合法", () => {
+    const html = parse("段落一行\n---\n\n下一段", { breaks: true });
+    expect(html).not.toContain("<hr></p>");
+  });
+
+  /**
+   * 行内 LaTeX 中的 `^` 不应被 `^..^` 上标规则跨 data-math 与正文错误匹配
+   */
+  it("数学行内公式：LaTeX 乘方不应破坏 data-math 属性", () => {
+    const html = parse("$a^2 + b^2 = c^2$", {
+      math: true,
+      superSubScript: true,
+    });
+    expect(html).toContain('data-math="a^2 + b^2 = c^2"');
+    expect(html).not.toContain('data-math="a^2 + b^2 = c<sup>');
+  });
+
   it("应该处理换行选项", () => {
     const html = parse("Line 1\nLine 2", { breaks: true });
     expect(html).toContain("<br>");
+  });
+
+  /**
+   * breaks: true 时，同一段落内单换行应变为 <br>（GFM 软换行）
+   */
+  it("breaks: 段落内单换行应包含 br", () => {
+    const html = parse("Line1\nLine2", { breaks: true });
+    expect(html).toMatch(/Line1<br>/);
+  });
+
+  /**
+   * breaks: true 时，围栏代码块内应为真实换行而非 <br>，避免行距异常、破坏高亮 DOM
+   */
+  it("breaks: 不应在 fenced 代码块内插入 br", () => {
+    const markdown = "```ts\nconst x = 1;\nconst y = 2;\n```";
+    const html = parse(markdown, { breaks: true });
+    const m = html.match(/<pre><code[^>]*>([\s\S]*?)<\/code><\/pre>/);
+    expect(m).not.toBeNull();
+    expect(m![1]).not.toContain("<br>");
+    expect(m![1]).toContain("const x");
+    expect(m![1]).toContain("const y");
+  });
+
+  /**
+   * breaks: true 时，块级标签之间的排版换行不应变成紧跟的 <br>
+   */
+  it("breaks: 标题与列表之间不应因换行产生 h1 后的 br", () => {
+    const markdown = "# H\n\n- item";
+    const html = parse(markdown, { breaks: true });
+    expect(html).not.toMatch(/<\/h1[^>]*>\s*<br/);
   });
 });
 

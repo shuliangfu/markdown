@@ -7,7 +7,7 @@
 
 [![JSR](https://jsr.io/badges/@dreamer/markdown)](https://jsr.io/@dreamer/markdown)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](./LICENSE)
-[![Tests](https://img.shields.io/badge/tests-559%20passed-brightgreen)](./docs/en-US/TEST_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-565%20passed-brightgreen)](./docs/en-US/TEST_REPORT.md)
 
 ---
 
@@ -631,12 +631,12 @@ interface MarkdownOptions {
 
 ## Test report
 
-[![Tests](https://img.shields.io/badge/tests-559%20passed-brightgreen)](./docs/en-US/TEST_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-565%20passed-brightgreen)](./docs/en-US/TEST_REPORT.md)
 
 | Metric      | Value |
 | ----------- | ----- |
-| Total tests | 559   |
-| Passed      | 559   |
+| Total tests | 565   |
+| Passed      | 565   |
 | Failed      | 0     |
 | Pass rate   | 100%  |
 | Test files  | 21    |
@@ -667,13 +667,15 @@ See [TEST_REPORT.md](./docs/en-US/TEST_REPORT.md) for details.
 
 ## Changelog
 
-### [1.0.0] - 2026-03-30
+### [1.0.1] - 2026-04-07
 
-First stable release: `render` / `parse` / Front Matter / TOC / `applyTemplate`,
-GFM-oriented extensions, enhanced tables, diagrams (Mermaid, PlantUML, mind map,
-Chart.js), Prism-oriented code helpers, theme styles, and optional
-`MarkdownResult.styles` / `MarkdownResult.scripts` for hand-built results. Full
-history: [docs/en-US/CHANGELOG.md](./docs/en-US/CHANGELOG.md).
+**Fixed** — `parse(..., { breaks: true })` uses **`applyGfmLineBreaks`**; valid
+**`<hr>`** / paragraph boundaries in **`cleanupParagraphs`**; math
+**`data-math`** safe from **`^...^`** superscript; no stray **`<p>`** around
+**`md-table-responsive`** wrappers. **Added** — **`applyGfmLineBreaks`** export
+and parser tests. **Changed** — **`deno fmt`** excludes
+**`examples/**/*.html`**. Full history:
+[docs/en-US/CHANGELOG.md](./docs/en-US/CHANGELOG.md).
 
 ---
 

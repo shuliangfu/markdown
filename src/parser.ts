@@ -11,6 +11,7 @@
 
 import type { ParseOptions } from "./types.ts";
 import {
+  applyGfmLineBreaks,
   cleanupParagraphs,
   createPlaceholder,
   escapeHtml,
@@ -308,6 +309,23 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
     });
   }
 
+  /**
+   * 行内公式 `data-math` 与可见文本中均含 LaTeX 的 `^` / `~`。
+   * 若直接对上标/下标做全局替换，正则会从属性里的 `c^2` 一直匹配到正文里的 `a^2`，
+   * 破坏属性并生成非法 HTML。故在此阶段用占位符保护整段 math-inline。
+   */
+  const mathInlineSnapshots: string[] = [];
+  if (math) {
+    html = html.replace(
+      /<span class="math-inline"[^>]*>[\s\S]*?<\/span>/gi,
+      (full) => {
+        const idx = mathInlineSnapshots.length;
+        mathInlineSnapshots.push(full);
+        return createPlaceholder("MATHINL", idx);
+      },
+    );
+  }
+
   // 上标（^text^）
   if (superSubScript) {
     html = html.replace(SUPERSCRIPT_REGEX, "<sup>$1</sup>");
@@ -316,6 +334,10 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
   // 下标（~text~）
   if (superSubScript) {
     html = html.replace(SUBSCRIPT_REGEX, "<sub>$1</sub>");
+  }
+
+  if (math && mathInlineSnapshots.length > 0) {
+    html = restorePlaceholders(html, "MATHINL", mathInlineSnapshots);
   }
 
   // 高亮文本（==text==）
@@ -434,9 +456,9 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
     }
   }
 
-  // 换行
+  // GFM 软换行：仅将段落/列表项等内的单换行转为 <br>，并保护 <pre> 内换行
   if (breaks) {
-    html = html.replace(/\n/g, "<br>\n");
+    html = applyGfmLineBreaks(html);
   }
 
   return html;

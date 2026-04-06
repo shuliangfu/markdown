@@ -6,46 +6,55 @@
 
 - **Package under test**: @dreamer/test@^1.0.15
 - **Test framework**: @dreamer/test (Deno and Bun compatible)
-- **Test date**: 2026-03-30
+- **Test date**: 2026-04-07
 - **Test environment**:
-  - Deno 2.7.9
+  - Deno 2.7.11
+  - Bun 1.3+ (see Bun summary below)
 - **External services**: None
 
 ## Test Results
 
-### Summary
+### Summary (Deno)
 
-- **Total tests**: 559
-- **Passed**: 559 ✅
+- **Total tests**: 565
+- **Passed**: 565 ✅
 - **Failed**: 0
 - **Pass rate**: 100% ✅
-- **Execution time**: ~25–30 seconds (21 test files under `tests/`)
+- **Execution time**: ~3 seconds (`deno test -A tests/`, 21 files)
+
+### Summary (Bun)
+
+- **Command**: `bun test tests/`
+- **Reported passed**: 545 ✅
+- **Failed**: 0
+- **Note**: Bun’s aggregate count can differ from per-file totals; all files run
+  with zero failures.
 
 ### Per-file summary
 
-| Test file | Tests | Status | Description |
-| --------- | ----- | ------ | ----------- |
-| `markdown.test.ts` | 134 | ✅ All pass | Main module: parse, render, TOC, Front Matter, feature flags |
-| `table.test.ts` | 61 | ✅ All pass | Table parse, cell merge, sort, search, responsive |
-| `features.test.ts` | 57 | ✅ All pass | Footnotes, math, autolinks, containers, GFM extras |
-| `parser.test.ts` | 38 | ✅ All pass | Markdown parser core |
-| `text.test.ts` | 25 | ✅ All pass | Ruby, badges, buttons, progress, direction, text styles |
-| `media.test.ts` | 25 | ✅ All pass | Images, YouTube/Bilibili/local video, audio, iframe |
-| `code.test.ts` | 24 | ✅ All pass | Code meta, diff, file tree, line numbers, copy |
-| `render.test.ts` | 21 | ✅ All pass | Render pipeline and templates |
-| `utils.test.ts` | 21 | ✅ All pass | HTML/regex escape, ID generation |
-| `document.test.ts` | 17 | ✅ All pass | Variables, glossary, API/changelog blocks |
-| `emoji.test.ts` | 16 | ✅ All pass | Emoji shortcodes |
-| `theme.test.ts` | 16 | ✅ All pass | Theme variables, presets, toggle, print |
-| `meta.test.ts` | 15 | ✅ All pass | Reading time, word count, author, doc meta |
-| `components.test.ts` | 14 | ✅ All pass | Columns, tabs, accordion, timeline, cards, steps |
-| `toc.test.ts` | 14 | ✅ All pass | TOC extraction, nested TOC, heading IDs |
-| `interactive.test.ts` | 12 | ✅ All pass | Footnotes UI, scroll, TOC active state, progress bar |
-| `chart.test.ts` | 11 | ✅ All pass | Mermaid, mindmap, math/chart scripts and styles |
-| `container.test.ts` | 11 | ✅ All pass | Custom containers (tip/warning/danger/info) |
-| `list.test.ts` | 10 | ✅ All pass | Nested and definition lists |
-| `template.test.ts` | 9 | ✅ All pass | HTML template and placeholders |
-| `front-matter.test.ts` | 8 | ✅ All pass | YAML Front Matter |
+| Test file              | Tests | Status      | Description                                                  |
+| ---------------------- | ----- | ----------- | ------------------------------------------------------------ |
+| `markdown.test.ts`     | 134   | ✅ All pass | Main module: parse, render, TOC, Front Matter, feature flags |
+| `table.test.ts`        | 61    | ✅ All pass | Table parse, cell merge, sort, search, responsive            |
+| `features.test.ts`     | 57    | ✅ All pass | Footnotes, math, autolinks, containers, GFM extras           |
+| `parser.test.ts`       | 44    | ✅ All pass | Markdown parser core                                         |
+| `text.test.ts`         | 25    | ✅ All pass | Ruby, badges, buttons, progress, direction, text styles      |
+| `media.test.ts`        | 25    | ✅ All pass | Images, YouTube/Bilibili/local video, audio, iframe          |
+| `code.test.ts`         | 24    | ✅ All pass | Code meta, diff, file tree, line numbers, copy               |
+| `render.test.ts`       | 21    | ✅ All pass | Render pipeline and templates                                |
+| `utils.test.ts`        | 21    | ✅ All pass | HTML/regex escape, ID generation                             |
+| `document.test.ts`     | 17    | ✅ All pass | Variables, glossary, API/changelog blocks                    |
+| `emoji.test.ts`        | 16    | ✅ All pass | Emoji shortcodes                                             |
+| `theme.test.ts`        | 16    | ✅ All pass | Theme variables, presets, toggle, print                      |
+| `meta.test.ts`         | 15    | ✅ All pass | Reading time, word count, author, doc meta                   |
+| `components.test.ts`   | 14    | ✅ All pass | Columns, tabs, accordion, timeline, cards, steps             |
+| `toc.test.ts`          | 14    | ✅ All pass | TOC extraction, nested TOC, heading IDs                      |
+| `interactive.test.ts`  | 12    | ✅ All pass | Footnotes UI, scroll, TOC active state, progress bar         |
+| `chart.test.ts`        | 11    | ✅ All pass | Mermaid, mindmap, math/chart scripts and styles              |
+| `container.test.ts`    | 11    | ✅ All pass | Custom containers (tip/warning/danger/info)                  |
+| `list.test.ts`         | 10    | ✅ All pass | Nested and definition lists                                  |
+| `template.test.ts`     | 9     | ✅ All pass | HTML template and placeholders                               |
+| `front-matter.test.ts` | 8     | ✅ All pass | YAML Front Matter                                            |
 
 ## Functional test details
 
@@ -372,29 +381,29 @@
 
 ### Test breakdown
 
-| Category | Tests | Share |
-| -------- | ----- | ----- |
-| Main module | 134 | 24.0% |
-| Table enhancements | 61 | 10.9% |
-| Extended parse features | 57 | 10.2% |
-| Parser | 38 | 6.8% |
-| Text enhancements | 25 | 4.5% |
-| Media embed | 25 | 4.5% |
-| Code blocks | 24 | 4.3% |
-| Render | 21 | 3.8% |
-| Utilities | 21 | 3.8% |
-| Document | 17 | 3.0% |
-| Emoji | 16 | 2.9% |
-| Theme | 16 | 2.9% |
-| Meta | 15 | 2.7% |
-| Layout components | 14 | 2.5% |
-| TOC | 14 | 2.5% |
-| Interactive | 12 | 2.1% |
-| Charts | 11 | 2.0% |
-| Custom containers | 11 | 2.0% |
-| Lists | 10 | 1.8% |
-| Template | 9 | 1.6% |
-| Front Matter | 8 | 1.4% |
+| Category                | Tests | Share |
+| ----------------------- | ----- | ----- |
+| Main module             | 134   | 24.0% |
+| Table enhancements      | 61    | 10.9% |
+| Extended parse features | 57    | 10.2% |
+| Parser                  | 38    | 6.8%  |
+| Text enhancements       | 25    | 4.5%  |
+| Media embed             | 25    | 4.5%  |
+| Code blocks             | 24    | 4.3%  |
+| Render                  | 21    | 3.8%  |
+| Utilities               | 21    | 3.8%  |
+| Document                | 17    | 3.0%  |
+| Emoji                   | 16    | 2.9%  |
+| Theme                   | 16    | 2.9%  |
+| Meta                    | 15    | 2.7%  |
+| Layout components       | 14    | 2.5%  |
+| TOC                     | 14    | 2.5%  |
+| Interactive             | 12    | 2.1%  |
+| Charts                  | 11    | 2.0%  |
+| Custom containers       | 11    | 2.0%  |
+| Lists                   | 10    | 1.8%  |
+| Template                | 9     | 1.6%  |
+| Front Matter            | 8     | 1.4%  |
 
 ## Conclusion
 
@@ -434,8 +443,8 @@ All 559 tests passed, covering:
 
 ---
 
-**Report date**: 2026-03-30  
-**Test framework**: @dreamer/test@^1.0.15  
-**Environment**: Deno 2.7.9  
-**Total tests**: 559  
+**Report date**: 2026-03-30\
+**Test framework**: @dreamer/test@^1.0.15\
+**Environment**: Deno 2.7.9\
+**Total tests**: 559\
 **Pass rate**: 100% ✅

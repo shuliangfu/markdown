@@ -7,6 +7,36 @@
 
 ---
 
+## [1.0.1] - 2026-04-07
+
+### 修复
+
+- **`parse(..., { breaks: true })`：** 不再对整段 HTML 粗暴执行 `\n` →
+  `<br>`，改为 **`applyGfmLineBreaks`**：保护围栏 **`<pre><code>`**
+  内真实换行；去掉仅位于相邻块级标签之间的排版换行；保留段落/列表项等正文内的软换行为
+  **`<br>`**。
+- **水平线与段落：** **`cleanupParagraphs`** 在「单换行接 `---`」等情况下先于
+  **`<hr>`** 正确闭合 **`</p>`**，并清理错误的 **`<hr></p>`**，保证 HTML 合法。
+- **行内数学与上标：** 处理 **`^...^`** 时用占位符保护
+  **`<span
+  class="math-inline">`**，避免正则从 **`data-math`** 跨到正文，破坏
+  LaTeX（如 `a^2 + b^2 = c^2`）。
+- **表格：** 去掉误包在 **`<p>`** 内的 **`md-table-responsive`** 外层
+  **`div`**。
+
+### 新增
+
+- **`applyGfmLineBreaks(html)`**（**`./utils`**），并从根包 **`src/mod.ts`**
+  再导出。
+- **测试**：breaks、水平线、数学 **`data-math`** 安全及相关解析边界。
+
+### 变更
+
+- **`deno.json`：** **`deno fmt`** 排除
+  **`examples/**/*.html`**（示例生成页不作手写源码格式化）。
+
+---
+
 ## [1.0.0] - 2026-03-30
 
 首个**稳定版**。公开 API、子路径导出与行为与 `1.0.0-beta.1` 一致，并对
@@ -47,7 +77,8 @@
   的返回值仍会带上这两项。手写 `MarkdownResult`（例如仅用于 `applyTemplate`
   的测试或工具链）可不填 `styles`/`scripts`。`applyTemplate`
   本就仅在字段为真时注入，对真实 `render()` 输出无行为变化。
-- **示例**：`examples/generate-html.ts` 在打印 `styles` / `scripts` 长度时使用空值合并，与可选字段类型一致，保证 `deno check .` 通过。
+- **示例**：`examples/generate-html.ts` 在打印 `styles` / `scripts`
+  长度时使用空值合并，与可选字段类型一致，保证 `deno check .` 通过。
 
 ### 从 `1.0.0-beta.1` 迁移
 

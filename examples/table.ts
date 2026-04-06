@@ -12,12 +12,12 @@
  */
 
 import {
-  parseTable,
-  parseEnhancedTable,
   createTable,
   createTableFromData,
-  getTableStyles,
   getTableScript,
+  getTableStyles,
+  parseEnhancedTable,
+  parseTable,
   type TableEnhanceOptions,
 } from "../src/mod.ts";
 
@@ -133,7 +133,7 @@ const tableHtml = createTable(
   {
     sortable: true,
     caption: "表格功能列表",
-  }
+  },
 );
 
 console.log("createTable 输出:");
@@ -165,7 +165,7 @@ const dataTableHtml = createTableFromData(
     sortable: true,
     searchable: true,
     searchPlaceholder: "搜索用户...",
-  }
+  },
 );
 
 console.log("createTableFromData 输出:");

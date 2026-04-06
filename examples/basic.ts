@@ -4,7 +4,7 @@
  * 展示 @dreamer/markdown 的基本用法
  */
 
-import { render, parse } from "../src/mod.ts";
+import { parse, render } from "../src/mod.ts";
 
 // ============================================================================
 // 基本渲染

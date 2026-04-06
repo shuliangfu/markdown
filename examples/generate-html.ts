@@ -7,10 +7,10 @@
  */
 
 import {
+  applyTemplate,
+  createTemplate,
   render,
   renderToc,
-  createTemplate,
-  applyTemplate,
 } from "../src/mod.ts";
 
 // 读取 Markdown 文件
@@ -42,16 +42,24 @@ console.log("  自动收集脚本:", scriptLen, "字符");
 // 构建 Front Matter 信息 HTML
 const tags = Array.isArray(result.frontMatter.tags)
   ? (result.frontMatter.tags as string[])
-      .map((tag: string) => `<span class="meta-tag">${tag}</span>`)
-      .join("")
+    .map((tag: string) => `<span class="meta-tag">${tag}</span>`)
+    .join("")
   : "";
 
 const metaHtml = `
 <div class="meta">
-  <div class="meta-item"><span class="meta-label">标题：</span>${result.frontMatter.title || "未命名文档"}</div>
-  <div class="meta-item"><span class="meta-label">作者：</span>${result.frontMatter.author || "未知"}</div>
-  <div class="meta-item"><span class="meta-label">日期：</span>${result.frontMatter.date || "未知"}</div>
-  <div class="meta-item"><span class="meta-label">分类：</span>${result.frontMatter.category || "未分类"}</div>
+  <div class="meta-item"><span class="meta-label">标题：</span>${
+  result.frontMatter.title || "未命名文档"
+}</div>
+  <div class="meta-item"><span class="meta-label">作者：</span>${
+  result.frontMatter.author || "未知"
+}</div>
+  <div class="meta-item"><span class="meta-label">日期：</span>${
+  result.frontMatter.date || "未知"
+}</div>
+  <div class="meta-item"><span class="meta-label">分类：</span>${
+  result.frontMatter.category || "未分类"
+}</div>
   ${tags ? `<div class="meta-tags">${tags}</div>` : ""}
 </div>`;
 

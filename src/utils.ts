@@ -273,6 +273,56 @@ export function restorePlaceholders(
   return result;
 }
 
+/**
+ * 匹配 HTML 中的围栏代码块 `<pre>...</pre>`（大小写不敏感）
+ *
+ * 用于在应用 GFM `breaks` 时保护代码内真实换行，避免被替换成 `<br>`。
+ */
+const PRE_BLOCK_FOR_BREAKS_REGEX = /<pre\b[\s\S]*?<\/pre>/gi;
+
+/**
+ * 将「仅位于两个标签边界之间」的空白与换行压缩为无间隙的标签邻接
+ *
+ * 解析器在块级标签之间会保留 `\n`；若再全局 `\n`→`<br>`，会在 `</h1>` 与 `<ul>` 等
+ * 之间插入多余 `<br>`。本替换只去掉标签之间的装饰性换行，不影响正文文本中的换行。
+ */
+const TAG_BOUNDARY_NEWLINE_REGEX = />\s*\n\s*</g;
+
+/**
+ * 应用 GitHub Flavored Markdown 的「软换行」规则（`breaks: true`）
+ *
+ * **问题背景**：旧实现对整个 HTML 字符串执行 `\n` → `<br>`，会把：
+ * - 块级标签之间的排版换行（如 `</h1>\n<ul>`）也变成 `<br>`，造成预览中空行、空段落感；
+ * - `<pre><code>` 内代码行的换行变成 `<br>`，破坏等宽排版且与语法高亮 DOM 预期不符。
+ *
+ * **当前策略**：
+ * 1. 用占位符保护所有 `<pre>...</pre>`，保留围栏代码内的真实换行；
+ * 2. 将仅出现在「`>` 与 `<` 之间」的空白换行去掉（`><` 直连），消除块之间的装饰性 `\n`；
+ * 3. 对其余换行（段落内、列表项内等「软换行」）替换为 `<br>`；
+ * 4. 恢复 `<pre>` 内容。
+ *
+ * @param html - 已完成占位符恢复、结构闭合的 HTML
+ * @returns 应用 GFM breaks 后的 HTML
+ */
+export function applyGfmLineBreaks(html: string): string {
+  const preBlocks: string[] = [];
+
+  // 先保护围栏代码块，避免代码内换行被误替换
+  let body = html.replace(PRE_BLOCK_FOR_BREAKS_REGEX, (block) => {
+    const index = preBlocks.length;
+    preBlocks.push(block);
+    return createPlaceholder("PREBRK", index);
+  });
+
+  // 去掉块级标签之间的排版用换行，避免产生多余 <br>
+  body = body.replace(TAG_BOUNDARY_NEWLINE_REGEX, "><");
+
+  // 段落内等位置的软换行转为 <br>（与 GFM 行为一致）
+  body = body.replace(/\n/g, "<br>\n");
+
+  return restorePlaceholders(body, "PREBRK", preBlocks);
+}
+
 // ============================================================================
 // 清理工具
 // ============================================================================
@@ -288,6 +338,8 @@ const PARAGRAPH_CLEANUP_PATTERNS = [
   { search: /<p>(<ol)/g, replace: "$1" },
   { search: /<p>(<blockquote)/g, replace: "$1" },
   { search: /<p>(<hr)/g, replace: "$1" },
+  // 表格外包一层 md-table-responsive div，须先于 <table> 去掉外层误包的 <p>
+  { search: /<p>(<div class="md-table-responsive")/g, replace: "$1" },
   { search: /<p>(<table)/g, replace: "$1" },
   { search: /<p>(<dl)/g, replace: "$1" },
   { search: /<p>(<div class="math-block)/g, replace: "$1" },
@@ -321,10 +373,26 @@ export function cleanupParagraphs(html: string): string {
   // 移除空段落
   result = result.replace(/<p>\s*<\/p>/g, "");
 
+  /**
+   * `<hr>` 为块级元素，不得留在 `<p>…</p>` 内。
+   * 解析器用 `\n\n` 切分段落时，若 `---` 与上一段仅隔单换行，会得到 `<p>前文\n<hr></p>`；
+   * 原先用 `<p>(<hr)` 去掉开头 `<p>` 时又会错误地留下 `<hr></p>`，导致无效 HTML（如 deno fmt 解析失败）。
+   */
+  result = result.replace(
+    /<p>((?:(?!<\/p>).)*?)<hr><\/p>/gs,
+    "<p>$1</p><hr>",
+  );
+
+  // 上一步可能产生 `<p></p><hr>`，再次去掉空段落
+  result = result.replace(/<p>\s*<\/p>/g, "");
+
   // 应用所有清理模式
   for (const pattern of PARAGRAPH_CLEANUP_PATTERNS) {
     result = result.replace(pattern.search, pattern.replace);
   }
+
+  // 兜底：消除遗留的 `<hr></p>`（例如历史路径或边界组合）
+  result = result.replace(/<hr><\/p>/g, "<hr>");
 
   return result;
 }

@@ -13,19 +13,24 @@ version: 1.0.0
 
 # Markdown 完整语法演示
 
-欢迎阅读本文档！这是一份全面展示 `@dreamer/markdown` 包解析能力的测试文档。无论你是 Markdown 新手还是资深用户，这份文档都将帮助你了解我们支持的所有语法特性。
+欢迎阅读本文档！这是一份全面展示 `@dreamer/markdown`
+包解析能力的测试文档。无论你是 Markdown
+新手还是资深用户，这份文档都将帮助你了解我们支持的所有语法特性。
 
-本包采用纯 TypeScript 实现，零依赖，支持 **Deno**、**Bun** 和浏览器环境，是构建文档系统、博客平台、知识库的理想选择。
+本包采用纯 TypeScript 实现，零依赖，支持 **Deno**、**Bun**
+和浏览器环境，是构建文档系统、博客平台、知识库的理想选择。
 
 ---
 
 ## 基础语法
 
-Markdown 的设计哲学是让写作者专注于内容本身，而非格式。下面让我们从最基础的语法开始。
+Markdown
+的设计哲学是让写作者专注于内容本身，而非格式。下面让我们从最基础的语法开始。
 
 ### 标题层级
 
-在 Markdown 中，使用 `#` 符号来表示标题。一个 `#` 表示一级标题，两个 `##` 表示二级标题，以此类推，最多支持六级标题。
+在 Markdown 中，使用 `#` 符号来表示标题。一个 `#` 表示一级标题，两个 `##`
+表示二级标题，以此类推，最多支持六级标题。
 
 #### 四级标题示例
 
@@ -50,8 +55,8 @@ Markdown 的设计哲学是让写作者专注于内容本身，而非格式。�
 在日常写作中，我们经常需要强调某些内容。Markdown 提供了多种方式：
 
 - 这是 **粗体文本**，用于强调重要内容
-- 这是 *斜体文本*，用于表示术语或引用
-- 这是 ***粗斜体***，需要特别强调时使用
+- 这是 _斜体文本_，用于表示术语或引用
+- 这是 _**粗斜体**_，需要特别强调时使用
 - 这是 ~~删除线文本~~，表示已过时或需要删除的内容
 - 这是 `行内代码`，用于表示代码片段、命令或技术术语
 
@@ -59,7 +64,8 @@ Markdown 的设计哲学是让写作者专注于内容本身，而非格式。�
 
 你可以在同一段落中组合使用多种格式。例如：
 
-> 在软件开发中，**代码质量**和 *可维护性* 是至关重要的。我们应该避免 ~~临时解决方案~~，而是采用 `最佳实践` 来构建健壮的系统。
+> 在软件开发中，**代码质量**和 _可维护性_ 是至关重要的。我们应该避免
+> ~~临时解决方案~~，而是采用 `最佳实践` 来构建健壮的系统。
 
 ---
 
@@ -72,7 +78,8 @@ Markdown 的设计哲学是让写作者专注于内容本身，而非格式。�
 Markdown 支持多种链接方式：
 
 1. **内联链接**：[访问 GitHub](https://github.com) 是最常用的方式
-2. **带标题的链接**：[Deno 官网](https://deno.land "一个安全的 JavaScript/TypeScript 运行时") 鼠标悬停可见标题
+2. **带标题的链接**：[Deno 官网](https://deno.land "一个安全的 JavaScript/TypeScript 运行时")
+   鼠标悬停可见标题
 3. **自动链接**：直接输入 URL 会自动识别 https://jsr.io
 4. **邮箱链接**：联系我们 contact@example.com
 
@@ -90,10 +97,10 @@ Markdown 支持多种链接方式：
 
 有时候我们需要并排展示多张图片，可以使用表格布局：
 
-| 图片一 | 图片二 | 图片三 |
-|:------:|:------:|:------:|
+|          图片一          |          图片二          |          图片三           |
+| :----------------------: | :----------------------: | :-----------------------: |
 | ![风景2](./images/2.jpg) | ![风景3](./images/3.jpg) | ![风景4](./images/5.jpeg) |
-| *山间小路* | *林间溪流* | *夕阳余晖* |
+|        _山间小路_        |        _林间溪流_        |        _夕阳余晖_         |
 
 #### 图片画廊
 
@@ -178,11 +185,11 @@ Markdown 支持多种链接方式：
 
 > 关于软件开发的讨论：
 >
-> > 我们应该优先考虑代码的可读性还是性能？
-> >
-> > > 在大多数情况下，可读性更重要。过早优化是万恶之源。
-> > >
-> > > — Donald Knuth
+>> 我们应该优先考虑代码的可读性还是性能？
+>>
+>>> 在大多数情况下，可读性更重要。过早优化是万恶之源。
+>>>
+>>> — Donald Knuth
 
 ### 引用中的格式
 
@@ -357,62 +364,64 @@ echo "✅ 部署完成！"
 
 ### 基础数据表
 
-| 功能模块 | 状态 | 测试覆盖 | 说明 |
-|:---------|:----:|:--------:|:-----|
-| 基础语法解析 | ✅ | 100% | 标题、段落、列表、链接等 |
-| GFM 扩展 | ✅ | 100% | 表格、任务列表、自动链接 |
-| 数学公式 | ✅ | 100% | LaTeX 行内和块级公式 |
-| 代码高亮 | ✅ | 100% | 支持自定义高亮函数 |
-| 表格增强 | ✅ | 100% | 排序、搜索、单元格合并 |
-| 自定义容器 | ✅ | 100% | tip/warning/danger 等 |
-| 主题系统 | ✅ | 100% | 亮色/暗色主题切换 |
+| 功能模块     | 状态 | 测试覆盖 | 说明                     |
+| :----------- | :--: | :------: | :----------------------- |
+| 基础语法解析 |  ✅  |   100%   | 标题、段落、列表、链接等 |
+| GFM 扩展     |  ✅  |   100%   | 表格、任务列表、自动链接 |
+| 数学公式     |  ✅  |   100%   | LaTeX 行内和块级公式     |
+| 代码高亮     |  ✅  |   100%   | 支持自定义高亮函数       |
+| 表格增强     |  ✅  |   100%   | 排序、搜索、单元格合并   |
+| 自定义容器   |  ✅  |   100%   | tip/warning/danger 等    |
+| 主题系统     |  ✅  |   100%   | 亮色/暗色主题切换        |
 
 ### 性能对比
 
-| 运行时 | 解析速度 | 内存占用 | 启动时间 | 综合评分 |
-|:------:|:--------:|:--------:|:--------:|:--------:|
-| Deno | 95ms | 12MB | 150ms | ⭐⭐⭐⭐⭐ |
-| Bun | 82ms | 10MB | 80ms | ⭐⭐⭐⭐⭐ |
-| Node | 120ms | 18MB | 200ms | ⭐⭐⭐⭐ |
+| 运行时 | 解析速度 | 内存占用 | 启动时间 |  综合评分  |
+| :----: | :------: | :------: | :------: | :--------: |
+|  Deno  |   95ms   |   12MB   |  150ms   | ⭐⭐⭐⭐⭐ |
+|  Bun   |   82ms   |   10MB   |   80ms   | ⭐⭐⭐⭐⭐ |
+|  Node  |  120ms   |   18MB   |  200ms   |  ⭐⭐⭐⭐  |
 
 ### API 参考表
 
-| 函数 | 参数 | 返回值 | 描述 |
-|:-----|:-----|:-------|:-----|
-| `render()` | `content: string, options?: Options` | `MarkdownResult` | 完整渲染，包含 HTML、Front Matter、TOC |
-| `parse()` | `content: string, options?: Options` | `string` | 仅解析为 HTML |
-| `parseFrontMatter()` | `content: string` | `{ frontMatter, body }` | 解析 YAML 头部 |
-| `extractToc()` | `html: string` | `TocItem[]` | 从 HTML 提取目录 |
-| `createTable()` | `headers, rows, options` | `string` | 从数组创建表格 |
+| 函数                 | 参数                                 | 返回值                  | 描述                                   |
+| :------------------- | :----------------------------------- | :---------------------- | :------------------------------------- |
+| `render()`           | `content: string, options?: Options` | `MarkdownResult`        | 完整渲染，包含 HTML、Front Matter、TOC |
+| `parse()`            | `content: string, options?: Options` | `string`                | 仅解析为 HTML                          |
+| `parseFrontMatter()` | `content: string`                    | `{ frontMatter, body }` | 解析 YAML 头部                         |
+| `extractToc()`       | `html: string`                       | `TocItem[]`             | 从 HTML 提取目录                       |
+| `createTable()`      | `headers, rows, options`             | `string`                | 从数组创建表格                         |
 
 ### 可排序表格
 
 使用 `<!-- table: sortable -->` 注释启用列排序功能，点击表头可以升序/降序排列：
 
 <!-- table: sortable, caption="员工信息表（点击表头排序）" -->
-| 姓名 | 部门 | 工龄 | 绩效评分 |
-|:-----|:----:|:----:|:--------:|
-| 张三 | 技术部 | 5 | 92 |
-| 李四 | 市场部 | 3 | 88 |
-| 王五 | 技术部 | 8 | 95 |
-| 赵六 | 人事部 | 2 | 85 |
-| 钱七 | 技术部 | 6 | 90 |
-| 孙八 | 市场部 | 4 | 87 |
+
+| 姓名 |  部门  | 工龄 | 绩效评分 |
+| :--- | :----: | :--: | :------: |
+| 张三 | 技术部 |  5   |    92    |
+| 李四 | 市场部 |  3   |    88    |
+| 王五 | 技术部 |  8   |    95    |
+| 赵六 | 人事部 |  2   |    85    |
+| 钱七 | 技术部 |  6   |    90    |
+| 孙八 | 市场部 |  4   |    87    |
 
 ### 可搜索表格
 
 使用 `<!-- table: searchable -->` 注释启用搜索过滤功能：
 
 <!-- table: searchable, caption="产品列表（输入关键词搜索）" -->
-| 产品名称 | 类别 | 价格 | 库存 | 状态 |
-|:---------|:----:|-----:|:----:|:----:|
-| MacBook Pro | 电脑 | 12999 | 50 | 在售 |
-| iPhone 15 | 手机 | 6999 | 200 | 在售 |
-| iPad Air | 平板 | 4599 | 80 | 在售 |
-| AirPods Pro | 耳机 | 1899 | 150 | 在售 |
-| Apple Watch | 手表 | 2999 | 60 | 预售 |
-| Mac Mini | 电脑 | 4499 | 30 | 在售 |
-| HomePod | 音箱 | 2299 | 0 | 缺货 |
+
+| 产品名称    | 类别 |  价格 | 库存 | 状态 |
+| :---------- | :--: | ----: | :--: | :--: |
+| MacBook Pro | 电脑 | 12999 |  50  | 在售 |
+| iPhone 15   | 手机 |  6999 | 200  | 在售 |
+| iPad Air    | 平板 |  4599 |  80  | 在售 |
+| AirPods Pro | 耳机 |  1899 | 150  | 在售 |
+| Apple Watch | 手表 |  2999 |  60  | 预售 |
+| Mac Mini    | 电脑 |  4499 |  30  | 在售 |
+| HomePod     | 音箱 |  2299 |  0   | 缺货 |
 
 ### 单元格合并
 
@@ -421,27 +430,28 @@ echo "✅ 部署完成！"
 - `||` 或 `>` - 向左合并（横向）
 - `^^` 或 `^` - 向上合并（纵向）
 
-| 季度 | 部门 | Q1 销售额 | Q2 销售额 | Q3 销售额 | Q4 销售额 |
-|:----:|:----:|:---------:|:---------:|:---------:|:---------:|
-| 2024 || 技术部 | 120万 | 150万 | 180万 | 200万 |
-| ^^ | 市场部 | 80万 | 95万 | 110万 | 130万 |
-| ^^ | 运营部 | 60万 | 70万 | 85万 | 100万 |
-| 2025 || 技术部 | 180万 | 210万 | ^^ | ^^ |
-| ^^ | 市场部 | 100万 | 120万 | ^^ | ^^ |
+| 季度 |  部门  | Q1 销售额 | Q2 销售额 | Q3 销售额 | Q4 销售额 |
+| :--: | :----: | :-------: | :-------: | :-------: | :-------: |
+| 2024 |        |  技术部   |   120万   |   150万   |   180万   |
+|  ^^  | 市场部 |   80万    |   95万    |   110万   |   130万   |
+|  ^^  | 运营部 |   60万    |   70万    |   85万    |   100万   |
+| 2025 |        |  技术部   |   180万   |   210万   |    ^^     |
+|  ^^  | 市场部 |   100万   |   120万   |    ^^     |    ^^     |
 
 ### 组合功能表格
 
 可以同时启用多个功能：
 
 <!-- table: sortable, searchable, caption="综合示例（排序 + 搜索）" -->
-| 编号 | 项目名称 | 负责人 | 进度 | 优先级 | 截止日期 |
-|:----:|:---------|:------:|:----:|:------:|:--------:|
-| P001 | 用户系统重构 | 张三 | 85% | 高 | 2026-02-15 |
-| P002 | 移动端适配 | 李四 | 60% | 中 | 2026-03-01 |
-| P003 | 性能优化 | 王五 | 100% | 高 | 2026-01-31 |
-| P004 | 文档完善 | 赵六 | 40% | 低 | 2026-03-15 |
-| P005 | API 重设计 | 钱七 | 20% | 高 | 2026-04-01 |
-| P006 | 单元测试 | 孙八 | 90% | 中 | 2026-02-28 |
+
+| 编号 | 项目名称     | 负责人 | 进度 | 优先级 |  截止日期  |
+| :--: | :----------- | :----: | :--: | :----: | :--------: |
+| P001 | 用户系统重构 |  张三  | 85%  |   高   | 2026-02-15 |
+| P002 | 移动端适配   |  李四  | 60%  |   中   | 2026-03-01 |
+| P003 | 性能优化     |  王五  | 100% |   高   | 2026-01-31 |
+| P004 | 文档完善     |  赵六  | 40%  |   低   | 2026-03-15 |
+| P005 | API 重设计   |  钱七  | 20%  |   高   | 2026-04-01 |
+| P006 | 单元测试     |  孙八  | 90%  |   中   | 2026-02-28 |
 
 ---
 
@@ -462,7 +472,8 @@ echo "✅ 部署完成！"
 
 当你需要突出显示某些内容时，可以使用高亮：
 
-在这段代码中，==最关键的部分== 是数据验证逻辑。请特别注意 ==第 42 行== 的边界条件处理。
+在这段代码中，==最关键的部分== 是数据验证逻辑。请特别注意 ==第 42 行==
+的边界条件处理。
 
 我们的目标是实现 ==零依赖==、==高性能==、==跨平台== 的 Markdown 解析器。
 
@@ -479,6 +490,7 @@ echo "✅ 部署完成！"
 编写操作指南时，键盘按键符号让指令更清晰：
 
 常用快捷键：
+
 - 保存文件：[[Ctrl]] + [[S]]（Mac: [[Cmd]] + [[S]]）
 - 撤销操作：[[Ctrl]] + [[Z]]
 - 全选内容：[[Ctrl]] + [[A]]
@@ -497,7 +509,8 @@ Emoji 让文档更加生动有趣！我们支持 300+ 常用 emoji 简码：
 
 ### 表情符号
 
-:smile: 微笑 | :laughing: 大笑 | :wink: 眨眼 | :heart_eyes: 爱心眼 | :thinking: 思考
+:smile: 微笑 | :laughing: 大笑 | :wink: 眨眼 | :heart_eyes: 爱心眼 | :thinking:
+思考
 
 :cry: 哭泣 | :angry: 生气 | :fearful: 害怕 | :sleeping: 睡觉 | :sunglasses: 墨镜
 
@@ -513,9 +526,11 @@ Emoji 让文档更加生动有趣！我们支持 300+ 常用 emoji 简码：
 
 ### 状态标记
 
-:white_check_mark: 完成 | :x: 失败 | :warning: 警告 | :question: 疑问 | :exclamation: 重要
+:white_check_mark: 完成 | :x: 失败 | :warning: 警告 | :question: 疑问 |
+:exclamation: 重要
 
-:construction: 施工中 | :bug: Bug | :sparkles: 新功能 | :zap: 性能优化 | :memo: 文档
+:construction: 施工中 | :bug: Bug | :sparkles: 新功能 | :zap: 性能优化 | :memo:
+文档
 
 ---
 
@@ -523,15 +538,22 @@ Emoji 让文档更加生动有趣！我们支持 300+ 常用 emoji 简码：
 
 脚注用于添加补充说明或引用来源，不打断正文阅读流程。
 
-Markdown 最初由 John Gruber 于 2004 年创建[^1]，其设计目标是让文档在源码形式下也具有良好的可读性[^2]。
+Markdown 最初由 John Gruber 于 2004
+年创建[^1]，其设计目标是让文档在源码形式下也具有良好的可读性[^2]。
 
-如今，Markdown 已经成为技术文档的事实标准，被广泛应用于 GitHub[^github]、Stack Overflow、各类博客平台等。
+如今，Markdown 已经成为技术文档的事实标准，被广泛应用于 GitHub[^github]、Stack
+Overflow、各类博客平台等。
 
-我们的 `@dreamer/markdown` 包在标准 Markdown 基础上进行了大量扩展[^3]，支持 GFM、数学公式、自定义容器等高级特性。
+我们的 `@dreamer/markdown` 包在标准 Markdown 基础上进行了大量扩展[^3]，支持
+GFM、数学公式、自定义容器等高级特性。
 
 [^1]: John Gruber, "Markdown", Daring Fireball, 2004年3月19日。
+
 [^2]: Markdown 的哲学是"易读易写"（easy-to-read and easy-to-write）。
-[^github]: GitHub 于 2009 年开始支持 Markdown，后发展出 GitHub Flavored Markdown (GFM)。
+
+[^github]: GitHub 于 2009 年开始支持 Markdown，后发展出 GitHub Flavored Markdown
+    (GFM)。
+
 [^3]: 完整支持 45+ 种扩展语法，详见 README 文档。
 
 ---
@@ -586,21 +608,17 @@ $$
 
 定义列表适合用于术语解释、词汇表等场景。
 
-Markdown
-: 一种轻量级标记语言，由 John Gruber 于 2004 年创建。
-: 设计目标是让源文件具有良好的可读性。
+Markdown : 一种轻量级标记语言，由 John Gruber 于 2004 年创建。 :
+设计目标是让源文件具有良好的可读性。
 
-GFM (GitHub Flavored Markdown)
-: GitHub 扩展的 Markdown 方言。
-: 增加了表格、任务列表、自动链接、删除线等特性。
+GFM (GitHub Flavored Markdown) : GitHub 扩展的 Markdown 方言。 :
+增加了表格、任务列表、自动链接、删除线等特性。
 
-Front Matter
-: 文档开头的 YAML 格式元数据块。
-: 通常包含标题、作者、日期、标签等信息。
+Front Matter : 文档开头的 YAML 格式元数据块。 :
+通常包含标题、作者、日期、标签等信息。
 
-AST (Abstract Syntax Tree)
-: 抽象语法树，代码的树状结构表示。
-: Markdown 解析器通常会先将源文本转换为 AST，再生成 HTML。
+AST (Abstract Syntax Tree) : 抽象语法树，代码的树状结构表示。 : Markdown
+解析器通常会先将源文本转换为 AST，再生成 HTML。
 
 ---
 
@@ -608,17 +626,17 @@ AST (Abstract Syntax Tree)
 
 当文档中频繁使用缩写时，可以定义缩写的完整含义。鼠标悬停在缩写上可看到完整解释。
 
-本项目使用 HTML 和 CSS 技术构建用户界面，通过 API 与后端服务通信。所有资源通过 URL 进行访问，数据交换使用 JSON 格式。
+本项目使用 HTML 和 CSS 技术构建用户界面，通过 API 与后端服务通信。所有资源通过
+URL 进行访问，数据交换使用 JSON 格式。
 
-项目托管在 JSR 上，支持在 Deno 和 Bun 等现代 JS 运行时中使用。源代码遵循 MIT 许可证。
+项目托管在 JSR 上，支持在 Deno 和 Bun 等现代 JS 运行时中使用。源代码遵循 MIT
+许可证。
 
-*[HTML]: HyperText Markup Language - 超文本标记语言
-*[CSS]: Cascading Style Sheets - 层叠样式表
-*[API]: Application Programming Interface - 应用程序接口
-*[URL]: Uniform Resource Locator - 统一资源定位符
-*[JSON]: JavaScript Object Notation - JavaScript 对象表示法
-*[JSR]: JavaScript Registry - JavaScript 包注册中心
-*[MIT]: Massachusetts Institute of Technology - 麻省理工学院许可证
+*[HTML]: HyperText Markup Language - 超文本标记语言 *[CSS]: Cascading Style
+Sheets - 层叠样式表 *[API]: Application Programming Interface - 应用程序接口
+*[URL]: Uniform Resource Locator - 统一资源定位符 *[JSON]: JavaScript Object
+Notation - JavaScript 对象表示法 *[JSR]: JavaScript Registry - JavaScript
+包注册中心 *[MIT]: Massachusetts Institute of Technology - 麻省理工学院许可证
 
 ---
 
@@ -626,32 +644,29 @@ AST (Abstract Syntax Tree)
 
 自定义容器用于突出显示不同类型的信息，增强文档的可读性。
 
-:::tip 小贴士
-使用 `@dreamer/markdown` 包时，建议启用所有默认选项以获得最佳体验。大多数选项默认已开启，你只需要关注需要自定义的部分。
+:::tip 小贴士 使用 `@dreamer/markdown`
+包时，建议启用所有默认选项以获得最佳体验。大多数选项默认已开启，你只需要关注需要自定义的部分。
 :::
 
-:::info 信息
-本包完全使用 TypeScript 编写，提供完整的类型定义。在支持 TypeScript 的编辑器中，你可以获得智能提示和类型检查。
-:::
+:::info 信息 本包完全使用 TypeScript 编写，提供完整的类型定义。在支持 TypeScript
+的编辑器中，你可以获得智能提示和类型检查。 :::
 
 :::warning 注意事项
+
 - 处理用户输入的 Markdown 时，请确保启用 XSS 防护
 - 大文件（>1MB）可能影响解析性能
-- 某些扩展语法可能与标准 Markdown 不完全兼容
-:::
+- 某些扩展语法可能与标准 Markdown 不完全兼容 :::
 
-:::danger 安全警告
-**永远不要** 直接将未经处理的用户输入渲染为 HTML！
+:::danger 安全警告 **永远不要** 直接将未经处理的用户输入渲染为 HTML！
 
 本包已内置 XSS 防护：
+
 - 自动转义 HTML 特殊字符
 - 过滤危险协议（javascript:、data: 等）
-- 验证外部资源链接
-:::
+- 验证外部资源链接 :::
 
-:::note 开发备注
-当前版本（v1.0.0）已通过 538 个单元测试，测试覆盖率 100%。如发现任何问题，请在 GitHub 提交 Issue。
-:::
+:::note 开发备注 当前版本（v1.0.0）已通过 538 个单元测试，测试覆盖率
+100%。如发现任何问题，请在 GitHub 提交 Issue。 :::
 
 :::details 点击查看更多技术细节
 
@@ -674,11 +689,12 @@ const ITALIC_REGEX = /\*(.+?)\*/g;
 const idCache = new Map<string, string>();
 function generateId(text: string): string {
   if (idCache.has(text)) return idCache.get(text)!;
-  const id = text.toLowerCase().replace(/\s+/g, '-');
+  const id = text.toLowerCase().replace(/\s+/g, "-");
   idCache.set(text, id);
   return id;
 }
 ```
+
 :::
 
 ---
@@ -792,7 +808,8 @@ xychart-beta
 
 ## Chart.js 图表
 
-除了 Mermaid，我们还支持 Chart.js，这是一个功能强大的轻量级图表库，提供更丰富的数据可视化选项。
+除了 Mermaid，我们还支持
+Chart.js，这是一个功能强大的轻量级图表库，提供更丰富的数据可视化选项。
 
 ### 折线图 (Line)
 
@@ -1082,6 +1099,7 @@ xychart-beta
 我们已经展示了 `@dreamer/markdown` 包支持的所有主要功能：
 
 ### 基础功能
+
 - :white_check_mark: 标题、段落、换行
 - :white_check_mark: 粗体、斜体、删除线
 - :white_check_mark: 链接、图片
@@ -1091,6 +1109,7 @@ xychart-beta
 - :white_check_mark: 表格（对齐、合并、排序、搜索）
 
 ### 高级功能
+
 - :white_check_mark: Front Matter（YAML 元数据）
 - :white_check_mark: 目录自动生成
 - :white_check_mark: 脚注
@@ -1100,6 +1119,7 @@ xychart-beta
 - :white_check_mark: 自定义容器
 
 ### 文本增强
+
 - :white_check_mark: 上标/下标
 - :white_check_mark: 高亮文本
 - :white_check_mark: 插入/删除标记
@@ -1107,8 +1127,11 @@ xychart-beta
 - :white_check_mark: Emoji 表情（300+）
 
 ### 图表与可视化
-- :white_check_mark: Mermaid 图表（流程图、时序图、甘特图、饼图、柱状图、折线图）
-- :white_check_mark: Chart.js 图表（折线图、柱状图、饼图、圆环图、雷达图、极坐标图、散点图、气泡图）
+
+- :white_check_mark: Mermaid
+  图表（流程图、时序图、甘特图、饼图、柱状图、折线图）
+- :white_check_mark: Chart.js
+  图表（折线图、柱状图、饼图、圆环图、雷达图、极坐标图、散点图、气泡图）
 
 ---
 
@@ -1121,5 +1144,4 @@ xychart-beta
 
 ---
 
-*本文档由 @dreamer/markdown 解析生成*
-*最后更新：2026-01-31*
+_本文档由 @dreamer/markdown 解析生成_ _最后更新：2026-01-31_
