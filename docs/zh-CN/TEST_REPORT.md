@@ -4,13 +4,13 @@
 
 ## 测试概览
 
-- **测试包版本**: @dreamer/test@^1.2.0
+- **测试包版本**: @dreamer/test@^1.2.3
 - **测试框架**: @dreamer/test（兼容 Deno、Bun 和 Node.js）
 - **测试时间**: 2026-07-22
 - **测试环境**:
-  - Deno 2.5+
+  - Deno 2.9+
   - Bun 1.3+
-  - Node.js 22+（通过 `tsx --test tests/*.test.ts`）
+  - Node.js 22+（通过 `tsx --test --test-force-exit tests/*.test.ts`）
 - **依赖服务**: 无
 
 ## 测试结果

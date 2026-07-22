@@ -4,13 +4,13 @@
 
 ## Overview
 
-- **Package under test**: @dreamer/test@^1.2.0
+- **Package under test**: @dreamer/test@^1.2.3
 - **Test framework**: @dreamer/test (Deno, Bun, and Node.js compatible)
 - **Test date**: 2026-07-22
 - **Test environment**:
-  - Deno 2.5+
+  - Deno 2.9+
   - Bun 1.3+
-  - Node.js 22+ (via `tsx --test tests/*.test.ts`)
+  - Node.js 22+ (via `tsx --test --test-force-exit tests/*.test.ts`)
 - **External services**: None
 
 ## Test Results

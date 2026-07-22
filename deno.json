@@ -1,6 +1,6 @@
 {
   "name": "@dreamer/markdown",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "exports": {
     ".": "./src/mod.ts",
     "./types": "./src/types.ts",
@@ -24,7 +24,7 @@
     "./theme": "./src/theme.ts"
   },
   "imports": {
-    "@dreamer/test": "jsr:@dreamer/test@^1.2.0"
+    "@dreamer/test": "jsr:@dreamer/test@^1.2.3"
   },
   "tasks": {
     "test": "deno test -A tests/",
