@@ -4,30 +4,40 @@
 
 ## 测试概览
 
-- **测试包版本**: @dreamer/test@^1.0.15
-- **测试框架**: @dreamer/test (兼容 Deno 和 Bun)
-- **测试时间**: 2026-04-07
+- **测试包版本**: @dreamer/test@^1.2.0
+- **测试框架**: @dreamer/test（兼容 Deno、Bun 和 Node.js）
+- **测试时间**: 2026-07-22
 - **测试环境**:
-  - Deno 2.7.11
-  - Bun 1.3+（见下文 Bun 汇总）
+  - Deno 2.5+
+  - Bun 1.3+
+  - Node.js 22+（通过 `tsx --test tests/*.test.ts`）
 - **依赖服务**: 无
 
 ## 测试结果
 
 ### 总体统计（Deno）
 
-- **总测试数**: 565
-- **通过**: 565 ✅
+- **总测试数**: 574
+- **通过**: 574 ✅
 - **失败**: 0
 - **通过率**: 100% ✅
-- **测试执行时间**: 约 3 秒（`deno test -A tests/`，21 个文件）
+- **测试执行时间**: 约 1 秒（`deno test -A --no-check tests/`，21 个文件）
 
 ### 总体统计（Bun）
 
 - **命令**: `bun test tests/`
-- **报告通过数**: 545 ✅
+- **报告通过数**: 553 ✅
 - **失败**: 0
 - **说明**: Bun 汇总计数可能与按文件相加不一致；21 个文件全部执行且无失败。
+
+### 总体统计（Node.js）
+
+- **命令**:
+  `npm run test:node`（`tsx --tsconfig tsconfig.json --test tests/*.test.ts`）
+- **报告通过数**: 553 ✅
+- **失败**: 0
+- **说明**: Node 使用原生 `node:test` runner，由 `tsx` loader 驱动；与 Deno/Bun
+  共享同一套 21 个测试文件。
 
 ### 测试文件统计
 
@@ -41,7 +51,7 @@
 | `media.test.ts`        | 25     | ✅ 全部通过 | 图片、YouTube/Bilibili/本地视频、音频、iframe      |
 | `code.test.ts`         | 24     | ✅ 全部通过 | 代码块元信息、Diff、文件树、行号、复制             |
 | `render.test.ts`       | 21     | ✅ 全部通过 | 渲染管线与模板应用                                 |
-| `utils.test.ts`        | 21     | ✅ 全部通过 | HTML/正则转义、ID 生成                             |
+| `utils.test.ts`        | 30     | ✅ 全部通过 | HTML/正则转义、ID 生成、URL 安全（XSS）            |
 | `document.test.ts`     | 17     | ✅ 全部通过 | 变量、术语表、API/更新日志块                       |
 | `emoji.test.ts`        | 16     | ✅ 全部通过 | Emoji 简码                                         |
 | `theme.test.ts`        | 16     | ✅ 全部通过 | 主题变量、预设、切换、打印样式                     |

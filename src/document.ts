@@ -389,7 +389,11 @@ export function linkGlossaryTerms(
   content: string,
   terms: GlossaryTerm[],
 ): string {
+  // 安全限制：术语长度不超过 50 字符，防止超长术语导致正则回溯开销
+  // （与 parser.ts 中缩写 MAX_ABBR_LENGTH 防护一致）
+  const MAX_TERM_LENGTH = 50;
   for (const term of terms) {
+    if (term.term.length > MAX_TERM_LENGTH) continue;
     const id = term.term.toLowerCase().replace(/\s+/g, "-");
     // 使用导入的 escapeRegExp 函数
     const regex = new RegExp(

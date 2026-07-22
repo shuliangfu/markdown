@@ -4,31 +4,41 @@
 
 ## Overview
 
-- **Package under test**: @dreamer/test@^1.0.15
-- **Test framework**: @dreamer/test (Deno and Bun compatible)
-- **Test date**: 2026-04-07
+- **Package under test**: @dreamer/test@^1.2.0
+- **Test framework**: @dreamer/test (Deno, Bun, and Node.js compatible)
+- **Test date**: 2026-07-22
 - **Test environment**:
-  - Deno 2.7.11
-  - Bun 1.3+ (see Bun summary below)
+  - Deno 2.5+
+  - Bun 1.3+
+  - Node.js 22+ (via `tsx --test tests/*.test.ts`)
 - **External services**: None
 
 ## Test Results
 
 ### Summary (Deno)
 
-- **Total tests**: 565
-- **Passed**: 565 ✅
+- **Total tests**: 574
+- **Passed**: 574 ✅
 - **Failed**: 0
 - **Pass rate**: 100% ✅
-- **Execution time**: ~3 seconds (`deno test -A tests/`, 21 files)
+- **Execution time**: ~1 second (`deno test -A --no-check tests/`, 21 files)
 
 ### Summary (Bun)
 
 - **Command**: `bun test tests/`
-- **Reported passed**: 545 ✅
+- **Reported passed**: 553 ✅
 - **Failed**: 0
-- **Note**: Bun’s aggregate count can differ from per-file totals; all files run
+- **Note**: Bun's aggregate count can differ from per-file totals; all files run
   with zero failures.
+
+### Summary (Node.js)
+
+- **Command**: `npm run test:node`
+  (`tsx --tsconfig tsconfig.json --test tests/*.test.ts`)
+- **Reported passed**: 553 ✅
+- **Failed**: 0
+- **Note**: Node uses the native `node:test` runner driven by the `tsx` loader;
+  the same 21 test files are shared with Deno/Bun.
 
 ### Per-file summary
 
@@ -42,7 +52,7 @@
 | `media.test.ts`        | 25    | ✅ All pass | Images, YouTube/Bilibili/local video, audio, iframe          |
 | `code.test.ts`         | 24    | ✅ All pass | Code meta, diff, file tree, line numbers, copy               |
 | `render.test.ts`       | 21    | ✅ All pass | Render pipeline and templates                                |
-| `utils.test.ts`        | 21    | ✅ All pass | HTML/regex escape, ID generation                             |
+| `utils.test.ts`        | 30    | ✅ All pass | HTML/regex escape, ID generation, URL sanitization (XSS)     |
 | `document.test.ts`     | 17    | ✅ All pass | Variables, glossary, API/changelog blocks                    |
 | `emoji.test.ts`        | 16    | ✅ All pass | Emoji shortcodes                                             |
 | `theme.test.ts`        | 16    | ✅ All pass | Theme variables, presets, toggle, print                      |

@@ -34,6 +34,12 @@ deno add jsr:@dreamer/markdown
 bunx jsr add @dreamer/markdown
 ```
 
+### Node.js (>=22)
+
+```bash
+npx jsr add @dreamer/markdown
+```
+
 ---
 
 ## Environment compatibility
@@ -42,7 +48,8 @@ bunx jsr add @dreamer/markdown
 | ---------------- | ------- | ----------------------------------------------- |
 | **Deno**         | 2.0+    | ✅ Fully supported                              |
 | **Bun**          | 1.0+    | ✅ Fully supported                              |
-| **Server**       | -       | ✅ Supported (Deno and Bun runtimes)            |
+| **Node.js**      | 22+     | ✅ Fully supported                              |
+| **Server**       | -       | ✅ Supported (Deno, Bun, and Node.js runtimes)  |
 | **Browser**      | -       | ✅ Supported (pure TypeScript, no runtime deps) |
 | **Dependencies** | -       | 📦 Zero dependencies (pure TypeScript)          |
 

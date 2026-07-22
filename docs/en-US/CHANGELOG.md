@@ -7,6 +7,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.1.0] - 2026-07-22
+
+### Added
+
+- **Node.js compatibility:** First-class Node.js (>=22) support alongside Deno
+  and Bun. Added `package.json` (`@dreamer/markdown`, `type: module`,
+  `engines.node >= 22`), `.npmrc` (`@jsr` registry), `tsconfig.json` (tsx loader
+  config), and a `test:node` script
+  (`tsx --tsconfig tsconfig.json
+  --test tests/*.test.ts`). All 21 test files
+  are shared across the three runtimes with no Node-specific exclusions.
+- **CI:** 9-job matrix (Deno / Bun / Node × Linux / macOS / Windows). Node jobs
+  use `npm install` + `npm run test:node` on Node 22, with no Chromium
+  installation. Triggered on push/PR to `dev`.
+- **`minimumDependencyAge: 0`** in `deno.json` so freshly published
+  `@dreamer/test` can be consumed during development.
+
+### Security
+
+- **`sanitizeUrl` / `isUrlSafe` — `\t` `\n` `\r` protocol-bypass fix.** Browsers
+  strip `\t` `\n` `\r` from URLs before navigation, so a payload like
+  `java\nscript:alert(1)` is normalized to `javascript:alert(1)` and executed.
+  The previous protocol check ran against the raw string and was bypassable.
+  Both functions now strip `\t` `\n` `\r` (precompiled
+  `URL_INLINE_WHITESPACE_REGEX`) **before** the
+  `^(javascript|vbscript|data|file):` check, and return the browser-normalized
+  URL. Added 9 regression tests covering the bypass vectors.
+- **Lightbox DOM-based XSS fix (`media.ts`).** `getLightboxScript` built the
+  overlay image via `innerHTML` with `img.alt` concatenated in. Since the DOM
+  decodes `&quot;` back to `"` when reading `img.alt`, an attacker-controlled
+  alt containing `"` could break out of the attribute and inject
+  `<img onerror=...>`. Replaced `innerHTML` with `createElement` + property
+  assignment (`bigImg.src` / `bigImg.alt`), which performs no HTML parsing and
+  eliminates the vector at the root.
+- **iframe `src` defense-in-depth (`media.ts`).** `renderYouTube`,
+  `renderBilibili`, and `renderVimeo` now wrap the computed `src` in
+  `escapeHtml(...)` to match the existing `renderLocalVideo` / `renderIframe`
+  pattern. This also corrects bare `&` in query strings (e.g. `&high_quality`)
+  to `&amp;`, producing valid HTML attributes. Video IDs remain strictly
+  whitelisted (`SAFE_VIDEO_ID_REGEX` / `SAFE_BVID_REGEX` / `^\d+$`).
+- **Glossary ReDoS guard (`document.ts`).** `linkGlossaryTerms` now skips terms
+  longer than 50 characters before building a `new RegExp(...)`, matching the
+  existing `MAX_ABBR_LENGTH` guard in `parser.ts`.
+
+### Tests
+
+- Three-runtime full suite green: **Deno 574 / Bun 553 / Node 553** (0 failed).
+- `deno check src/mod.ts` and `deno lint src/ tests/` both clean.
+
+---
+
 ## [1.0.1] - 2026-04-07
 
 ### Fixed

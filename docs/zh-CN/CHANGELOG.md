@@ -7,6 +7,52 @@
 
 ---
 
+## [1.1.0] - 2026-07-22
+
+### 新增
+
+- **Node.js 兼容：** 在 Deno、Bun 之外提供一等公民的 Node.js（>=22）支持。新增
+  `package.json`（`@dreamer/markdown`、`type: module`、`engines.node >= 22`）、
+  `.npmrc`（`@jsr` registry）、`tsconfig.json`（tsx loader 配置）与 `test:node`
+  脚本（`tsx --tsconfig tsconfig.json --test tests/*.test.ts`）。全部 21
+  个测试文件 三端共享，无 Node 专属剔除。
+- **CI：** 9 任务矩阵（Deno / Bun / Node × Linux / macOS / Windows）。Node
+  任务使用 `npm install` + `npm run test:node`（Node 22），不安装 Chromium。在
+  push/PR 到 `dev` 分支时触发。
+- `deno.json` 新增 `minimumDependencyAge: 0`，使开发期能消费刚发布的
+  `@dreamer/test`。
+
+### 安全
+
+- **`sanitizeUrl` / `isUrlSafe` — `\t` `\n` `\r` 协议绕过修复。**
+  浏览器在导航前会 剥离 URL 中的 `\t` `\n` `\r`，因此 `java\nscript:alert(1)`
+  会被规范化为 `javascript:alert(1)`
+  并执行。旧实现仅对原始串做协议检测，可被绕过。两个函数现改为 在
+  `^(javascript|vbscript|data|file):` 检测**之前**剥离 `\t` `\n` `\r`（预编译
+  `URL_INLINE_WHITESPACE_REGEX`），并返回浏览器规范化后的 URL。新增 9
+  个回归测试覆盖 各绕过向量。
+- **灯箱 DOM 型 XSS 修复（`media.ts`）。** `getLightboxScript` 原先用
+  `innerHTML` 拼接 `img.alt` 构建大图。由于 DOM 读取 `img.alt` 时会把 `&quot;`
+  解码回 `"`， 攻击者可在 alt 中用 `"` 断出属性并注入
+  `<img onerror=...>`。已改为 `createElement` + 属性赋值（`bigImg.src` /
+  `bigImg.alt`），不触发 HTML 解析，从根上 消除该向量。
+- **iframe `src` 防御性加固（`media.ts`）。**
+  `renderYouTube`、`renderBilibili`、 `renderVimeo` 现对计算所得 `src` 包裹
+  `escapeHtml(...)`，与既有 `renderLocalVideo` / `renderIframe`
+  模式一致。同时将查询串中的裸 `&`（如 `&high_quality`）修正为 `&amp;`，产出合法
+  HTML 属性。视频 ID 仍受严格白名单约束 （`SAFE_VIDEO_ID_REGEX` /
+  `SAFE_BVID_REGEX` / `^\d+$`）。
+- **术语表 ReDoS 防护（`document.ts`）。** `linkGlossaryTerms` 在构建
+  `new RegExp(...)` 前跳过长度超过 50 字符的术语，与 `parser.ts` 既有
+  `MAX_ABBR_LENGTH` 防护一致。
+
+### 测试
+
+- 三端全量套件全绿：**Deno 574 / Bun 553 / Node 553**（0 failed）。
+- `deno check src/mod.ts` 与 `deno lint src/ tests/` 均通过。
+
+---
+
 ## [1.0.1] - 2026-04-07
 
 ### 修复

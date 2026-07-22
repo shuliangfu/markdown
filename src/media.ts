@@ -335,7 +335,9 @@ export function renderYouTube(
     ? ` title="${escapeHtml(title)}"`
     : ' title="YouTube Video"';
 
-  return `<div class="video-container video-youtube"><iframe width="${safeWidth}" height="${safeHeight}" src="${src}"${titleAttr} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+  return `<div class="video-container video-youtube"><iframe width="${safeWidth}" height="${safeHeight}" src="${
+    escapeHtml(src)
+  }"${titleAttr} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
 }
 
 /**
@@ -686,7 +688,14 @@ export function getLightboxScript(): string {
 function openLightbox(img) {
   const overlay = document.createElement('div');
   overlay.className = 'lightbox-overlay';
-  overlay.innerHTML = '<img src="' + img.src + '" alt="' + img.alt + '">';
+  // 安全要点：必须用 DOM 属性赋值而非 innerHTML。
+  // img.alt 经 DOM 读取会把已转义的 &quot; 解码回 "，若用 innerHTML 拼接，
+  // 攻击者可通过 alt 中的 " 断出属性并注入 <img onerror=...>，造成 DOM 型 XSS。
+  // createElement + 属性赋值不触发 HTML 解析，从根上消除该向量。
+  const bigImg = document.createElement('img');
+  bigImg.src = img.src;
+  bigImg.alt = img.alt;
+  overlay.appendChild(bigImg);
   overlay.onclick = () => overlay.remove();
   document.body.appendChild(overlay);
 }

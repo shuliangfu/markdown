@@ -57,6 +57,16 @@ const DANGEROUS_URL_REGEX = /^(javascript|vbscript|data|file):/i;
 // deno-lint-ignore no-control-regex
 const CONTROL_CHARS_REGEX = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g;
 
+/**
+ * URL 内联空白剥离正则（预编译）
+ *
+ * 浏览器在导航前会从 URL 中剥离 \t \n \r，因此 `java\nscript:alert(1)` 在浏览器侧
+ * 会被规范化为 `javascript:alert(1)` 并执行。若 sanitizeUrl 仅以原始串做协议检测，
+ * 这类含换行的 payload 会绕过 `^(javascript):` 检查。此处先剥离 \t\n\r 再判协议，
+ * 与浏览器行为对齐，堵死该绕过路径。
+ */
+const URL_INLINE_WHITESPACE_REGEX = /[\t\n\r]/g;
+
 // ============================================================================
 // HTML 处理（安全增强）
 // ============================================================================
@@ -111,6 +121,9 @@ export function sanitizeText(text: string): string {
  *
  * 防止 javascript:、data: 等危险协议
  *
+ * 安全要点：浏览器在导航前会剥离 \t \n \r，故需先剥离这些字符再做协议检测，
+ * 否则 `java\nscript:alert(1)` 之类 payload 会绕过 `^(javascript):` 检查。
+ *
  * @param url - 原始 URL
  * @returns 安全的 URL，如果不安全返回空字符串
  */
@@ -120,12 +133,16 @@ export function sanitizeUrl(url: string): string {
   // 移除控制字符和首尾空格
   const cleaned = removeControlChars(url.trim());
 
+  // 剥离 \t \n \r（浏览器导航前会做同样规范化），防止协议检测被绕过
+  const normalized = cleaned.replace(URL_INLINE_WHITESPACE_REGEX, "");
+
   // 检测危险协议
-  if (DANGEROUS_URL_REGEX.test(cleaned)) {
+  if (DANGEROUS_URL_REGEX.test(normalized)) {
     return "";
   }
 
-  return cleaned;
+  // 返回规范化后的 URL（已与浏览器实际导航目标一致，避免把 \t\n\r 透传到 href）
+  return normalized;
 }
 
 /**
@@ -136,7 +153,11 @@ export function sanitizeUrl(url: string): string {
  */
 export function isUrlSafe(url: string): boolean {
   if (!url) return false;
-  return !DANGEROUS_URL_REGEX.test(url.trim());
+  const normalized = removeControlChars(url.trim()).replace(
+    URL_INLINE_WHITESPACE_REGEX,
+    "",
+  );
+  return !DANGEROUS_URL_REGEX.test(normalized);
 }
 
 // ============================================================================
