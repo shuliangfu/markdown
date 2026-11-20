@@ -270,10 +270,18 @@ export function parse(markdown: string, options: ParseOptions = {}): string {
     html = parseTable(html);
   }
 
-  // 标题（添加 ID，使用缓存的 ID 生成）
+  // 标题（添加 ID，使用缓存的 ID 生成，并保证文档内唯一）
+  const usedHeadingIds = new Set<string>();
   html = html.replace(HEADING_REGEX, (_, hashes, text) => {
     const level = hashes.length;
-    const id = generateIdCached(text);
+    const baseId = generateIdCached(text);
+    let id = baseId;
+    if (usedHeadingIds.has(id)) {
+      let n = 1;
+      while (usedHeadingIds.has(`${baseId}-${n}`)) n++;
+      id = `${baseId}-${n}`;
+    }
+    usedHeadingIds.add(id);
     return `<h${level} id="${id}">${text}</h${level}>`;
   });
 

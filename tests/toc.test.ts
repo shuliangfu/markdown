@@ -33,6 +33,11 @@ describe("generateId - 锚点 ID 生成", () => {
   it("应该处理空字符串", () => {
     expect(generateId("")).toBe("");
   });
+
+  it("应该从原始文本而不是 HTML 实体生成 slug", () => {
+    expect(generateId("Q&A")).toBe("qa");
+    expect(generateId("Q&amp;A")).toBe("qa");
+  });
 });
 
 describe("extractToc - 目录提取", () => {
@@ -50,6 +55,17 @@ describe("extractToc - 目录提取", () => {
   it("应该处理空内容", () => {
     const toc = extractToc("<p>No headings</p>");
     expect(toc.length).toBe(0);
+  });
+
+  it("应该提取带行内标记的标题", () => {
+    const html =
+      '<h2 id="use-npm-here">Use <code>npm</code> here</h2><h2 id="hello-world">Hello <strong>World</strong></h2>';
+    const toc = extractToc(html);
+    expect(toc.length).toBe(2);
+    expect(toc[0].id).toBe("use-npm-here");
+    expect(toc[0].text).toBe("Use <code>npm</code> here");
+    expect(toc[1].id).toBe("hello-world");
+    expect(toc[1].text).toBe("Hello <strong>World</strong>");
   });
 
   it("应该处理所有级别标题", () => {

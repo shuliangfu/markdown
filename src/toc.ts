@@ -25,7 +25,7 @@ import type { TocItem } from "./types.ts";
  */
 export function extractToc(html: string): TocItem[] {
   const items: TocItem[] = [];
-  const regex = /<h([1-6])\s+id="([^"]+)"[^>]*>([^<]+)<\/h\1>/g;
+  const regex = /<h([1-6])\s+id="([^"]+)"[^>]*>([\s\S]*?)<\/h\1>/g;
 
   let match: RegExpExecArray | null;
   while ((match = regex.exec(html)) !== null) {

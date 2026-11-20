@@ -256,4 +256,26 @@ Reference[^1]
     expect(result.html).toContain('class="math-inline"');
     expect(result.html).toContain('class="footnotes"');
   });
+
+  it("应该生成唯一标题 id、保留 TOC 行内标记，且不留下多余 </p>", () => {
+    const result = render(
+      "# Setup\n\n## Setup\n\n## Use `npm` here\n\n## Q&A\n",
+    );
+
+    expect(result.html).toContain('<h1 id="setup">Setup</h1>');
+    expect(result.html).toContain('<h2 id="setup-1">Setup</h2>');
+    expect(result.html).toContain(
+      '<h2 id="use-npm-here">Use <code>npm</code> here</h2>',
+    );
+    expect(result.html).toContain('<h2 id="qa">Q&amp;A</h2>');
+    expect(result.html.trimEnd().endsWith("</p>")).toBe(false);
+
+    const toc = result.toc.map((t) => ({ id: t.id, text: t.text }));
+    expect(toc).toEqual([
+      { id: "setup", text: "Setup" },
+      { id: "setup-1", text: "Setup" },
+      { id: "use-npm-here", text: "Use <code>npm</code> here" },
+      { id: "qa", text: "Q&amp;A" },
+    ]);
+  });
 });

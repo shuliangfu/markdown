@@ -199,6 +199,13 @@ export function generateId(text: string): string {
   if (!text) return "";
   return text
     .toLowerCase()
+    // Decode entities first so slugs are computed from raw text
+    // (e.g. "Q&amp;A" → "qa", not "qampa").
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
     .replace(HTML_TAG_REGEX, "")
     .replace(ID_INVALID_CHARS_REGEX, "")
     .replace(ID_SPACES_REGEX, "-")
@@ -368,7 +375,7 @@ const PARAGRAPH_CLEANUP_PATTERNS = [
   { search: /<p>(<details class="container)/g, replace: "$1" },
   { search: /<p>(<section class="footnotes)/g, replace: "$1" },
   // 块级元素后的 </p>
-  { search: /(<\/h[1-6]>)<\/p>/g, replace: "$1" },
+  { search: /(<\/h[1-6]>)\s*<\/p>/g, replace: "$1" },
   { search: /(<\/pre>)<\/p>/g, replace: "$1" },
   { search: /(<\/ul>)<\/p>/g, replace: "$1" },
   { search: /(<\/ol>)<\/p>/g, replace: "$1" },
