@@ -683,13 +683,11 @@ interface MarkdownOptions {
 
 ## 📜 变更日志
 
-### [1.0.1] - 2026-04-07
+### [1.1.2] - 2026-11-20
 
-**修复** — `applyGfmLineBreaks` 与 breaks；**`cleanupParagraphs`**
-下水平线与段落、 **`md-table-responsive`** 外 **`div`** 不再误包 **`</p>`** /
-**`<p>`**；行内数学 **`data-math`** 免受 **`^...^`** 破坏。 **新增** —
-**`applyGfmLineBreaks`** 导出及 parser 测试。 **变更** — **`deno fmt`** 排除
-**`examples/**/*.html`**。完整记录见 [CHANGELOG.md](./CHANGELOG.md)。
+**修复** — 重复标题生成唯一 ID（`setup`、`setup-1`）；TOC 保留标题内的行内标记；
+`generateId` 先解码 HTML 实体再生成 slug（`Q&amp;A` → `qa`）；标题后即使隔着空白
+也会去掉多余的 `</p>`。完整记录见 [CHANGELOG.md](./CHANGELOG.md)。
 
 ---
 

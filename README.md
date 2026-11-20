@@ -674,14 +674,12 @@ See [TEST_REPORT.md](./docs/en-US/TEST_REPORT.md) for details.
 
 ## Changelog
 
-### [1.0.1] - 2026-04-07
+### [1.1.2] - 2026-11-20
 
-**Fixed** — `parse(..., { breaks: true })` uses **`applyGfmLineBreaks`**; valid
-**`<hr>`** / paragraph boundaries in **`cleanupParagraphs`**; math
-**`data-math`** safe from **`^...^`** superscript; no stray **`<p>`** around
-**`md-table-responsive`** wrappers. **Added** — **`applyGfmLineBreaks`** export
-and parser tests. **Changed** — **`deno fmt`** excludes
-**`examples/**/*.html`**. Full history:
+**Fixed** — unique heading IDs when titles repeat (`setup`, `setup-1`); TOC
+keeps inline markup inside headings; `generateId` decodes HTML entities before
+slugging (`Q&amp;A` → `qa`); leftover `</p>` after headings is stripped even
+when whitespace sits between the tags. Full history:
 [docs/en-US/CHANGELOG.md](./docs/en-US/CHANGELOG.md).
 
 ---

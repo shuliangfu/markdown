@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.1.2] - 2026-11-20
+
+### Fixed
+
+- **Duplicate heading IDs:** `parse` now tracks heading IDs in the document and
+  suffixes later duplicates (`setup`, `setup-1`, ...), so anchors stay unique.
+- **TOC inline markup:** `extractToc` no longer stops at the first inner tag, so
+  headings like `Use \`npm\` here` keep their inline HTML in the TOC text.
+- **Heading slugs and HTML entities:** `generateId` decodes common entities
+  (`&amp;`, `&lt;`, `&gt;`, `&quot;`, `&#39;` / `&apos;`) before stripping tags
+  and punctuation, so `Q&amp;A` slugs to `qa` instead of `qampa`.
+- **Stray `</p>` after headings:** `cleanupParagraphs` now also drops a leftover
+  `</p>` when whitespace sits between `</h1>`–`</h6>` and the closing tag.
+
+---
+
 ## [1.1.1] - 2026-07-22
 
 ### Changed
